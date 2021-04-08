@@ -13,5 +13,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         // Xóa status bar
         setContentView(R.layout.activity_main);
+
+        //zxzx
     }
 }
