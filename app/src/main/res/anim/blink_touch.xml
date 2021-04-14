@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android">
     <alpha
-        android:fromAlpha="0.0"
-        android:toAlpha="1.1"
         android:duration="600"
+        android:fromAlpha="0.0"
+        android:repeatCount="infinite"
         android:repeatMode="reverse"
-        android:repeatCount="infinite">
-    </alpha>
+        android:toAlpha="1.1" />
 </set>

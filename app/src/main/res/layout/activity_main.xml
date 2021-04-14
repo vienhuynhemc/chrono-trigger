@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/screenLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:background="@color/black"
-    android:id="@+id/screenLayout">
+    tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/imageViewClock"
@@ -17,7 +17,8 @@
         android:scaleType="centerCrop"
         android:src="@drawable/qua_lac"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/imageViewChrono"
@@ -27,7 +28,8 @@
         android:layout_marginTop="16dp"
         android:src="@drawable/tieude_chrono"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/imageViewTrigger"
@@ -37,14 +39,15 @@
         android:layout_marginTop="56dp"
         android:src="@drawable/tieude_trigger"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></ImageView>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textViewTouch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="256dp"
-        android:text="TOUCH TO START"
+        android:text="@string/activity_main_textView_Start"
         android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +61,8 @@
         android:layout_height="50dp"
         android:layout_marginTop="216dp"
         android:background="@drawable/text_window"
-        android:text="New Game"
+        android:text="@string/activity_main_textView_NewGame"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.499"
@@ -71,10 +75,12 @@
         android:layout_height="50dp"
         android:layout_marginTop="288dp"
         android:background="@drawable/text_window"
-        android:text="Load Game"
+        android:text="@string/activity_main_textView_LoadGame"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

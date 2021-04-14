@@ -12,5 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <!-- Toàn màn hình -->
+        <item name="android:windowFullscreen">true</item>
     </style>
 </resources>

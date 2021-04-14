@@ -13,46 +13,49 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    ImageView ivClock;
-    ImageView ivChrono;
-    ImageView ivTrigger;
-    TextView tvTouch;
-    ConstraintLayout screenLayout;
-    Button btnNewGame, btnLoadGame;
-    int count;
+
+    // Khai báo các thuộc tính
+    private ImageView ivClock;
+    private ImageView ivChrono;
+    private ImageView ivTrigger;
+    private TextView tvTouch;
+    private ConstraintLayout screenLayout;
+    private Button btnNewGame;
+    private Button btnLoadGame;
+    private int count;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Xóa status bar
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-
-        ivClock = findViewById(R.id.imageViewClock);
-        ivChrono = findViewById(R.id.imageViewChrono);
-        ivChrono.setVisibility(View.INVISIBLE);
-        ivTrigger = findViewById(R.id.imageViewTrigger);
-        ivTrigger.setVisibility(View.INVISIBLE);
-        tvTouch = findViewById(R.id.textViewTouch);
-        tvTouch.setVisibility(View.INVISIBLE);
-        btnNewGame = findViewById(R.id.buttonNewGame);
-        btnNewGame.setVisibility(View.INVISIBLE);
-        btnLoadGame=findViewById(R.id.buttonLoadGame);
-        btnLoadGame.setVisibility(View.INVISIBLE);
-        screenLayout=findViewById(R.id.screenLayout);
-
-        Animation clock1 = AnimationUtils.loadAnimation(this,R.anim.clockanimation1);
-        Animation clock2  = AnimationUtils.loadAnimation(this,R.anim.clockanimation2);
-        Animation clock3  = AnimationUtils.loadAnimation(this,R.anim.clockanimation3);
-        Animation clock4  = AnimationUtils.loadAnimation(this,R.anim.clockanimation4);
-        Animation clock5  = AnimationUtils.loadAnimation(this,R.anim.clockanimation5);
+        // Ánh xạ view
+        getView();
+        // Khởi tạo
+        init();
 
 
+    }
 
-        CountDownTimer timer = new CountDownTimer(5000,1000) {
+    private void init() {
+        // Khởi tạo đồng hồ
+        clock();
+    }
+
+    private void clock() {
+        // Khởi tạo animation
+        Animation clock1 = AnimationUtils.loadAnimation(this, R.anim.clockanimation1);
+        Animation clock2 = AnimationUtils.loadAnimation(this, R.anim.clockanimation2);
+        Animation clock3 = AnimationUtils.loadAnimation(this, R.anim.clockanimation3);
+        Animation clock4 = AnimationUtils.loadAnimation(this, R.anim.clockanimation4);
+        Animation clock5 = AnimationUtils.loadAnimation(this, R.anim.clockanimation5);
+        // Chạy quả lắc
+        CountDownTimer timer = new CountDownTimer(5000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 count++;
-                switch (count){
+                switch (count) {
                     case 1:
                         ivClock.startAnimation(clock1);
                         break;
@@ -78,22 +81,37 @@ public class MainActivity extends AppCompatActivity {
         }.start();
     }
 
-    public void eventAfterTimer(){
-        Animation fade_in_chrono  = AnimationUtils.loadAnimation(this,R.anim.fade_in_chrono);
-        Animation move_left_trigger  = AnimationUtils.loadAnimation(this,R.anim.moveleft);
-        Animation blink_touch  = AnimationUtils.loadAnimation(this,R.anim.blink_touch);
+    private void getView() {
+        ivClock = findViewById(R.id.imageViewClock);
+        ivChrono = findViewById(R.id.imageViewChrono);
+        ivChrono.setVisibility(View.INVISIBLE);
+        ivTrigger = findViewById(R.id.imageViewTrigger);
+        ivTrigger.setVisibility(View.INVISIBLE);
+        tvTouch = findViewById(R.id.textViewTouch);
+        tvTouch.setVisibility(View.INVISIBLE);
+        btnNewGame = findViewById(R.id.buttonNewGame);
+        btnNewGame.setVisibility(View.INVISIBLE);
+        btnLoadGame = findViewById(R.id.buttonLoadGame);
+        btnLoadGame.setVisibility(View.INVISIBLE);
+        screenLayout = findViewById(R.id.screenLayout);
+    }
+
+    public void eventAfterTimer() {
+        // Tạo animation
+        Animation fade_in_chrono = AnimationUtils.loadAnimation(this, R.anim.fade_in_chrono);
+        Animation move_left_trigger = AnimationUtils.loadAnimation(this, R.anim.moveleft);
+        Animation blink_touch = AnimationUtils.loadAnimation(this, R.anim.blink_touch);
+        // Chạy hiệu ứng
         ivChrono.startAnimation(fade_in_chrono);
         ivChrono.setVisibility(View.VISIBLE);
         ivTrigger.startAnimation(move_left_trigger);
         ivTrigger.setVisibility(View.VISIBLE);
         tvTouch.startAnimation(blink_touch);
-        screenLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvTouch.clearAnimation();
-                btnNewGame.setVisibility(View.VISIBLE);
-                btnLoadGame.setVisibility(View.VISIBLE);
-            }
+        // Action khi chạm để băt đầu
+        screenLayout.setOnClickListener(v -> {
+            tvTouch.clearAnimation();
+            btnNewGame.setVisibility(View.VISIBLE);
+            btnLoadGame.setVisibility(View.VISIBLE);
         });
     }
 }
