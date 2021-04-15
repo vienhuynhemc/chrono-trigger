@@ -12,7 +12,7 @@ public class ParameterConversionSingleton {
     private ParameterConversionSingleton() {
     }
 
-    public ParameterConversionSingleton getInstance() {
+    public static ParameterConversionSingleton getInstance() {
         if (parameterConversionSingleton == null) {
             parameterConversionSingleton = new ParameterConversionSingleton();
         }

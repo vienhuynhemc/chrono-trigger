@@ -1,0 +1,3 @@
+image sprite_preson_map
+animation preson_map_background
+0 0 1536 1024 10000

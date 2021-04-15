@@ -12,6 +12,10 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="landscape">
+        </activity>
+        <activity
+            android:name=".presonMap.PresonMapActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
