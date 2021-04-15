@@ -12,9 +12,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.vientamthuong.chronotrigger.data.SourceSound;
+import com.vientamthuong.chronotrigger.loadData.LoadSound;
+
 public class MainActivity extends AppCompatActivity {
 
     // Khai báo các thuộc tính
+    // 1. View
     private ImageView ivClock;
     private ImageView ivChrono;
     private ImageView ivTrigger;
@@ -22,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ConstraintLayout screenLayout;
     private Button btnNewGame;
     private Button btnLoadGame;
+    // 2. Tham số để chạy lần lượt các Animation của đồng hồ
     private int count;
 
     @Override
@@ -34,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
         getView();
         // Khởi tạo
         init();
-
-
     }
 
     private void init() {
+        // load Sound
+        SourceSound.getInstance().loadSound(MainActivity.this);
         // Khởi tạo đồng hồ
         clock();
     }
