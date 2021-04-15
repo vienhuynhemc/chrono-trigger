@@ -35,6 +35,9 @@ public class Animation {
         // Mặc định
         // 1. Không có hình nào bị bỏ qua
         listIgnore = new ArrayList<>();
+        for (int i = 0; i < bitmaps.size(); i++) {
+            listIgnore.add(false);
+        }
         // 2. Hình bắt đầu là 0
         currentBitmap = 0;
         // 3. Animation có lặp lại
@@ -92,7 +95,7 @@ public class Animation {
     }
 
     private void nextBitmap() {
-        if (currentBitmap == bitmaps.size()) {
+        if (currentBitmap == bitmaps.size() - 1) {
             if (isRepeat) {
                 currentBitmap = 0;
             }

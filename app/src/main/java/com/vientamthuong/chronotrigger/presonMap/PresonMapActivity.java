@@ -8,12 +8,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vientamthuong.chronotrigger.R;
+import com.vientamthuong.chronotrigger.data.SourceAnimation;
+import com.vientamthuong.chronotrigger.data.SourceSound;
 
 public class PresonMapActivity extends AppCompatActivity {
 
     // Khai báo các thuộc tính
     // 1. view
     private ImageView ivFullScreen;
+    private ImageView ivBackgroundMap;
     // 2. Luồng game
     private GameThreadPresonMap gameThreadPresonMap;
 
@@ -48,12 +51,17 @@ public class PresonMapActivity extends AppCompatActivity {
     }
 
     private void init() {
+        // load Sound
+        SourceSound.getInstance().loadSound(PresonMapActivity.this);
+        // Load animation
+        SourceAnimation.getInstance().loadAnimation(PresonMapActivity.this);
         gameThreadPresonMap = new GameThreadPresonMap(PresonMapActivity.this);
         gameThreadPresonMap.setRunning(true);
     }
 
     private void getView() {
         ivFullScreen = findViewById(R.id.activity_preson_map_imageView_fullScreen);
+        ivBackgroundMap = findViewById(R.id.activity_preson_map_imageView_background);
     }
 
     // Getter and setter
@@ -61,7 +69,8 @@ public class PresonMapActivity extends AppCompatActivity {
         return ivFullScreen;
     }
 
-    public void setIvFullScreen(ImageView ivFullScreen) {
-        this.ivFullScreen = ivFullScreen;
+    public ImageView getIvBackgroundMap() {
+        return ivBackgroundMap;
     }
+
 }

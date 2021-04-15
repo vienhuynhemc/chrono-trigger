@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.vientamthuong.chronotrigger.data.SourceAnimation;
 import com.vientamthuong.chronotrigger.data.SourceSound;
 import com.vientamthuong.chronotrigger.loadData.ConfigurationSound;
 
@@ -54,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         // load Sound
         SourceSound.getInstance().loadSound(MainActivity.this);
+        // Chạy nhạc nền mặc định
+        SourceSound.getInstance().runDefaultBackgroundSound(MainActivity.this);
+        // Load animation
+        SourceAnimation.getInstance().loadAnimation(MainActivity.this);
         // Khởi tạo đồng hồ
         clock();
     }

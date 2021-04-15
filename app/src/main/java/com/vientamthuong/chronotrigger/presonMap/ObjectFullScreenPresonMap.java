@@ -12,16 +12,23 @@ import com.vientamthuong.chronotrigger.interfaceGameThread.UpdateAndDraw;
 
 public class ObjectFullScreenPresonMap implements UpdateAndDraw {
 
-    private ImageView imageView;
+    // Image view tương ứng
+    private final ImageView imageView;
+    // Thời gian cuối update
     private long lastTimeUpdate;
+    // Animation ẩn
     private Animation hidden;
-    private AppCompatActivity appCompatActivity;
+    private Animation show;
+    private final AppCompatActivity appCompatActivity;
+    // Nhận vô game world để lấy camera
+    private final GameWorldPresonMap gameWorldPresonMap;
 
     private boolean isHidden;
 
-    public ObjectFullScreenPresonMap(ImageView imageView, AppCompatActivity appCompatActivity) {
+    public ObjectFullScreenPresonMap(ImageView imageView, AppCompatActivity appCompatActivity, GameWorldPresonMap gameWorldPresonMap) {
         this.imageView = imageView;
         this.appCompatActivity = appCompatActivity;
+        this.gameWorldPresonMap = gameWorldPresonMap;
         lastTimeUpdate = 0;
         // Khởi tạo
         init();
@@ -29,6 +36,7 @@ public class ObjectFullScreenPresonMap implements UpdateAndDraw {
 
     private void init() {
         hidden = AnimationUtils.loadAnimation(appCompatActivity, R.anim.activity_preson_map_image_view_full_screen_hidden);
+        show = AnimationUtils.loadAnimation(appCompatActivity, R.anim.activity_preson_map_image_view_full_screen_show);
     }
 
     @Override
@@ -40,13 +48,20 @@ public class ObjectFullScreenPresonMap implements UpdateAndDraw {
         }
 
         // Nếu dủ 1 dây thì ẩn
-        if (!isHidden) {
+        if (!isHidden && !gameWorldPresonMap.getCamera().isComplete()) {
             long space = System.currentTimeMillis() - lastTimeUpdate;
-            if (space > 1000) {
+            if (space > ConfigurationPresonMap.TIME_HIDDEN_SHOW) {
                 // Ẩn đi
-                imageView.setVisibility(View.INVISIBLE);
+                // Đưa vào luồng UI chính
+                appCompatActivity.runOnUiThread(() -> imageView.setVisibility(View.INVISIBLE));
                 isHidden = true;
             }
+        } else if (isHidden && gameWorldPresonMap.getCamera().isComplete()) {
+            isHidden = false;
+            // Hiện lên
+            // Đưa vào luồng UI chính
+            appCompatActivity.runOnUiThread(() -> imageView.setVisibility(View.VISIBLE));
+            imageView.startAnimation(show);
         }
     }
 

@@ -5,7 +5,6 @@ import android.media.SoundPool;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.vientamthuong.chronotrigger.MainActivity;
 import com.vientamthuong.chronotrigger.loadData.ConfigurationSound;
 import com.vientamthuong.chronotrigger.loadData.LoadSound;
 
@@ -20,7 +19,7 @@ public class SourceSound {
     // Lưu trữ các id nhạc đã được load lên từ sound pool
     private Map<String, Integer> sounds;
     // Lưu trữ các id nhạc trong resource
-    private Map<String, Integer> soundIds;
+    private final Map<String, Integer> soundIds;
     // Sound pool - Trung tâm phát nhạc effect
     private SoundPool soundPool;
     // Media - Nơi phát nhạc nền
@@ -43,6 +42,7 @@ public class SourceSound {
     }
 
     // Hàm chạy nhạc
+    @SuppressWarnings("ConstantConditions")
     public void play(String name, int state) {
         if (isPlayMusic && sounds.get(name) != null) {
             switch (state) {
@@ -57,16 +57,21 @@ public class SourceSound {
     }
 
     // Nhận vô context để load resource
-    public void loadSound(MainActivity mainActivity) {
+    public void loadSound(AppCompatActivity appCompatActivity) {
         // Khởi tạo class load data
         LoadSound loadSound = new LoadSound(sourceSound);
-        loadSound.loadData(mainActivity);
+        loadSound.loadData(appCompatActivity);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public void runDefaultBackgroundSound(AppCompatActivity appCompatActivity) {
         // Khởi tạo và chạy nhạc nền mặc định
-        mediaPlayerBackgroundSound = MediaPlayer.create(mainActivity, soundIds.get("a_premonition"));
+        mediaPlayerBackgroundSound = MediaPlayer.create(appCompatActivity, soundIds.get("a_premonition"));
         mediaPlayerBackgroundSound.start();
     }
 
     // Phương thức chạy nhạc nền
+    @SuppressWarnings("ConstantConditions")
     public void playSoundBackground(String name, AppCompatActivity appCompatActivity) {
         mediaPlayerBackgroundSound.stop();
         mediaPlayerBackgroundSound.release();
@@ -104,7 +109,4 @@ public class SourceSound {
         return soundIds;
     }
 
-    public void setSoundIds(Map<String, Integer> soundIds) {
-        this.soundIds = soundIds;
-    }
 }

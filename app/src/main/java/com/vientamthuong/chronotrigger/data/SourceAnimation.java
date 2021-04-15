@@ -3,7 +3,8 @@ package com.vientamthuong.chronotrigger.data;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.vientamthuong.chronotrigger.MainActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.vientamthuong.chronotrigger.R;
 import com.vientamthuong.chronotrigger.gameEffect.Animation;
 import com.vientamthuong.chronotrigger.parameterConversion.ParameterConversionSingleton;
@@ -23,7 +24,7 @@ public class SourceAnimation {
     // Instance
     private static SourceAnimation sourceAnimation;
     // List Animation
-    private Map<String, Animation> animations;
+    private final Map<String, Animation> animations;
 
     private SourceAnimation() {
         animations = new HashMap<>();
@@ -37,17 +38,18 @@ public class SourceAnimation {
     }
 
     // Phương thức lấy một animation
+    @SuppressWarnings("ConstantConditions")
     public Animation getAnimation(String name) {
         return new Animation(animations.get(name));
     }
 
     // Phương thức load animation
-    public void loadAnimation(MainActivity mainActivity) {
+    public void loadAnimation(AppCompatActivity appCompatActivity) {
         try {
-            InputStream inputStream = mainActivity.getResources().openRawResource(R.raw.details_animation);
+            InputStream inputStream = appCompatActivity.getResources().openRawResource(R.raw.details_animation);
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String line = null;
+            String line;
             Bitmap nowBitMap = null;
             List<Bitmap> listBitmap = null;
             List<Long> listDuration = null;
@@ -60,8 +62,8 @@ public class SourceAnimation {
                 String[] array = line.split(" ");
                 if (array[0].equals("image")) {
                     String nameImage = array[1];
-                    int idImage = mainActivity.getResources().getIdentifier(nameImage, "drawable", mainActivity.getPackageName());
-                    nowBitMap = BitmapFactory.decodeResource(mainActivity.getResources(), idImage);
+                    int idImage = appCompatActivity.getResources().getIdentifier(nameImage, "drawable", appCompatActivity.getPackageName());
+                    nowBitMap = BitmapFactory.decodeResource(appCompatActivity.getResources(), idImage);
                 } else if (array[0].equals("animation")) {
                     if (listBitmap != null) {
                         Animation animation = new Animation(listBitmap, listDuration);
@@ -76,10 +78,10 @@ public class SourceAnimation {
                     int width = Integer.parseInt(array[2]);
                     int height = Integer.parseInt(array[3]);
                     long duration = Long.parseLong(array[4]);
-                    int xPx = ParameterConversionSingleton.getInstance().convertDpToPx(x, mainActivity);
-                    int yPx = ParameterConversionSingleton.getInstance().convertDpToPx(y, mainActivity);
-                    int wPx = ParameterConversionSingleton.getInstance().convertDpToPx(width, mainActivity);
-                    int hPx = ParameterConversionSingleton.getInstance().convertDpToPx(height, mainActivity);
+                    int xPx = ParameterConversionSingleton.getInstance().convertDpToPx(x, appCompatActivity);
+                    int yPx = ParameterConversionSingleton.getInstance().convertDpToPx(y, appCompatActivity);
+                    int wPx = ParameterConversionSingleton.getInstance().convertDpToPx(width, appCompatActivity);
+                    int hPx = ParameterConversionSingleton.getInstance().convertDpToPx(height, appCompatActivity);
                     Bitmap bitmap = Bitmap.createBitmap(nowBitMap, xPx, yPx, wPx, hPx);
                     listBitmap.add(bitmap);
                     listDuration.add(duration);

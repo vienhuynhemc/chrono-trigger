@@ -2,8 +2,8 @@ package com.vientamthuong.chronotrigger.interfaceGameThread;
 
 public interface UpdateAndDraw {
 
-    public void update();
+    void update();
 
-    public void draw();
+    void draw();
 
 }

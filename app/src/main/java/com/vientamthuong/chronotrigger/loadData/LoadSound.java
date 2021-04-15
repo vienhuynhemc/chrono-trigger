@@ -3,7 +3,8 @@ package com.vientamthuong.chronotrigger.loadData;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 
-import com.vientamthuong.chronotrigger.MainActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.vientamthuong.chronotrigger.R;
 import com.vientamthuong.chronotrigger.data.SourceSound;
 
@@ -14,7 +15,7 @@ import java.io.InputStreamReader;
 
 public class LoadSound {
 
-    private SourceSound soundSound;
+    private final SourceSound soundSound;
 
     public LoadSound(SourceSound sourceSound) {
         this.soundSound = sourceSound;
@@ -32,9 +33,9 @@ public class LoadSound {
         soundSound.setSoundPool(builder.build());
     }
 
-    public void loadData(MainActivity mainActivity) {
+    public void loadData(AppCompatActivity appCompatActivity) {
         try {
-            InputStream inputStream = mainActivity.getResources().openRawResource(R.raw.details_sound);
+            InputStream inputStream = appCompatActivity.getResources().openRawResource(R.raw.details_sound);
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String line;
@@ -43,9 +44,9 @@ public class LoadSound {
                 if (line == null) {
                     break;
                 }
-                int idSound = mainActivity.getResources().getIdentifier(line, "raw", mainActivity.getPackageName());
+                int idSound = appCompatActivity.getResources().getIdentifier(line, "raw", appCompatActivity.getPackageName());
                 soundSound.getSoundIds().put(line, idSound);
-                soundSound.getSounds().put(line, soundSound.getSoundPool().load(mainActivity, idSound, 1));
+                soundSound.getSounds().put(line, soundSound.getSoundPool().load(appCompatActivity, idSound, 1));
             }
         } catch (IOException e) {
             e.printStackTrace();

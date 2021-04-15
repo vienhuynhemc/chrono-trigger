@@ -6,18 +6,18 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/activity_preson_map_imageView_background"
+        android:layout_width="9216px"
+        android:layout_height="6144px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription,PxUsage" />
+
+    <ImageView
         android:id="@+id/activity_preson_map_imageView_fullScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black"
-        tools:ignore="ContentDescription" />
-
-    <ImageView
-        android:id="@+id/activity_preson_map_imageView_background"
-        android:layout_width="1536dp"
-        android:layout_height="1024dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

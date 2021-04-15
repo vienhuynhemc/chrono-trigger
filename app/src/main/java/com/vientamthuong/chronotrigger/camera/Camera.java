@@ -1,7 +1,5 @@
 package com.vientamthuong.chronotrigger.camera;
 
-import com.vientamthuong.chronotrigger.loadData.ConfigurationSound;
-
 public class Camera {
 
     // Khai báo các thuộc tính
@@ -23,4 +21,19 @@ public class Camera {
 
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 }
