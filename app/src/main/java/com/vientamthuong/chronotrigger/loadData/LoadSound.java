@@ -37,13 +37,14 @@ public class LoadSound {
             InputStream inputStream = mainActivity.getResources().openRawResource(R.raw.details_sound);
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String line = null;
+            String line;
             while (true) {
                 line = bufferedReader.readLine();
                 if (line == null) {
                     break;
                 }
                 int idSound = mainActivity.getResources().getIdentifier(line, "raw", mainActivity.getPackageName());
+                soundSound.getSoundIds().put(line, idSound);
                 soundSound.getSounds().put(line, soundSound.getSoundPool().load(mainActivity, idSound, 1));
             }
         } catch (IOException e) {

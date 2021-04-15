@@ -1,8 +1,5 @@
 package com.vientamthuong.chronotrigger;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,9 +9,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.vientamthuong.chronotrigger.data.SourceSound;
 import com.vientamthuong.chronotrigger.loadData.ConfigurationSound;
-import com.vientamthuong.chronotrigger.loadData.LoadSound;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,12 +39,21 @@ public class MainActivity extends AppCompatActivity {
         getView();
         // Khởi tạo
         init();
+        // action
+        action();
+    }
+
+    private void action() {
+        // action new game
+        btnNewGame.setOnClickListener(v -> {
+            // âm thành cursor
+            SourceSound.getInstance().play("cursor", ConfigurationSound.NOREPEAT);
+        });
     }
 
     private void init() {
         // load Sound
         SourceSound.getInstance().loadSound(MainActivity.this);
-        SourceSound.getInstance().play("test_sound", ConfigurationSound.REPEAT);
         // Khởi tạo đồng hồ
         clock();
     }
@@ -58,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         Animation clock4 = AnimationUtils.loadAnimation(this, R.anim.clockanimation4);
         Animation clock5 = AnimationUtils.loadAnimation(this, R.anim.clockanimation5);
         // Chạy quả lắc
-        CountDownTimer timer = new CountDownTimer(5000, 1000) {
+        new CountDownTimer(5000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 count++;

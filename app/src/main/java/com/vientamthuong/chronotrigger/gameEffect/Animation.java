@@ -1,7 +1,10 @@
 package com.vientamthuong.chronotrigger.gameEffect;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +13,7 @@ public class Animation {
 
     // Khai báo các thuộc tính
     // 1. List ảnh của animation
-    private List<Bitmap> bimaps;
+    private List<Bitmap> bitmaps;
     // 2. List thời gian tương ứng của animation
     private List<Long> durations;
     // 3. List xem thử có hình ảnh nào bỏ qua không
@@ -27,7 +30,7 @@ public class Animation {
     // Constructor nhận vô các tham số thông thường
     // Constructor này được dùng khi tạo các animation đầu tiền và lưu vô danh sách lưu trữ
     public Animation(List<Bitmap> bitmaps, List<Long> durations) {
-        this.bimaps = bitmaps;
+        this.bitmaps = bitmaps;
         this.durations = durations;
         // Mặc định
         // 1. Không có hình nào bị bỏ qua
@@ -45,12 +48,12 @@ public class Animation {
     public Animation(Animation animation) {
         // clone list bitmap
         List<Bitmap> bitmaps = new ArrayList<>();
-        for (Bitmap bitmap : animation.getBimaps()) {
+        for (Bitmap bitmap : animation.getbitmaps()) {
             // clone 1 bitmap
             Bitmap bitmapClone = bitmap.copy(bitmap.getConfig(), true);
             bitmaps.add(bitmapClone);
         }
-        setBimaps(bitmaps);
+        setbitmaps(bitmaps);
         // clone list duration
         List<Long> durations = new ArrayList<>(animation.getDurations());
         setDurations(durations);
@@ -63,6 +66,11 @@ public class Animation {
         setLastTimeUpdate(animation.getLastTimeUpdate());
         // clone trạng thái có lặp lại animation hay không
         setRepeat(animation.isRepeat());
+    }
+
+    // Phương thức draw
+    public void draw(View view, AppCompatActivity appCompatActivity) {
+        view.setBackground(new BitmapDrawable(appCompatActivity.getResources(), bitmaps.get(currentBitmap)));
     }
 
     // Phương thức update
@@ -84,16 +92,29 @@ public class Animation {
     }
 
     private void nextBitmap() {
+        if (currentBitmap == bitmaps.size()) {
+            if (isRepeat) {
+                currentBitmap = 0;
+            }
+        } else {
+            currentBitmap++;
+        }
+        // Check thử có bỏ qua hay không
+        if (listIgnore.get(currentBitmap)) nextBitmap();
+    }
 
+    // Phuơng thức kiểm tra xem thử có phải là đang bitmap cuối cùng
+    public boolean isLastBitmap() {
+        return currentBitmap == (bitmaps.size() - 1);
     }
 
     // GETTER AND SETTER
-    public List<Bitmap> getBimaps() {
-        return bimaps;
+    public List<Bitmap> getbitmaps() {
+        return bitmaps;
     }
 
-    public void setBimaps(List<Bitmap> bimaps) {
-        this.bimaps = bimaps;
+    public void setbitmaps(List<Bitmap> bitmaps) {
+        this.bitmaps = bitmaps;
     }
 
     public List<Long> getDurations() {
