@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.vientamthuong.chronotrigger.data.SourceSound;
+import com.vientamthuong.chronotrigger.loadData.ConfigurationSound;
 import com.vientamthuong.chronotrigger.loadData.LoadSound;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         // load Sound
         SourceSound.getInstance().loadSound(MainActivity.this);
+        SourceSound.getInstance().play("test_sound", ConfigurationSound.REPEAT);
         // Khởi tạo đồng hồ
         clock();
     }
