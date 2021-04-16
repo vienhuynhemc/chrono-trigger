@@ -1,5 +1,6 @@
 package com.vientamthuong.chronotrigger.presonMap;
 
+import android.view.ViewManager;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -74,6 +75,11 @@ public class BirdPresonMap implements Observer {
     @Override
     public boolean isOutCamera() {
         return gameWorldPresonMap.getCamera().isOutCamera(x, y, width, height);
+    }
+
+    @Override
+    public void outToLayout() {
+        appCompatActivity.runOnUiThread(() -> ((ViewManager) imageView.getParent()).removeView(imageView));
     }
 
 }

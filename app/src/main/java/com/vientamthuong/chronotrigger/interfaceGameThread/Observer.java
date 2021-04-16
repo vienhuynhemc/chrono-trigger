@@ -11,4 +11,7 @@ public interface Observer {
     // kiểm tra out camera
     boolean isOutCamera();
 
+    // Xóa khỏi layout
+    void outToLayout();
+
 }

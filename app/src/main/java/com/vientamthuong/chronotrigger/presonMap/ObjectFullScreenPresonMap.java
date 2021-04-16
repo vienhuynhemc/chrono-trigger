@@ -1,6 +1,7 @@
 package com.vientamthuong.chronotrigger.presonMap;
 
 import android.view.View;
+import android.view.ViewManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -74,6 +75,11 @@ public class ObjectFullScreenPresonMap implements Observer {
     @Override
     public boolean isOutCamera() {
         return false;
+    }
+
+    @Override
+    public void outToLayout() {
+        appCompatActivity.runOnUiThread(() -> ((ViewManager) imageView.getParent()).removeView(imageView));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.vientamthuong.chronotrigger.presonMap;
 
+import android.view.ViewManager;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,6 +53,11 @@ public class BackgroundMapPresonMap implements Observer {
         // update and draw Animation
         animation.update();
         animation.draw(imageView, appCompatActivity);
+    }
+
+    @Override
+    public void outToLayout() {
+        appCompatActivity.runOnUiThread(() -> ((ViewManager) imageView.getParent()).removeView(imageView));
     }
 
     @Override

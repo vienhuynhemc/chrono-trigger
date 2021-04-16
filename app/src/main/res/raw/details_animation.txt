@@ -19,3 +19,19 @@ animation preson_map_bird
 607 1038 15 9 75
 590 1038 15 9 75
 607 1038 15 9 1000
+animation preson_map_bubble_red
+590 1104 6 11 10000000
+animation preson_map_bubble_blue
+599 1104 6 11 10000000
+animation preson_map_bubble_yellow
+608 1104 6 11 10000000
+animation preson_map_smoke
+493 1101 15 15 150
+508 1101 15 15 150
+528 1101 15 15 150
+548 1101 15 15 150
+568 1101 15 15 150
+animation preson_map_big_smoke
+487 1065 64 29 10000000
+animation preson_map_small_smoke
+568 1070 51 21 10000000

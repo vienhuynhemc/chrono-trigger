@@ -15,9 +15,11 @@ public class CameraPresonMap extends Camera {
     private boolean isWait;
     // boolean xác nhận camera đã oke hết
     private boolean isComplete;
+    private final GameWorldPresonMap gameWorldPresonMap;
 
-    public CameraPresonMap(int x, int y) {
+    public CameraPresonMap(int x, int y, GameWorldPresonMap gameWorldPresonMap) {
         super(x, y);
+        this.gameWorldPresonMap = gameWorldPresonMap;
         init();
     }
 
@@ -43,6 +45,15 @@ public class CameraPresonMap extends Camera {
                         if (space > objectMovingCamera.getDuration()) {
                             isWait = false;
                             movings.remove(0);
+                            // Khi chạy đc 2 khung hình camera thì game world bắt đầu tạo bong bóng
+                            if (movings.size() == 3) {
+                                gameWorldPresonMap.setStartCreateBubble(true);
+                                gameWorldPresonMap.setLastTimeCreateBubble(System.currentTimeMillis());
+                            }
+                            // Lúc này camera đi xuống nên cho mấy đi ngang
+                            if (movings.size() == 2) {
+                                gameWorldPresonMap.setLeftClound(true);
+                            }
                         }
                     } else {
                         isWait = true;

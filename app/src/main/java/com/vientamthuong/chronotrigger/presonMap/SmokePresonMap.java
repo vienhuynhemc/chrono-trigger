@@ -6,10 +6,12 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vientamthuong.chronotrigger.data.SourceAnimation;
+import com.vientamthuong.chronotrigger.data.SourceSound;
 import com.vientamthuong.chronotrigger.gameEffect.Animation;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
+import com.vientamthuong.chronotrigger.loadData.ConfigurationSound;
 
-public class BoatPresonMap implements Observer {
+public class SmokePresonMap implements Observer {
 
     private final ImageView imageView;
     // Tọa độ thông thường
@@ -18,31 +20,30 @@ public class BoatPresonMap implements Observer {
     // Tạo đô để vẽ
     private int xDraw;
     private int yDraw;
-    private final int width;
-    private final int height;
     private Animation animation;
     private final AppCompatActivity appCompatActivity;
     private final GameWorldPresonMap gameWorldPresonMap;
 
-    public BoatPresonMap(ImageView imageView, int x, int y, int width, int height, AppCompatActivity appCompatActivity, GameWorldPresonMap gameWorldPresonMap) {
+    public SmokePresonMap(ImageView imageView, int x, int y, AppCompatActivity appCompatActivity, GameWorldPresonMap gameWorldPresonMap) {
         this.imageView = imageView;
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
         this.gameWorldPresonMap = gameWorldPresonMap;
         this.appCompatActivity = appCompatActivity;
         init();
     }
 
     private void init() {
-        animation = SourceAnimation.getInstance().getAnimation("preson_map_boat");
+        animation = SourceAnimation.getInstance().getAnimation("preson_map_smoke");
+        animation.setRepeat(false);
         // Set lại tọa độ theo camera
         xDraw = x - gameWorldPresonMap.getCamera().getX();
         yDraw = y - gameWorldPresonMap.getCamera().getY();
         // Cập nhật lại tọa độ của background theo camera
         imageView.setX(xDraw);
         imageView.setY(yDraw);
+        // Chạy âm thanh
+        SourceSound.getInstance().play("attack", ConfigurationSound.NOREPEAT);
     }
 
     @Override
@@ -71,7 +72,10 @@ public class BoatPresonMap implements Observer {
 
     @Override
     public boolean isOutCamera() {
-        return gameWorldPresonMap.getCamera().isOutCamera(x, y, width, height);
+        return getAnimation().isLastBitmap();
     }
 
+    public Animation getAnimation() {
+        return animation;
+    }
 }

@@ -20,9 +20,9 @@ public class GameThreadPresonMap extends Thread {
             gameWorldPresonMap.draw();
             try {
                 if (timeSleep > 0) {
-                    Thread.sleep(timeSleep / 1000000);
+                    sleep(timeSleep / 1000000);
                 } else
-                    Thread.sleep(timeForOneFrame / 2000000);
+                    sleep(timeForOneFrame / 2000000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

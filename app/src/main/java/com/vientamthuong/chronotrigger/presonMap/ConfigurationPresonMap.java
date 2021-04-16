@@ -41,4 +41,13 @@ public class ConfigurationPresonMap {
     public static final int WIDTH_BUBBLE = 36;
     public static final int HEIGHT_BUBBLE = 66;
 
+    // Kích thước smoke
+    public static final int WIDTH_SMOKE = 90;
+    public static final int HEIGHT_SMOKE = 90;
+
+    // Kích thước mây
+    public static final int WIDTH_SMOKE_BIG = 384;
+    public static final int HEIGHT_SMOKE_BIG = 174;
+    public static final int WIDTH_SMOKE_SMALL = 306;
+    public static final int HEIGHT_SMOKE_SMALL = 126;
 }
