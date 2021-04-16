@@ -8,9 +8,9 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vientamthuong.chronotrigger.R;
-import com.vientamthuong.chronotrigger.interfaceGameThread.UpdateAndDraw;
+import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
 
-public class ObjectFullScreenPresonMap implements UpdateAndDraw {
+public class ObjectFullScreenPresonMap implements Observer {
 
     // Image view tương ứng
     private final ImageView imageView;
@@ -44,7 +44,7 @@ public class ObjectFullScreenPresonMap implements UpdateAndDraw {
         // Lúc đầu thì chạy animation 1s
         if (lastTimeUpdate == 0) {
             lastTimeUpdate = System.currentTimeMillis();
-            imageView.startAnimation(hidden);
+            appCompatActivity.runOnUiThread(() -> imageView.startAnimation(hidden));
         }
 
         // Nếu dủ 1 dây thì ẩn
@@ -60,13 +60,20 @@ public class ObjectFullScreenPresonMap implements UpdateAndDraw {
             isHidden = false;
             // Hiện lên
             // Đưa vào luồng UI chính
-            appCompatActivity.runOnUiThread(() -> imageView.setVisibility(View.VISIBLE));
-            imageView.startAnimation(show);
+            appCompatActivity.runOnUiThread(() -> {
+                imageView.setVisibility(View.VISIBLE);
+                imageView.startAnimation(show);
+            });
         }
     }
 
     @Override
     public void draw() {
+    }
+
+    @Override
+    public boolean isOutCamera() {
+        return false;
     }
 
 }

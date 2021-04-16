@@ -1,6 +1,9 @@
 package com.vientamthuong.chronotrigger.presonMap;
 
-import com.vientamthuong.chronotrigger.interfaceGameThread.UpdateAndDraw;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +11,7 @@ import java.util.List;
 public class GameWorldPresonMap {
 
     // List các object
-    private final List<UpdateAndDraw> listObject;
+    private final List<Observer> listObject;
     // Camera
     private CameraPresonMap camera;
     private final PresonMapActivity presonMapActivity;
@@ -30,20 +33,28 @@ public class GameWorldPresonMap {
         // background
         BackgroundMapPresonMap backgroundMapPresonMap = new BackgroundMapPresonMap(presonMapActivity.getIvBackgroundMap(), presonMapActivity, GameWorldPresonMap.this);
         listObject.add(backgroundMapPresonMap);
+        // Thuyền
+        ImageView imageViewBoat = new ImageView(presonMapActivity);
+        imageViewBoat.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationPresonMap.WIDTH_BOAT, ConfigurationPresonMap.HEIGHT_BOAT));
+        presonMapActivity.getAbsoluteLayout().addView(imageViewBoat, presonMapActivity.getAbsoluteLayout().getChildCount() - 1);
+        BoatPresonMap boatPresonMap = new BoatPresonMap(imageViewBoat, ConfigurationPresonMap.START_BOAT_X, ConfigurationPresonMap.START_BOAT_Y, ConfigurationPresonMap.WIDTH_BOAT, ConfigurationPresonMap.HEIGHT_BOAT, presonMapActivity, GameWorldPresonMap.this);
+        listObject.add(boatPresonMap);
     }
 
     public void update() {
         // camera
         camera.update();
         // list Object
-        for (UpdateAndDraw updateAndDraw : listObject) {
-            updateAndDraw.update();
+        for (Observer observer : listObject) {
+            observer.update();
         }
     }
 
     public void draw() {
-        for (UpdateAndDraw updateAndDraw : listObject) {
-            updateAndDraw.draw();
+        for (Observer observer : listObject) {
+            if (!observer.isOutCamera()) {
+                observer.draw();
+            }
         }
     }
 

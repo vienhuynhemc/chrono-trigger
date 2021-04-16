@@ -1,3 +1,6 @@
 image sprite_preson_map
 animation preson_map_background
 0 0 1536 1024 10000000
+animation preson_map_boat
+402 1063 32 30 200
+439 1063 32 30 200

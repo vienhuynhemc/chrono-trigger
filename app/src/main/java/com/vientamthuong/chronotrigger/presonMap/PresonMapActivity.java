@@ -2,6 +2,7 @@ package com.vientamthuong.chronotrigger.presonMap;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ public class PresonMapActivity extends AppCompatActivity {
     // 1. view
     private ImageView ivFullScreen;
     private ImageView ivBackgroundMap;
+    private AbsoluteLayout absoluteLayout;
     // 2. Luồng game
     private GameThreadPresonMap gameThreadPresonMap;
 
@@ -38,11 +40,7 @@ public class PresonMapActivity extends AppCompatActivity {
 
     private void action() {
         ivFullScreen.setOnClickListener(v -> {
-            if (gameThreadPresonMap.isRunning()) {
-                gameThreadPresonMap.setRunning(false);
-            } else if (!gameThreadPresonMap.isRunning()) {
-                gameThreadPresonMap.setRunning(true);
-            }
+            System.out.println("Adasds");
         });
     }
 
@@ -62,6 +60,7 @@ public class PresonMapActivity extends AppCompatActivity {
     private void getView() {
         ivFullScreen = findViewById(R.id.activity_preson_map_imageView_fullScreen);
         ivBackgroundMap = findViewById(R.id.activity_preson_map_imageView_background);
+        absoluteLayout = findViewById(R.id.preson_map_layout);
     }
 
     // Getter and setter
@@ -71,6 +70,10 @@ public class PresonMapActivity extends AppCompatActivity {
 
     public ImageView getIvBackgroundMap() {
         return ivBackgroundMap;
+    }
+
+    public AbsoluteLayout getAbsoluteLayout() {
+        return absoluteLayout;
     }
 
 }

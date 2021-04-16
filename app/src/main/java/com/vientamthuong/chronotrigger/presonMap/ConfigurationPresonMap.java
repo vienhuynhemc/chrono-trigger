@@ -24,5 +24,11 @@ public class ConfigurationPresonMap {
     public static final long CAMERA_5 = 0;
     // Thời gian ẩn hiện của màn hình đen
     public static final int TIME_HIDDEN_SHOW = 3000;
+    // Kích thước của con thuyền
+    public static final int WIDTH_BOAT = 192;
+    public static final int HEIGHT_BOAT = 180;
+    // Vị trí xuất hiện của con thuyền
+    public static final int START_BOAT_X = 2868;
+    public static final int START_BOAT_Y = 1914;
 
 }

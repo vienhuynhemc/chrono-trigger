@@ -73,7 +73,7 @@ public class Animation {
 
     // Phương thức draw
     public void draw(View view, AppCompatActivity appCompatActivity) {
-        view.setBackground(new BitmapDrawable(appCompatActivity.getResources(), bitmaps.get(currentBitmap)));
+        appCompatActivity.runOnUiThread(() -> view.setBackground(new BitmapDrawable(appCompatActivity.getResources(), bitmaps.get(currentBitmap))));
     }
 
     // Phương thức update

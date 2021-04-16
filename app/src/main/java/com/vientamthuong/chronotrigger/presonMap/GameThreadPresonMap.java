@@ -11,7 +11,7 @@ public class GameThreadPresonMap extends Thread {
 
     @Override
     public void run() {
-        int FPS = 80;
+        int FPS = 160;
         long beginTime = System.nanoTime();
         long timeForOneFrame = 1000000000 / FPS;
         while (isRunning) {
