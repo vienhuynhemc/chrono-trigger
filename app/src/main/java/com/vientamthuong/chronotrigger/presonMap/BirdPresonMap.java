@@ -8,34 +8,39 @@ import com.vientamthuong.chronotrigger.data.SourceAnimation;
 import com.vientamthuong.chronotrigger.gameEffect.Animation;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
 
-public class BoatPresonMap implements Observer {
+public class BirdPresonMap implements Observer {
 
     private final ImageView imageView;
     // Tọa độ thông thường
-    private final int x;
-    private final int y;
+    private int x;
+    private int y;
     // Tạo đô để vẽ
     private int xDraw;
     private int yDraw;
+    // Vận tốc
+    private final int speedX;
+    private final int speedY;
     private final int width;
     private final int height;
     private Animation animation;
     private final AppCompatActivity appCompatActivity;
     private final GameWorldPresonMap gameWorldPresonMap;
 
-    public BoatPresonMap(ImageView imageView, int x, int y, int width, int height, AppCompatActivity appCompatActivity, GameWorldPresonMap gameWorldPresonMap) {
+    public BirdPresonMap(ImageView imageView, int x, int y, int speedX, int speedY, int width, int height, AppCompatActivity appCompatActivity, GameWorldPresonMap gameWorldPresonMap) {
         this.imageView = imageView;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.speedX = speedX;
+        this.speedY = speedY;
         this.gameWorldPresonMap = gameWorldPresonMap;
         this.appCompatActivity = appCompatActivity;
         init();
     }
 
     private void init() {
-        animation = SourceAnimation.getInstance().getAnimation("preson_map_boat");
+        animation = SourceAnimation.getInstance().getAnimation("preson_map_bird");
         // Set lại tọa độ theo camera
         xDraw = x - gameWorldPresonMap.getCamera().getX();
         yDraw = y - gameWorldPresonMap.getCamera().getY();
@@ -46,6 +51,9 @@ public class BoatPresonMap implements Observer {
 
     @Override
     public void update() {
+        // Cập nhật lại tọa độ theo vận tốc
+        x = x + speedX;
+        y = y + speedY;
         // Set lại tọa độ theo camera
         xDraw = x - gameWorldPresonMap.getCamera().getX();
         yDraw = y - gameWorldPresonMap.getCamera().getY();

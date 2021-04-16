@@ -22,13 +22,23 @@ public class ConfigurationPresonMap {
     public static final int CAMRERA_X_5 = 1260;
     public static final int CAMRERA_Y_5 = 1224;
     public static final long CAMERA_5 = 0;
+
     // Thời gian ẩn hiện của màn hình đen
     public static final int TIME_HIDDEN_SHOW = 3000;
+
     // Kích thước của con thuyền
     public static final int WIDTH_BOAT = 192;
     public static final int HEIGHT_BOAT = 180;
     // Vị trí xuất hiện của con thuyền
     public static final int START_BOAT_X = 2868;
     public static final int START_BOAT_Y = 1914;
+
+    // Kích thước chim
+    public static final int WIDTH_BIRD = 90;
+    public static final int HEIGHT_BIRD = 54;
+
+    // Kích thước bong bóng
+    public static final int WIDTH_BUBBLE = 36;
+    public static final int HEIGHT_BUBBLE = 66;
 
 }

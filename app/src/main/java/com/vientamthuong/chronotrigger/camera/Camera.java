@@ -7,8 +7,8 @@ public class Camera {
     private int x;
     private int y;
     // Kích thước của camera
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
 
     public Camera(int x, int y) {
         this.x = x;

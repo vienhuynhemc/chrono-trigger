@@ -20,8 +20,8 @@ public class BackgroundMapPresonMap implements Observer {
     // Nhận vô game word chứa nó để lấy camera
     private final GameWorldPresonMap gameWorldPresonMap;
     // Tọa độ
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public BackgroundMapPresonMap(ImageView imageView, AppCompatActivity appCompatActivity, GameWorldPresonMap gameWorldPresonMap) {
         this.imageView = imageView;

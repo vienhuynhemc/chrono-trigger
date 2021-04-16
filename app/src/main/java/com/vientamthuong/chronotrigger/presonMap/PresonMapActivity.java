@@ -39,9 +39,7 @@ public class PresonMapActivity extends AppCompatActivity {
     }
 
     private void action() {
-        ivFullScreen.setOnClickListener(v -> {
-            System.out.println("Adasds");
-        });
+        ivFullScreen.setOnClickListener(v -> System.out.println("Adasds"));
     }
 
     private void run() {

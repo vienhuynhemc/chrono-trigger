@@ -17,7 +17,7 @@ public class SourceSound {
     // Instance
     private static SourceSound sourceSound;
     // Lưu trữ các id nhạc đã được load lên từ sound pool
-    private Map<String, Integer> sounds;
+    private final Map<String, Integer> sounds;
     // Lưu trữ các id nhạc trong resource
     private final Map<String, Integer> soundIds;
     // Sound pool - Trung tâm phát nhạc effect
@@ -81,10 +81,6 @@ public class SourceSound {
     }
 
     // GETTER AND STTER
-    public void setSounds(Map<String, Integer> sounds) {
-        this.sounds = sounds;
-    }
-
     public Map<String, Integer> getSounds() {
         return sounds;
     }
@@ -95,10 +91,6 @@ public class SourceSound {
 
     public void setSoundPool(SoundPool soundPool) {
         this.soundPool = soundPool;
-    }
-
-    public boolean isPlayMusic() {
-        return isPlayMusic;
     }
 
     public void setPlayMusic(boolean playMusic) {

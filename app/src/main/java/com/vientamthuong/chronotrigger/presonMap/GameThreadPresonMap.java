@@ -31,10 +31,6 @@ public class GameThreadPresonMap extends Thread {
     }
 
     // Getter and setter
-    public boolean isRunning() {
-        return isRunning;
-    }
-
     public void setRunning(boolean running) {
         isRunning = running;
     }
