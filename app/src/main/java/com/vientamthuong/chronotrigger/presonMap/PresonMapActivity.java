@@ -4,13 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vientamthuong.chronotrigger.R;
-import com.vientamthuong.chronotrigger.data.SourceAnimation;
-import com.vientamthuong.chronotrigger.data.SourceSound;
 
 public class PresonMapActivity extends AppCompatActivity {
 
@@ -21,6 +20,9 @@ public class PresonMapActivity extends AppCompatActivity {
     private AbsoluteLayout absoluteLayout;
     // 2. Luồng game
     private GameThreadPresonMap gameThreadPresonMap;
+    ///************** Xủ lý vuốt 2 lần thoát game *****************////////////
+    private long lastTimeTouchBack;
+    ///*************************************************************///////////
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,14 +34,19 @@ public class PresonMapActivity extends AppCompatActivity {
         getView();
         // Khởi tạo
         init();
-        // action
-        action();
         // Chạy
         run();
     }
 
-    private void action() {
-        ivFullScreen.setOnClickListener(v -> System.out.println("Adasds"));
+    @Override
+    public void onBackPressed() {
+        if (lastTimeTouchBack == 0 || System.currentTimeMillis() - lastTimeTouchBack > 2000) {
+            lastTimeTouchBack = System.currentTimeMillis();
+            Toast.makeText(PresonMapActivity.this, "Nhấn một lần nữa để thoát", Toast.LENGTH_SHORT).show();
+        } else {
+            finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
     }
 
     private void run() {
@@ -47,10 +54,6 @@ public class PresonMapActivity extends AppCompatActivity {
     }
 
     private void init() {
-        // load Sound
-        SourceSound.getInstance().loadSound(PresonMapActivity.this);
-        // Load animation
-        SourceAnimation.getInstance().loadAnimation(PresonMapActivity.this);
         gameThreadPresonMap = new GameThreadPresonMap(PresonMapActivity.this);
         gameThreadPresonMap.setRunning(true);
     }

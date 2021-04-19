@@ -49,9 +49,7 @@ public class CameraPresonMap extends Camera {
                             if (movings.size() == 3) {
                                 gameWorldPresonMap.setStartCreateBubble(true);
                                 gameWorldPresonMap.setLastTimeCreateBubble(System.currentTimeMillis());
-                            }
-                            // Lúc này camera đi xuống nên cho mấy đi ngang
-                            if (movings.size() == 2) {
+                                // Lúc này camera đang chờ và đi xuống nên cho mấy đi ngang
                                 gameWorldPresonMap.setLeftClound(true);
                             }
                         }

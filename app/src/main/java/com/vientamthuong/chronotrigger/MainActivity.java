@@ -1,5 +1,6 @@
 package com.vientamthuong.chronotrigger;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -15,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.vientamthuong.chronotrigger.data.SourceAnimation;
 import com.vientamthuong.chronotrigger.data.SourceSound;
 import com.vientamthuong.chronotrigger.loadData.ConfigurationSound;
+import com.vientamthuong.chronotrigger.presonMap.PresonMapActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private Button btnLoadGame;
     // 2. Tham số để chạy lần lượt các Animation của đồng hồ
     private int count;
+    ///************** Xủ lý vuốt 2 lần thoát game *****************////////////
+    private long lastTimeTouchBack;
+    ///*************************************************************///////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +50,28 @@ public class MainActivity extends AppCompatActivity {
         action();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (lastTimeTouchBack == 0 || System.currentTimeMillis() - lastTimeTouchBack > 2000) {
+            lastTimeTouchBack = System.currentTimeMillis();
+            Toast.makeText(MainActivity.this, "Nhấn một lần nữa để thoát", Toast.LENGTH_SHORT).show();
+        } else {
+            finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }
+    }
+
     private void action() {
         // action new game
         btnNewGame.setOnClickListener(v -> {
             // âm thành cursor
             SourceSound.getInstance().play("cursor", ConfigurationSound.NOREPEAT);
+            // Chuyển qua activity preson map
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, PresonMapActivity.class);
+            startActivity(intent);
+            SourceSound.getInstance().stopBackgroundSound();
+            finish();
         });
     }
 

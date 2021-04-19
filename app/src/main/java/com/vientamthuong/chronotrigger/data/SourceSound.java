@@ -70,6 +70,14 @@ public class SourceSound {
         mediaPlayerBackgroundSound.start();
     }
 
+    // Hàm dừng nhạc nền
+    public void stopBackgroundSound() {
+        if (mediaPlayerBackgroundSound.isPlaying()) {
+            mediaPlayerBackgroundSound.stop();
+            mediaPlayerBackgroundSound.release();
+        }
+    }
+
     // Phương thức chạy nhạc nền
     @SuppressWarnings("ConstantConditions")
     public void playSoundBackground(String name, AppCompatActivity appCompatActivity) {

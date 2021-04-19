@@ -1,5 +1,6 @@
 package com.vientamthuong.chronotrigger.presonMap;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewManager;
 import android.view.animation.Animation;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.vientamthuong.chronotrigger.R;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
+import com.vientamthuong.chronotrigger.myHome.MyHomeActivity;
 
 public class ObjectFullScreenPresonMap implements Observer {
 
@@ -23,6 +25,8 @@ public class ObjectFullScreenPresonMap implements Observer {
     private final AppCompatActivity appCompatActivity;
     // Nhận vô game world để lấy camera
     private final GameWorldPresonMap gameWorldPresonMap;
+    // THời gian cuối xuất hiện
+    private long timeToEnd;
 
     private boolean isHidden;
 
@@ -65,6 +69,17 @@ public class ObjectFullScreenPresonMap implements Observer {
                 imageView.setVisibility(View.VISIBLE);
                 imageView.startAnimation(show);
             });
+            timeToEnd = System.currentTimeMillis();
+        } else if (!isHidden && gameWorldPresonMap.getCamera().isComplete()) {
+            // Nếu qua 3 giây từ lúc màn hình đen hiện lên thì qua acitivty khác
+            // Dừng luồng này lại , tắt activity này luôn và chuyển tới acitvity my_home
+            if (System.currentTimeMillis() - timeToEnd > 3000) {
+                Intent intent = new Intent();
+                intent.setClass(appCompatActivity, MyHomeActivity.class);
+                appCompatActivity.startActivity(intent);
+                gameWorldPresonMap.getGameThreadPresonMap().setRunning(false);
+                appCompatActivity.finish();
+            }
         }
     }
 

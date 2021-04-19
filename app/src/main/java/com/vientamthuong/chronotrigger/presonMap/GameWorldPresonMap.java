@@ -33,18 +33,20 @@ public class GameWorldPresonMap {
     // Tạo mây
     private long lastTimeCreateClound;
     private boolean isLeftClound;
+    // Chạy âm thanh tiếng chim 2 lần
+    private int countSoundBackground;
+    // Luồng của game
+    private final GameThreadPresonMap gameThreadPresonMap;
 
-    public GameWorldPresonMap(PresonMapActivity presonMapActivity) {
+    public GameWorldPresonMap(PresonMapActivity presonMapActivity, GameThreadPresonMap gameThreadPresonMap) {
         this.presonMapActivity = presonMapActivity;
         listObject = new ArrayList<>();
+        this.gameThreadPresonMap = gameThreadPresonMap;
         // Khởi tạo
         init();
     }
 
     private void init() {
-        // chạy âm thanh
-        lastTimePlayMusicBird = System.currentTimeMillis();
-        SourceSound.getInstance().play("gulls", ConfigurationSound.NOREPEAT);
         // Camera
         camera = new CameraPresonMap(ConfigurationPresonMap.CAMRERA_START_X, ConfigurationPresonMap.CAMRERA_START_Y, GameWorldPresonMap.this);
         // Màn hình đen
@@ -153,16 +155,18 @@ public class GameWorldPresonMap {
     }
 
     public void update() {
+        // Chạy âm thanh tiếng chim
+        if (countSoundBackground < 2) {
+            if (System.currentTimeMillis() - lastTimePlayMusicBird > 5000) {
+                lastTimePlayMusicBird = System.currentTimeMillis();
+                SourceSound.getInstance().play("gulls", ConfigurationSound.NOREPEAT);
+                countSoundBackground++;
+            }
+        }
         // camera
         camera.update();
         // Tạo chim
         if (!isOverCreateBird) {
-            // Chạy âm thanh tiếng chim
-            if (System.currentTimeMillis() - lastTimePlayMusicBird > 5000) {
-                lastTimePlayMusicBird = System.currentTimeMillis();
-                SourceSound.getInstance().play("gulls", ConfigurationSound.NOREPEAT);
-            }
-            // tạo chim
             if (lastTimeCreateBird == 0) {
                 lastTimeCreateBird = System.currentTimeMillis();
             }
@@ -292,5 +296,9 @@ public class GameWorldPresonMap {
 
     public void setLeftClound(boolean leftClound) {
         isLeftClound = leftClound;
+    }
+
+    public GameThreadPresonMap getGameThreadPresonMap() {
+        return gameThreadPresonMap;
     }
 }
