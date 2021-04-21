@@ -17,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.vientamthuong.chronotrigger.data.SourceAnimation;
 import com.vientamthuong.chronotrigger.data.SourceSound;
 import com.vientamthuong.chronotrigger.loadData.ConfigurationSound;
+import com.vientamthuong.chronotrigger.newGame.NewGameActivity;
 import com.vientamthuong.chronotrigger.presonMap.PresonMapActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             SourceSound.getInstance().play("cursor", ConfigurationSound.NOREPEAT);
             // Chuyển qua activity preson map
             Intent intent = new Intent();
-            intent.setClass(MainActivity.this, PresonMapActivity.class);
+            intent.setClass(MainActivity.this, NewGameActivity.class);
             startActivity(intent);
             SourceSound.getInstance().stopBackgroundSound();
             finish();
