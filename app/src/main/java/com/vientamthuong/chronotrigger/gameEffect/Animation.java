@@ -1,7 +1,9 @@
 package com.vientamthuong.chronotrigger.gameEffect;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -104,6 +106,20 @@ public class Animation {
         }
         // Check thử có bỏ qua hay không
         if (listIgnore.get(currentBitmap)) nextBitmap();
+    }
+
+    // Phương thức đảo ngược bitmap
+    public void flip() {
+        List<Bitmap> bitmapFlips = new ArrayList<>();
+        for (Bitmap bitmap : bitmaps) {
+            Matrix m = new Matrix();
+            m.preScale(-1, 1);
+            Bitmap dst = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, false);
+            dst.setDensity(DisplayMetrics.DENSITY_DEFAULT);
+            bitmapFlips.add(dst);
+        }
+        // Cập nhật lại list
+        setbitmaps(bitmapFlips);
     }
 
     // Phuơng thức kiểm tra xem thử có phải là đang bitmap cuối cùng

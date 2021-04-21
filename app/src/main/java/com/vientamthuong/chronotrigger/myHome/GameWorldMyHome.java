@@ -1,5 +1,8 @@
 package com.vientamthuong.chronotrigger.myHome;
 
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
 import com.vientamthuong.chronotrigger.data.SourceMain;
 import com.vientamthuong.chronotrigger.data.SourceSound;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
@@ -14,6 +17,9 @@ public class GameWorldMyHome {
     public static final int START_INTRO = 0;
     public static final int START_NO_INTRO = 1;
     public static final int CHAT_SECOND = 2;
+    public static final int CHAT_THIRD = 3;
+    public static final int CHAT_FOUR = 4;
+    public static final int CHAT_FIVE = 5;
     // List các object
     private final List<Observer> listObject;
     private MyHomeActivity myHomeActivity;
@@ -28,12 +34,16 @@ public class GameWorldMyHome {
     private final boolean isStartIntro;
     private int countStartSoundBell;
     private long lastTimeStartSoundBell;
-    // Đoạn chat đầu tiên trước khi mở map
+    // Đoạn chat
     private boolean isStartFirstChat;
+    private boolean isStartSecondChat;
     // Background map
     private BackgroundMapMyHome backgroundMapMyHome;
     // Camera
     private CameraMyHome cameraMyHome;
+    // Các object của intro
+    private MotherCronoUpFloor motherCronoUpFloor;
+    private CatUpFloor catUpFloor;
 
     public GameWorldMyHome(MyHomeActivity myHomeActivity, GameThreadMyHome gameThreadMyHome, boolean isStartIntro) {
         this.myHomeActivity = myHomeActivity;
@@ -45,7 +55,7 @@ public class GameWorldMyHome {
     }
 
     private void init() {
-        showTextMyHome = new ShowTextMyHome(myHomeActivity.getTvShowText(), myHomeActivity);
+        showTextMyHome = new ShowTextMyHome(myHomeActivity.getTvShowTextTren(), myHomeActivity);
         // xét xem có chạy intro hay không
         if (isStartIntro) {
             lastTimeWaitIntro = System.currentTimeMillis();
@@ -54,12 +64,19 @@ public class GameWorldMyHome {
             state = START_NO_INTRO;
         }
         // Camera
-        cameraMyHome = new CameraMyHome(0,0,GameWorldMyHome.this);
+        cameraMyHome = new CameraMyHome(0, 105, GameWorldMyHome.this);
         // Object full screen
         objectFullScreenMyHome = new ObjectFullScreenMyHome(myHomeActivity.getIvFullScreen(), myHomeActivity, GameWorldMyHome.this);
         // Back ground map
         backgroundMapMyHome = new BackgroundMapMyHome(myHomeActivity.getIvBackgroundMap(), myHomeActivity, GameWorldMyHome.this);
         listObject.add(backgroundMapMyHome);
+        // Ảnh trước cầu thang
+        ImageView imageViewFrontEnd = new ImageView(myHomeActivity);
+        imageViewFrontEnd.setScaleType(ImageView.ScaleType.MATRIX);
+        imageViewFrontEnd.setLayoutParams(new ViewGroup.LayoutParams(420, 240));
+        myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewFrontEnd, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
+        FrontEndStairsFloorMyHome frontEndStairsFloorMyHome = new FrontEndStairsFloorMyHome(imageViewFrontEnd,754,990,12, myHomeActivity, GameWorldMyHome.this);
+        listObject.add(frontEndStairsFloorMyHome);
     }
 
     public void update() {
@@ -97,6 +114,30 @@ public class GameWorldMyHome {
                             // Cho thời gian last time wait là hiện tại và object chưa ẩn hoàn toàn
                             objectFullScreenMyHome.setHidden(false);
                             lastTimeWaitIntro = System.currentTimeMillis();
+                            // Lúc màn hình bắt đầu mở đi thì tạo các object intro
+                            // 1.Mèo
+                            // 1.1 Tạo image view cho con mèo
+                            ImageView imageViewCat = new ImageView(myHomeActivity);
+                            imageViewCat.setScaleType(ImageView.ScaleType.MATRIX);
+                            imageViewCat.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_CAT, ConfigurationMyHome.HEIGHT_CAT));
+                            myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewCat, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
+                            // 1.2 Tạo mèo
+                            catUpFloor = new CatUpFloor(imageViewCat, 670 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 590, 10, myHomeActivity, GameWorldMyHome.this);
+                            listObject.add(catUpFloor);
+                            // 2.Mẹ
+                            // 2.1 Taoj image view cho mẹ
+                            ImageView imageViewMother = new ImageView(myHomeActivity);
+                            imageViewMother.setScaleType(ImageView.ScaleType.MATRIX);
+                            imageViewMother.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_MOTHER, ConfigurationMyHome.HEIGHT_MOTHER));
+                            myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewMother, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
+                            // 2.2 Tạo mẹ
+                            motherCronoUpFloor = new MotherCronoUpFloor(imageViewMother, 642 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 558, 11, myHomeActivity, GameWorldMyHome.this);
+                            listObject.add(motherCronoUpFloor);
+                            // Đổi text trên thành text dưới
+                            myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().removeView(myHomeActivity.getTvShowTextTren()));
+                            showTextMyHome.setTextView(myHomeActivity.getTvShowTextDuoi());
+                            // Chạy nhạc nền mới
+                            SourceSound.getInstance().playSoundBackgroundOnce("morning_glow", myHomeActivity);
                         }
                     }
                 }
@@ -108,6 +149,45 @@ public class GameWorldMyHome {
                         objectFullScreenMyHome.hiddenView();
                         objectFullScreenMyHome.setHidden(true);
                     }
+                } else {
+                    // Nếu như mẹ đã dừng ở điểm thứ nhất thì chạy đoạn chat thứ 2
+                    if (motherCronoUpFloor.isStopMove1() && !isStartSecondChat) {
+                        isStartSecondChat = true;
+                        // Lấy đoạn chat thứ 2
+                        List<String> contentChats = createSecondChat();
+                        // Làm mới show text my home
+                        showTextMyHome.setComplete(false);
+                        showTextMyHome.setContent(contentChats);
+                        // Hiện nó lên
+                        showTextMyHome.show();
+                    }
+                    // Nếu như đoạn chat thứ 2 hoàn thành thì cho mẹ đi lên
+                    if (showTextMyHome.isComplete() && motherCronoUpFloor.isStopMove1() && !motherCronoUpFloor.isStartMove2()) {
+                        motherCronoUpFloor.setStartMove2(true);
+                        motherCronoUpFloor.setDir(MotherCronoUpFloor.TOP);
+                        motherCronoUpFloor.setState(MotherCronoUpFloor.DI);
+                    }
+                }
+                break;
+            case CHAT_THIRD:
+                if (showTextMyHome.isComplete() && !motherCronoUpFloor.isStartMove3()) {
+                    motherCronoUpFloor.setStartMove3(true);
+                    motherCronoUpFloor.setDir(MotherCronoUpFloor.BOTTOM);
+                    motherCronoUpFloor.setState(MotherCronoUpFloor.DI);
+                }
+                break;
+            case CHAT_FOUR:
+                if (showTextMyHome.isComplete() && !motherCronoUpFloor.isStartMove4()) {
+                    motherCronoUpFloor.setStartMove4(true);
+                    motherCronoUpFloor.setDir(MotherCronoUpFloor.LEFT);
+                    motherCronoUpFloor.setState(MotherCronoUpFloor.DI);
+                }
+                break;
+            case CHAT_FIVE:
+                if (showTextMyHome.isComplete() && !motherCronoUpFloor.isStartMove5()) {
+                    motherCronoUpFloor.setStartMove5(true);
+                    motherCronoUpFloor.setDir(MotherCronoUpFloor.BOTTOM);
+                    motherCronoUpFloor.setState(MotherCronoUpFloor.DI);
                 }
                 break;
             case START_NO_INTRO:
@@ -128,7 +208,11 @@ public class GameWorldMyHome {
         int count = 0;
         while (count < listObject.size()) {
             listObject.get(count).update();
-            count++;
+            if (listObject.get(count).isOutCamera()) {
+                listObject.get(count).outToLayout();
+            } else {
+                count++;
+            }
         }
     }
 
@@ -136,7 +220,7 @@ public class GameWorldMyHome {
         // Vẽ lần lượt các object
         int count = 0;
         while (count < listObject.size()) {
-            listObject.get(count).update();
+            listObject.get(count).draw();
             count++;
         }
     }
@@ -150,9 +234,41 @@ public class GameWorldMyHome {
         return contentChats;
     }
 
+    private List<String> createSecondChat() {
+        List<String> contentChats = new ArrayList<>();
+        String name = SourceMain.getInstance().getName();
+        contentChats.add("Mẹ: Dậy nào, đồ ngủ nướng!\nĐã đến lúc thức dậy rồi!");
+        return contentChats;
+    }
+
+    public void runChat(List<String> contentChats) {
+        isStartFirstChat = true;
+        // Làm mới show text my home
+        showTextMyHome.setComplete(false);
+        showTextMyHome.setContent(contentChats);
+        // Hiện nó lên
+        showTextMyHome.show();
+    }
+
     // GETTER AND SETTER
     public CameraMyHome getCameraMyHome() {
         return cameraMyHome;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public int getState() {
+        return this.state;
+    }
+
+    public BackgroundMapMyHome getBackgroundMapMyHome() {
+        return backgroundMapMyHome;
+    }
+
+    public MyHomeActivity getMyHomeActivity() {
+        return myHomeActivity;
     }
 
 }

@@ -1,6 +1,5 @@
 package com.vientamthuong.chronotrigger.myHome;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsoluteLayout;
@@ -11,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.vientamthuong.chronotrigger.MainActivity;
 import com.vientamthuong.chronotrigger.R;
 import com.vientamthuong.chronotrigger.data.SourceAnimation;
 import com.vientamthuong.chronotrigger.data.SourceSound;
@@ -22,7 +20,8 @@ public class MyHomeActivity extends AppCompatActivity {
     // 1. view
     private ImageView ivFullScreen;
     private ImageView ivBackgroundMap;
-    private TextView tvShowText;
+    private TextView tvShowTextTren;
+    private TextView tvShowTextDuoi;
     private AbsoluteLayout absoluteLayout;
     // 2. Luồng game
     private GameThreadMyHome gameThreadMyHome;
@@ -79,7 +78,8 @@ public class MyHomeActivity extends AppCompatActivity {
     private void getView() {
         ivFullScreen = findViewById(R.id.activity_my_home_imageView_fullScreen);
         ivBackgroundMap = findViewById(R.id.activity_my_home_backgroundMap);
-        tvShowText = findViewById(R.id.activity_my_home_noi_dung_doan_chat);
+        tvShowTextTren = findViewById(R.id.activity_my_home_noi_dung_doan_chat_tren);
+        tvShowTextDuoi = findViewById(R.id.activity_my_home_noi_dung_doan_chat_duoi);
         absoluteLayout = findViewById(R.id.activity_my_home_layout);
     }
 
@@ -96,8 +96,11 @@ public class MyHomeActivity extends AppCompatActivity {
         return absoluteLayout;
     }
 
-    public TextView getTvShowText() {
-        return tvShowText;
+    public TextView getTvShowTextTren() {
+        return tvShowTextTren;
     }
 
+    public TextView getTvShowTextDuoi() {
+        return tvShowTextDuoi;
+    }
 }

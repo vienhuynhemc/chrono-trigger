@@ -9,13 +9,13 @@ import com.vientamthuong.chronotrigger.data.SourceAnimation;
 import com.vientamthuong.chronotrigger.gameEffect.Animation;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
 
-public class BackgroundMapMyHome implements Observer {
+public class FrontEndStairsFloorMyHome implements Observer {
 
     // Khai báo các thuộc tính
     // Image view tương ứng
     private final ImageView imageView;
-    private Animation animationLight;
-    private Animation currentAnimation;
+    // Animation của backgroundmap
+    private Animation animation;
     // Appcompat activit để lấy resource
     private final AppCompatActivity appCompatActivity;
     // Nhận vô game word chứa nó để lấy camera
@@ -23,46 +23,52 @@ public class BackgroundMapMyHome implements Observer {
     // Tọa độ
     private final int x;
     private final int y;
+    private final int z;
+    // Tạo đô để vẽ
+    private int xDraw;
+    private int yDraw;
 
-    public BackgroundMapMyHome(ImageView imageView, AppCompatActivity appCompatActivity, GameWorldMyHome gameWorldMyHome) {
+    public FrontEndStairsFloorMyHome(ImageView imageView, int x, int y, int z, AppCompatActivity appCompatActivity, GameWorldMyHome gameWorldMyHome) {
         this.imageView = imageView;
         this.appCompatActivity = appCompatActivity;
         this.gameWorldMyHome = gameWorldMyHome;
-        // Mặc định tạo độ 0 0
-        x = ConfigurationMyHome.X_BACKGROUNMAP_UP;
-        y = 0;
+        this.x = x;
+        this.y = y;
+        this.z = z;
         // Khởi tạo
         init();
     }
 
     private void init() {
-        // Animation của backgroundmap
-        Animation animationDark = SourceAnimation.getInstance().getAnimation("my_home_background_dark");
-        animationLight = SourceAnimation.getInstance().getAnimation("my_home_background_light");
-        // animation light không cho lập lại
-        animationLight.setRepeat(false);
-        // Mặc định là tối
-        currentAnimation = animationDark;
+        // Set lại tọa độ theo camera
+        xDraw = x - gameWorldMyHome.getCameraMyHome().getX();
+        yDraw = y - gameWorldMyHome.getCameraMyHome().getY();
+        // Cập nhật lại tọa độ của background theo camera
+        imageView.setX(xDraw);
+        imageView.setY(yDraw);
+        // Cập nhật lại tạo độ của z
+        imageView.setTranslationZ(z);
+        animation = SourceAnimation.getInstance().getAnimation("tang_tren_cau_thang_my_home");
     }
 
-    public void changeToLight() {
-        currentAnimation = animationLight;
-    }
 
     @Override
     public void update() {
+        // Set lại tọa độ theo camera
+        xDraw = x - gameWorldMyHome.getCameraMyHome().getX();
+        yDraw = y - gameWorldMyHome.getCameraMyHome().getY();
         // Cập nhật lại tọa độ của background theo camera
         appCompatActivity.runOnUiThread(() -> {
-            imageView.setX(x - gameWorldMyHome.getCameraMyHome().getX());
-            imageView.setY(y - gameWorldMyHome.getCameraMyHome().getY());
+            imageView.setX(xDraw);
+            imageView.setY(yDraw);
         });
     }
 
     @Override
     public void draw() {
         // update and draw Animation
-        currentAnimation.update();
-        currentAnimation.draw(imageView, appCompatActivity);
+        animation.update();
+        animation.draw(imageView, appCompatActivity);
     }
 
     @Override
@@ -74,5 +80,4 @@ public class BackgroundMapMyHome implements Observer {
     public boolean isOutCamera() {
         return false;
     }
-
 }

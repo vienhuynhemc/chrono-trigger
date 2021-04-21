@@ -2,7 +2,7 @@ package com.vientamthuong.chronotrigger.myHome;
 
 public class GameThreadMyHome extends Thread {
 
-    private GameWorldMyHome gameWorldMyHome;
+    private final GameWorldMyHome gameWorldMyHome;
     private boolean isRunning;
 
     public GameThreadMyHome(MyHomeActivity myHomeActivity, boolean isStartIntro) {

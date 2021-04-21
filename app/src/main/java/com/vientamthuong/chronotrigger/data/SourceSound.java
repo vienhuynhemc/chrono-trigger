@@ -1,5 +1,6 @@
 package com.vientamthuong.chronotrigger.data;
 
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
 
@@ -81,10 +82,22 @@ public class SourceSound {
     // Phương thức chạy nhạc nền
     @SuppressWarnings("ConstantConditions")
     public void playSoundBackground(String name, AppCompatActivity appCompatActivity) {
-        mediaPlayerBackgroundSound.stop();
-        mediaPlayerBackgroundSound.release();
+        if (mediaPlayerBackgroundSound != null && mediaPlayerBackgroundSound.isPlaying()) {
+            mediaPlayerBackgroundSound.stop();
+            mediaPlayerBackgroundSound.reset();
+        }
         mediaPlayerBackgroundSound = MediaPlayer.create(appCompatActivity, soundIds.get(name));
         mediaPlayerBackgroundSound.setLooping(true);
+        mediaPlayerBackgroundSound.start();
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public void playSoundBackgroundOnce(String name, AppCompatActivity appCompatActivity) {
+        if (mediaPlayerBackgroundSound != null && mediaPlayerBackgroundSound.isPlaying()) {
+            mediaPlayerBackgroundSound.stop();
+            mediaPlayerBackgroundSound.reset();
+        }
+        mediaPlayerBackgroundSound = MediaPlayer.create(appCompatActivity, soundIds.get(name));
         mediaPlayerBackgroundSound.start();
     }
 

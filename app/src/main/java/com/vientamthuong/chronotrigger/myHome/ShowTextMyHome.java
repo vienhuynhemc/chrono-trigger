@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ShowTextMyHome {
 
-    private final TextView textView;
+    private TextView textView;
     private final AppCompatActivity appCompatActivity;
     // List đoạn text cần chạy hết
     private List<String> content;
@@ -57,7 +57,7 @@ public class ShowTextMyHome {
         // Show 1 ký tự
         if (!isComplete) {
             if (!isCompleteText) {
-                if (System.currentTimeMillis() - lastTimeShowCharacter > 50) {
+                if (System.currentTimeMillis() - lastTimeShowCharacter > 30) {
                     lastTimeShowCharacter = System.currentTimeMillis();
                     nowLength++;
                     // Show đủ thì bắt chờ 2s rồi mới tiếp tục làm việc gì đó
@@ -73,8 +73,8 @@ public class ShowTextMyHome {
                     }
                 }
             } else {
-                // Chờ 2 giây
-                if (System.currentTimeMillis() - lastTimeCompleteText > 1500) {
+                // Chờ 1 giây
+                if (System.currentTimeMillis() - lastTimeCompleteText > 1000) {
                     // Hết rồi thì thông báo là hoàn thành
                     if (content.size() == 0) {
                         isComplete = true;
@@ -106,4 +106,9 @@ public class ShowTextMyHome {
     public void setComplete(boolean complete) {
         isComplete = complete;
     }
+
+    public void setTextView(TextView textView) {
+        this.textView = textView;
+    }
+
 }

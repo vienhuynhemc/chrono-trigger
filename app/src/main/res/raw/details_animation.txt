@@ -39,5 +39,50 @@ image chrono_trigger_cronos_house
 animation my_home_background_dark
 2 31 255 209 10000000
 animation my_home_background_light
-259 31 255 209 500
-516 31 255 209 500
+259 31 255 209 10000000
+image yellow_cat
+animation yellow_cat_nam_trai
+22 62 15 11 10000000
+animation yellow_cat_ngoi_trai
+7 1 13 16 10000000
+animation yellow_cat_di_trai
+24 1 16 16 200
+44 1 16 16 200
+64 1 16 16 200
+animation yellow_cat_di_xuong
+21 21 8 16 200
+36 21 8 16 200
+52 21 8 16 200
+70 21 8 16 200
+animation yellow_cat_di_len
+20 42 12 16 200
+35 42 12 16 200
+50 42 12 16 200
+68 42 12 16 200
+animation yellow_cat_ngoi_xuong
+7 21 8 16 10000000
+animation yellow_cat_ngoi_len
+7 42 8 16 10000000
+image morther_crono
+animation morther_crono_di_trai
+66 3 16 32 200
+86 4 16 32 200
+animation morther_crono_dung_im_trai
+24 4 16 32 10000000
+animation morther_crono_di_len
+45 40 16 32 200
+68 40 16 32 200
+animation morther_crono_dung_im_len
+45 4 16 32 10000000
+animation morther_crono_di_xuong
+3 40 16 32 200
+23 40 16 32 200
+animation morther_crono_dung_im_xuong
+3 4 16 32 10000000
+animation morther_crono_gio_tay_len
+45 77 16 32 10000000
+animation morther_crono_gio_tay_xuong
+24 77 16 32 10000000
+image chrono_trigger_cronos_house_tang_tren_cau_thang
+animation tang_tren_cau_thang_my_home
+0 0 70 40 10000000
