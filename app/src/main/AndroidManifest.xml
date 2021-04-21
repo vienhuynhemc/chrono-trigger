@@ -11,6 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChronoTrigger"
         tools:ignore="AllowBackup">
+        <activity android:name=".newGame.NewGameActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="landscape">
