@@ -89,8 +89,8 @@ public class GameWorldMyHome {
                     }
                     // Chạy đủ 3 lần nhạc ban đầu thì chờ 2s rồi chuyển qua state
                     if (countStartSoundBell == 3) {
-                        // Nhạc là 3s + thêm 2s
-                        if (System.currentTimeMillis() - lastTimeStartSoundBell > 5000) {
+                        // thêm 2s
+                        if (System.currentTimeMillis() - lastTimeStartSoundBell > 2000) {
                             objectFullScreenMyHome.hidden();
                             // Chuyển qua state chat second
                             state = CHAT_SECOND;

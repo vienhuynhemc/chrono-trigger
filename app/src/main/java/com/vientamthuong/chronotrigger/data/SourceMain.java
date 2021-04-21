@@ -7,6 +7,7 @@ public class SourceMain {
     private String name;
 
     private SourceMain() {
+        // Mặc định là chrono để làm các activity khác
         name = "Chrono";
     }
 

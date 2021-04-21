@@ -67,12 +67,11 @@ public class MainActivity extends AppCompatActivity {
         btnNewGame.setOnClickListener(v -> {
             // âm thành cursor
             SourceSound.getInstance().play("cursor", ConfigurationSound.NOREPEAT);
-            // Chuyển qua activity preson map
+            // Chuyển qua activity new game
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, NewGameActivity.class);
             startActivity(intent);
             SourceSound.getInstance().stopBackgroundSound();
-            finish();
         });
     }
 

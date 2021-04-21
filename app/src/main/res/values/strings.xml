@@ -3,4 +3,9 @@
     <string name="activity_main_textView_Start">Chạm để Bắt đầu</string>
     <string name="activity_main_textView_NewGame">Chơi Mới</string>
     <string name="activity_main_textView_LoadGame">Chơi Tiếp</string>
+    <string name="activity_new_game_name_default">Tên nhân vật</string>
+    <string name="activity_new_game_mac_dich">Mặc định</string>
+    <string name="activity_new_game_xac_nhan">Xác nhận</string>
+    <string name="activity_new_game_chon_ten">Chọn tên cho nhân vật</string>
+    <string name="activity_my_home_warning">*Sử dụng từ 5 ký tự trở lên</string>
 </resources>

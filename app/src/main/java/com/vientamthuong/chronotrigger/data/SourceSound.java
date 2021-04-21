@@ -74,7 +74,7 @@ public class SourceSound {
     public void stopBackgroundSound() {
         if (mediaPlayerBackgroundSound.isPlaying()) {
             mediaPlayerBackgroundSound.stop();
-            mediaPlayerBackgroundSound.release();
+            mediaPlayerBackgroundSound.reset();
         }
     }
 
