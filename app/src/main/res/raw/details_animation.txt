@@ -35,3 +35,9 @@ animation preson_map_big_smoke
 487 1065 64 29 10000000
 animation preson_map_small_smoke
 568 1070 51 21 10000000
+image chrono_trigger_cronos_house
+animation my_home_background_dark
+2 31 255 209 10000000
+animation my_home_background_light
+259 31 255 209 500
+516 31 255 209 500

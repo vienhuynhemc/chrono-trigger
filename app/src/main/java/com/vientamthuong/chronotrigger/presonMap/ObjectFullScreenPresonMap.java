@@ -1,6 +1,7 @@
 package com.vientamthuong.chronotrigger.presonMap;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewManager;
 import android.view.animation.Animation;
@@ -76,6 +77,9 @@ public class ObjectFullScreenPresonMap implements Observer {
             if (System.currentTimeMillis() - timeToEnd > 3000) {
                 Intent intent = new Intent();
                 intent.setClass(appCompatActivity, MyHomeActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isStartIntro", true);
+                intent.putExtra("data", bundle);
                 appCompatActivity.startActivity(intent);
                 gameWorldPresonMap.getGameThreadPresonMap().setRunning(false);
                 appCompatActivity.finish();

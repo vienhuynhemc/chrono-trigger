@@ -9,7 +9,6 @@
         android:id="@+id/activity_preson_map_imageView_background"
         android:layout_width="9216px"
         android:layout_height="6144px"
-        android:background="@drawable/sprite_preson_map"
         tools:ignore="ContentDescription,PxUsage" />
 
     <ImageView
