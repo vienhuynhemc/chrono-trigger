@@ -232,6 +232,9 @@ public class MotherCronoUpFloor implements Observer {
     @Override
     public void outToLayout() {
         appCompatActivity.runOnUiThread(() -> gameWorldMyHome.getMyHomeActivity().getAbsoluteLayout().removeView(imageView));
+        // Khi mẹ vừa biến mất thì mèo nhảy lên và cũng đi xuống cầu thang
+        gameWorldMyHome.getCatUpFloor().readyGoDownHome();
+        gameWorldMyHome.getCatUpFloor().setMoveDownHome(true);
     }
 
     // GETTER AND SETTEr
@@ -278,5 +281,6 @@ public class MotherCronoUpFloor implements Observer {
     public void setState(int state) {
         this.state = state;
     }
+
 
 }

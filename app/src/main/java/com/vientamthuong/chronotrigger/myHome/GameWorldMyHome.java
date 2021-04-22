@@ -75,7 +75,7 @@ public class GameWorldMyHome {
         imageViewFrontEnd.setScaleType(ImageView.ScaleType.MATRIX);
         imageViewFrontEnd.setLayoutParams(new ViewGroup.LayoutParams(420, 240));
         myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewFrontEnd, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
-        FrontEndStairsFloorMyHome frontEndStairsFloorMyHome = new FrontEndStairsFloorMyHome(imageViewFrontEnd,754,990,12, myHomeActivity, GameWorldMyHome.this);
+        FrontEndStairsFloorMyHome frontEndStairsFloorMyHome = new FrontEndStairsFloorMyHome(imageViewFrontEnd, 754, 990, 12, myHomeActivity, GameWorldMyHome.this);
         listObject.add(frontEndStairsFloorMyHome);
     }
 
@@ -210,6 +210,7 @@ public class GameWorldMyHome {
             listObject.get(count).update();
             if (listObject.get(count).isOutCamera()) {
                 listObject.get(count).outToLayout();
+                listObject.remove(count);
             } else {
                 count++;
             }
@@ -269,6 +270,10 @@ public class GameWorldMyHome {
 
     public MyHomeActivity getMyHomeActivity() {
         return myHomeActivity;
+    }
+
+    public CatUpFloor getCatUpFloor() {
+        return catUpFloor;
     }
 
 }

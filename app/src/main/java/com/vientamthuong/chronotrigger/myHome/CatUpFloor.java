@@ -17,6 +17,7 @@ public class CatUpFloor implements Observer {
     private int state;
     public static final int NAM = 0;
     public static final int NGOI = 1;
+    public static final int DI = 2;
     // Hướng
     private int dir;
     public static final int LEFT = 0;
@@ -33,10 +34,15 @@ public class CatUpFloor implements Observer {
     private int yDraw;
     private Animation hanhDongNamPhai, hanhDongNamTrai;
     private Animation hanhDongNgoiPhai, hanhDongNgoiTrai;
+    private Animation hanhDongDiTrai, hanhDongDiPhai;
+    private Animation hanhDongDiXuong;
     private final AppCompatActivity appCompatActivity;
     private final GameWorldMyHome gameWorldMyHome;
     // Thời gian update
     private long lastTimeUpdate;
+    // Biến để update mèo đi xuống cầu thang
+    private boolean isMoveDownHome;
+    private int countComplete;
 
     public CatUpFloor(ImageView imageView, int x, int y, int z, AppCompatActivity appCompatActivity, GameWorldMyHome gameWorldMyHome) {
         this.imageView = imageView;
@@ -58,6 +64,10 @@ public class CatUpFloor implements Observer {
         hanhDongNgoiTrai = SourceAnimation.getInstance().getAnimation("yellow_cat_ngoi_trai");
         hanhDongNgoiPhai = SourceAnimation.getInstance().getAnimation("yellow_cat_ngoi_trai");
         hanhDongNgoiPhai.flip();
+        hanhDongDiTrai = SourceAnimation.getInstance().getAnimation("yellow_cat_di_trai");
+        hanhDongDiPhai = SourceAnimation.getInstance().getAnimation("yellow_cat_di_trai");
+        hanhDongDiPhai.flip();
+        hanhDongDiXuong = SourceAnimation.getInstance().getAnimation("yellow_cat_di_xuong");
         // Set lại tọa độ theo camera
         xDraw = x - gameWorldMyHome.getCameraMyHome().getX();
         yDraw = y - gameWorldMyHome.getCameraMyHome().getY();
@@ -82,13 +92,52 @@ public class CatUpFloor implements Observer {
         if (lastTimeUpdate == 0) {
             lastTimeUpdate = System.currentTimeMillis();
         }
-        if (System.currentTimeMillis() - lastTimeUpdate > 4000 && state == NAM) {
+        if (System.currentTimeMillis() - lastTimeUpdate > 4000 && state == NAM && !isMoveDownHome) {
             state = NGOI;
             // Điều chỉnh lại width height
             appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(78, 96))));
             // Điều chỉnh lại tọa độ
             y = y - 30;
         }
+        if (isMoveDownHome && countComplete < 4) {
+            if (countComplete == 0) {
+                if (x > 694) {
+                    x -= 1;
+                } else {
+                    countComplete++;
+                    dir = BOTTOM;
+                    appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(48, 96))));
+                }
+            } else if (countComplete == 1) {
+                if (y < 960) {
+                    y += 1;
+                } else {
+                    countComplete++;
+                    dir = RIGHT;
+                    appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(96, 96))));
+                }
+            } else if (countComplete == 2) {
+                if (x < 754) {
+                    x += 1;
+                } else {
+                    countComplete++;
+                }
+            } else if (countComplete == 3) {
+                if (x < 1048) {
+                    x += 1;
+                    y += 1;
+                } else {
+                    countComplete++;
+                }
+            }
+        }
+
+    }
+
+    public void readyGoDownHome() {
+        dir = LEFT;
+        state = DI;
+        appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(96, 96))));
     }
 
     @Override
@@ -113,17 +162,32 @@ public class CatUpFloor implements Observer {
                     hanhDongNgoiTrai.draw(imageView, appCompatActivity);
                 }
                 break;
+            case DI:
+                if (dir == LEFT) {
+                    hanhDongDiTrai.update();
+                    hanhDongDiTrai.draw(imageView, appCompatActivity);
+                } else if (dir == RIGHT) {
+                    hanhDongDiPhai.update();
+                    hanhDongDiPhai.draw(imageView, appCompatActivity);
+                } else if (dir == BOTTOM) {
+                    hanhDongDiXuong.update();
+                    hanhDongDiXuong.draw(imageView, appCompatActivity);
+                }
         }
     }
 
     @Override
     public boolean isOutCamera() {
-        return false;
+        return countComplete == 4;
     }
 
     @Override
     public void outToLayout() {
         appCompatActivity.runOnUiThread(() -> ((ViewManager) imageView.getParent()).removeView(imageView));
+    }
+
+    public void setMoveDownHome(boolean a) {
+        this.isMoveDownHome = a;
     }
 
 }
