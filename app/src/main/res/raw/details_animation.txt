@@ -40,6 +40,8 @@ animation my_home_background_dark
 2 31 255 209 10000000
 animation my_home_background_light
 259 31 255 209 10000000
+animation my_home_background_ground
+259 242 256 207 10000000
 image yellow_cat
 animation yellow_cat_nam_trai
 22 62 15 11 10000000
@@ -86,3 +88,31 @@ animation morther_crono_gio_tay_xuong
 image chrono_trigger_cronos_house_tang_tren_cau_thang
 animation tang_tren_cau_thang_my_home
 0 0 70 40 10000000
+image crono_character
+animation crono_di_xuong
+128 13 20 37 200
+149 13 20 37 200
+170 13 20 37 200
+191 13 20 37 200
+212 13 20 37 200
+233 13 20 37 200
+animation crono_di_len
+128 56 20 37 200
+149 56 20 37 200
+171 56 20 37 200
+191 56 20 37 200
+212 56 20 37 200
+234 56 20 17 200
+animation crono_di_phai
+124 97 24 36 200
+147 97 24 36 200
+169 97 24 36 200
+193 97 24 36 200
+216 97 24 36 200
+238 97 24 36 200
+animation crono_dung_im_phai
+54 97 24 36 200
+animation crono_dung_im_len
+77 56 20 37 200
+animation crono_dung_im_xuong
+57 13 20 37 200

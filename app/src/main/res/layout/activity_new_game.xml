@@ -26,7 +26,7 @@
         tools:ignore="RtlSymmetry" />
 
     <ImageView
-        android:id="@+id/imageViewChronoAvatar"
+        android:id="@+id/imageViewAvatarNewGame"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginStart="100dp"
@@ -48,7 +48,7 @@
         android:paddingStart="150dp"
         android:paddingTop="20dp"
         android:theme="@style/NewGameInputLayout"
-        app:layout_constraintStart_toEndOf="@+id/imageViewChronoAvatar"
+        app:layout_constraintStart_toEndOf="@+id/imageViewAvatarNewGame"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitleNewGame"
         tools:ignore="RtlSymmetry">
 
@@ -77,11 +77,12 @@
         android:text="@string/activity_new_game_mac_dich"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        app:layout_constraintStart_toEndOf="@+id/imageViewChronoAvatar"
+        app:layout_constraintStart_toEndOf="@+id/imageViewAvatarNewGame"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
     <Button
         android:id="@+id/buttonConfirmNewGame"
+        android:textAllCaps="false"
         android:layout_width="190dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"

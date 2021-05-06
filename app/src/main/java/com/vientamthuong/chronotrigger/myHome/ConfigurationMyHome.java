@@ -12,5 +12,7 @@ public class ConfigurationMyHome {
     // Kích thước của mẹ
     public static final int WIDTH_MOTHER = 96;
     public static final int HEIGHT_MOTHER = 192;
-
+    // Kích thước của crono
+    public static final int WIDTH_CRONO = 144;
+    public static final int HEIGHT_CRONO = 216;
 }
