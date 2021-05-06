@@ -86,3 +86,6 @@ animation morther_crono_gio_tay_xuong
 image chrono_trigger_cronos_house_tang_tren_cau_thang
 animation tang_tren_cau_thang_my_home
 0 0 70 40 10000000
+image chrono_trigger_cronos_house_tang_tren_men
+animation tang_tren_men_my_home
+0 0 32 37 10000000

@@ -77,6 +77,13 @@ public class GameWorldMyHome {
         myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewFrontEnd, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
         FrontEndStairsFloorMyHome frontEndStairsFloorMyHome = new FrontEndStairsFloorMyHome(imageViewFrontEnd, 754, 990, 12, myHomeActivity, GameWorldMyHome.this);
         listObject.add(frontEndStairsFloorMyHome);
+        // Ảnh trước mền
+        ImageView imageViewBlanketFrontEnd = new ImageView(myHomeActivity);
+        imageViewBlanketFrontEnd.setScaleType(ImageView.ScaleType.MATRIX);
+        imageViewBlanketFrontEnd.setLayoutParams(new ViewGroup.LayoutParams(192, 222));
+        myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewBlanketFrontEnd, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
+        FrontEndBlanketMyHome frontEndBlanketMyHome = new FrontEndBlanketMyHome(imageViewBlanketFrontEnd, 812, 630, 12, myHomeActivity, GameWorldMyHome.this);
+        listObject.add(frontEndBlanketMyHome);
     }
 
     public void update() {
