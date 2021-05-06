@@ -4,11 +4,13 @@ public class SourceMain {
 
     private static SourceMain sourceMain;
     // Tên nhân vật
-    private String name;
+    private String nameCrono;
+    private String nameLucca;
 
     private SourceMain() {
         // Mặc định là chrono để làm các activity khác
-        name = "Chrono";
+        nameCrono = "Crono";
+        nameLucca = "Lucca";
     }
 
     public static SourceMain getInstance() {
@@ -19,11 +21,19 @@ public class SourceMain {
     }
 
     // GETTER AND SETTER
-    public String getName() {
-        return name;
+    public String getNameCrono() {
+        return nameCrono;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameCrono(String nameCrono) {
+        this.nameCrono = nameCrono;
+    }
+
+    public String getNameLucca() {
+        return nameLucca;
+    }
+
+    public void setNameLucca(String nameLucca) {
+        this.nameLucca = nameLucca;
     }
 }

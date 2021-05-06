@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_my_home_ground_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/activity_my_home_ground_backgroundMap"
+        android:layout_width="1536px"
+        android:layout_height="1260px"
+        tools:ignore="ContentDescription,PxUsage" />
+
+    <ImageView
+        android:id="@+id/activity_my_home_ground_imageView_fullScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:translationZ="999dp"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/activity_my_home_ground_noi_dung_doan_chat_tren"
+        android:layout_width="1640px"
+        android:layout_height="280px"
+        android:layout_x="270px"
+        android:layout_y="0px"
+        android:background="@drawable/text_all"
+        android:paddingStart="35dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="35dp"
+        android:scaleType="fitXY"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:translationZ="1000dp"
+        android:visibility="gone"
+        tools:ignore="ContentDescription,PxUsage" />
+
+    <TextView
+        android:id="@+id/activity_my_home_ground_noi_dung_doan_chat_duoi"
+        android:layout_width="1640px"
+        android:layout_height="280px"
+        android:layout_x="270px"
+        android:layout_y="800px"
+        android:background="@drawable/text_all"
+        android:paddingStart="35dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="35dp"
+        android:scaleType="fitXY"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:translationZ="1000dp"
+        android:visibility="gone"
+        tools:ignore="ContentDescription,PxUsage" />
+
+</AbsoluteLayout>

@@ -21,10 +21,11 @@
             android:name=".presonMap.PresonMapActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".myHome.MyHomeActivity"
+            android:name=".myHome.MyHomeGroundActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

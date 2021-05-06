@@ -235,7 +235,7 @@ public class GameWorldMyHome {
 
     public List<String> createFirstChat() {
         List<String> contentChats = new ArrayList<>();
-        String name = SourceMain.getInstance().getName();
+        String name = SourceMain.getInstance().getNameCrono();
         contentChats.add(name + "...");
         contentChats.add(name + "!");
         contentChats.add(name + ", con vẫn còn đang ngủ ư?");
@@ -244,7 +244,7 @@ public class GameWorldMyHome {
 
     private List<String> createSecondChat() {
         List<String> contentChats = new ArrayList<>();
-        String name = SourceMain.getInstance().getName();
+        String name = SourceMain.getInstance().getNameCrono();
         contentChats.add("Mẹ: Dậy nào, đồ ngủ nướng!\nĐã đến lúc thức dậy rồi!");
         return contentChats;
     }
