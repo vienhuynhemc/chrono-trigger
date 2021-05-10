@@ -44,6 +44,7 @@ public class GameWorldMyHome {
     // Các object của intro
     private MotherCronoUpFloor motherCronoUpFloor;
     private CatUpFloor catUpFloor;
+    private ChronoUpFloor chronoUpFloor;
 
     public GameWorldMyHome(MyHomeActivity myHomeActivity, GameThreadMyHome gameThreadMyHome, boolean isStartIntro) {
         this.myHomeActivity = myHomeActivity;
@@ -140,6 +141,16 @@ public class GameWorldMyHome {
                             // 2.2 Tạo mẹ
                             motherCronoUpFloor = new MotherCronoUpFloor(imageViewMother, 642 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 558, 11, myHomeActivity, GameWorldMyHome.this);
                             listObject.add(motherCronoUpFloor);
+                            // 3. Chrono up floor để chạy intro
+                            // 3.1 Tạo image view
+                            ImageView imageViewChronoUpfloor = new ImageView(myHomeActivity);
+                            imageViewChronoUpfloor.setScaleType(ImageView.ScaleType.MATRIX);
+                            // Vì ban đầu thằng này đứng hướng lên trên nên cho mặc định hướng lên trên
+                            imageViewChronoUpfloor.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_CHRONO_DIR_TOP, ConfigurationMyHome.HEIGHT_CHRONO_DIR_TOP));
+                            myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewChronoUpfloor, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
+                            // 3.2 Tạo chrono up floor
+                            chronoUpFloor = new ChronoUpFloor(imageViewChronoUpfloor, 972 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 558, 11, myHomeActivity, GameWorldMyHome.this);
+                            listObject.add(chronoUpFloor);
                             // Đổi text trên thành text dưới
                             myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().removeView(myHomeActivity.getTvShowTextTren()));
                             showTextMyHome.setTextView(myHomeActivity.getTvShowTextDuoi());
