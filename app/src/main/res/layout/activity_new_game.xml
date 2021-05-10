@@ -89,7 +89,6 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/text_window"
         android:text="@string/activity_new_game_xac_nhan"
-        android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@+id/buttonDefaultNewGame"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />

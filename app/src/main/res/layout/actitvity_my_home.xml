@@ -4,7 +4,8 @@
     android:id="@+id/activity_my_home_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
+    android:background="@color/black"
+    tools:ignore="Deprecated">
 
     <ImageView
         android:id="@+id/activity_my_home_backgroundMap"
