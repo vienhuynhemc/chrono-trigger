@@ -15,6 +15,7 @@ public class ChronoUpFloor implements Observer {
     private int state;
     public static final int DI = 0;
     public static final int DUNG_IM = 1;
+    public static final int LAC_DAU = 2;
     // Hướng
     private int dir;
     public static final int LEFT = 0;
@@ -34,6 +35,8 @@ public class ChronoUpFloor implements Observer {
     private final GameWorldMyHome gameWorldMyHome;
     // Thời gian update
     private long lastTimeUpdate;
+    // Count đếm trạng thái
+    private int count;
 
     public ChronoUpFloor(ImageView imageView, int x, int y, int z, AppCompatActivity appCompatActivity, GameWorldMyHome gameWorldMyHome) {
         this.imageView = imageView;
@@ -49,6 +52,8 @@ public class ChronoUpFloor implements Observer {
         // Khởi tạo ban đầu là đứng im và hướng là trên
         dir = TOP;
         state = DUNG_IM;
+        // Không làm gì hết
+        this.count = 0;
         // create animation
         hanhDongDungImLen = SourceAnimation.getInstance().getAnimation("crono_dung_im_len");
         // Set lại tọa độ theo camera
@@ -75,6 +80,14 @@ public class ChronoUpFloor implements Observer {
         if (lastTimeUpdate == 0) {
             lastTimeUpdate = System.currentTimeMillis();
         }
+        // count = 1 thì bắt đầu chạy
+        if (count == 1) {
+
+        }
+    }
+
+    public void start() {
+        this.count = 1;
     }
 
     @Override
@@ -89,6 +102,7 @@ public class ChronoUpFloor implements Observer {
                     hanhDongDungImLen.draw(imageView, appCompatActivity);
                 }
                 break;
+            case LAC_DAU:
         }
     }
 

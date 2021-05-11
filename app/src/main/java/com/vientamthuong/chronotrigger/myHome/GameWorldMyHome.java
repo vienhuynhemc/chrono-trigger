@@ -83,7 +83,7 @@ public class GameWorldMyHome {
         imageViewBlanketFrontEnd.setScaleType(ImageView.ScaleType.MATRIX);
         imageViewBlanketFrontEnd.setLayoutParams(new ViewGroup.LayoutParams(192, 222));
         myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewBlanketFrontEnd, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
-        FrontEndBlanketMyHome frontEndBlanketMyHome = new FrontEndBlanketMyHome(imageViewBlanketFrontEnd, 812, 630, 12, myHomeActivity, GameWorldMyHome.this);
+        FrontEndBlanketMyHome frontEndBlanketMyHome = new FrontEndBlanketMyHome(imageViewBlanketFrontEnd, 812 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 630, 12, myHomeActivity, GameWorldMyHome.this);
         listObject.add(frontEndBlanketMyHome);
     }
 
@@ -149,7 +149,7 @@ public class GameWorldMyHome {
                             imageViewChronoUpfloor.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_CHRONO_DIR_TOP, ConfigurationMyHome.HEIGHT_CHRONO_DIR_TOP));
                             myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewChronoUpfloor, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
                             // 3.2 Tạo chrono up floor
-                            chronoUpFloor = new ChronoUpFloor(imageViewChronoUpfloor, 972 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 558, 11, myHomeActivity, GameWorldMyHome.this);
+                            chronoUpFloor = new ChronoUpFloor(imageViewChronoUpfloor, 952 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 558, 11, myHomeActivity, GameWorldMyHome.this);
                             listObject.add(chronoUpFloor);
                             // Đổi text trên thành text dưới
                             myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().removeView(myHomeActivity.getTvShowTextTren()));
@@ -192,6 +192,8 @@ public class GameWorldMyHome {
                     motherCronoUpFloor.setStartMove3(true);
                     motherCronoUpFloor.setDir(MotherCronoUpFloor.BOTTOM);
                     motherCronoUpFloor.setState(MotherCronoUpFloor.DI);
+                    // Chrono lắc đầu
+                    chronoUpFloor.start();
                 }
                 break;
             case CHAT_FOUR:
