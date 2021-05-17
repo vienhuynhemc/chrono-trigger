@@ -1,5 +1,7 @@
 package com.vientamthuong.chronotrigger.myHome;
 
+import android.view.ViewGroup;
+import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +33,9 @@ public class ChronoUpFloor implements Observer {
     private int xDraw;
     private int yDraw;
     private Animation hanhDongDungImLen;
+    private Animation hanhDongLacDauTren;
+    private Animation hanhDongDiTrai;
+    private Animation hanhDongDungImXuong;
     private final AppCompatActivity appCompatActivity;
     private final GameWorldMyHome gameWorldMyHome;
     // Thời gian update
@@ -56,6 +61,10 @@ public class ChronoUpFloor implements Observer {
         this.count = 0;
         // create animation
         hanhDongDungImLen = SourceAnimation.getInstance().getAnimation("crono_dung_im_len");
+        hanhDongDungImXuong = SourceAnimation.getInstance().getAnimation("crono_dung_im_xuong");
+        hanhDongDiTrai = SourceAnimation.getInstance().getAnimation("crono_di_phai");
+        hanhDongDiTrai.flip();
+        hanhDongLacDauTren = SourceAnimation.getInstance().getAnimation("crono_lac_dau_tren");
         // Set lại tọa độ theo camera
         xDraw = x - gameWorldMyHome.getCameraMyHome().getX();
         yDraw = y - gameWorldMyHome.getCameraMyHome().getY();
@@ -82,12 +91,41 @@ public class ChronoUpFloor implements Observer {
         }
         // count = 1 thì bắt đầu chạy
         if (count == 1) {
-
+            dir = TOP;
+            state = LAC_DAU;
+            lastTimeUpdate = System.currentTimeMillis();
+            count++;
+        } else if (count == 2) {
+            if (System.currentTimeMillis() - lastTimeUpdate > 5000) {
+                lastTimeUpdate = System.currentTimeMillis();
+                count++;
+                state = DUNG_IM;
+            }
+        } else if (count == 4) {
+            if (dir == TOP) {
+                dir = LEFT;
+                state = DI;
+                appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(144, 216))));
+            }
+            if (x > 1102) {
+                x--;
+            } else {
+                count++;
+                dir = BOTTOM;
+                state = DUNG_IM;
+                lastTimeUpdate = System.currentTimeMillis();
+                appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(120, 222))));
+            }
+        } else if (count == 5) {
+            if (System.currentTimeMillis() - lastTimeUpdate > 2000) {
+                count++;
+                // xong chrono , tạo crono chơi
+            }
         }
     }
 
     public void start() {
-        this.count = 1;
+        count++;
     }
 
     @Override
@@ -100,15 +138,28 @@ public class ChronoUpFloor implements Observer {
                 } else if (dir == TOP) {
                     hanhDongDungImLen.update();
                     hanhDongDungImLen.draw(imageView, appCompatActivity);
+                } else if (dir == BOTTOM) {
+                    hanhDongDungImXuong.update();
+                    hanhDongDungImXuong.draw(imageView, appCompatActivity);
                 }
                 break;
             case LAC_DAU:
+                if (dir == TOP) {
+                    hanhDongLacDauTren.update();
+                    hanhDongLacDauTren.draw(imageView, appCompatActivity);
+                }
+                break;
+            case DI:
+                if (dir == LEFT) {
+                    hanhDongDiTrai.update();
+                    hanhDongDiTrai.draw(imageView, appCompatActivity);
+                }
         }
     }
 
     @Override
     public boolean isOutCamera() {
-        return false;
+        return count == 6;
     }
 
     @Override

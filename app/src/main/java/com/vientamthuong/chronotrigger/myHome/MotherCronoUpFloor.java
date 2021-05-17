@@ -117,6 +117,8 @@ public class MotherCronoUpFloor implements Observer {
                     state = GIO_TAY;
                     lastTimeUpdate = System.currentTimeMillis();
                     SourceSound.getInstance().play("flap_once", ConfigurationSound.NOREPEAT);
+                    // Chrono lắc đầu
+                    gameWorldMyHome.getChronoUpFloor().start();
                 } else {
                     if (System.currentTimeMillis() - lastTimeUpdate > 500) {
                         state = DUNG_IM;
@@ -163,6 +165,8 @@ public class MotherCronoUpFloor implements Observer {
                 } else {
                     dir = RIGHT;
                     countStartMove5++;
+                    // Lúc này cho crono đi sang phải
+                    gameWorldMyHome.getChronoUpFloor().start();
                 }
             } else if (countStartMove5 == 1) {
                 if (x < 766) {

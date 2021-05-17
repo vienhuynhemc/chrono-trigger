@@ -102,7 +102,7 @@ animation crono_di_len
 171 56 20 37 200
 191 56 20 37 200
 212 56 20 37 200
-234 56 20 17 200
+234 56 20 37 200
 animation crono_di_phai
 124 97 24 36 200
 147 97 24 36 200
@@ -116,6 +116,11 @@ animation crono_dung_im_len
 77 56 20 37 200
 animation crono_dung_im_xuong
 57 13 20 37 200
+animation crono_lac_dau_tren
+147 224 20 37 200
+167 224 20 37 200
+187 224 20 37 200
+167 224 20 37 200
 image chrono_trigger_cronos_house_tang_tren_men
 animation tang_tren_men_my_home
 0 0 32 37 10000000
