@@ -10,6 +10,7 @@ import com.vientamthuong.chronotrigger.data.SourceAnimation;
 import com.vientamthuong.chronotrigger.gameEffect.Animation;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
 import com.vientamthuong.chronotrigger.mainCharacter.Chrono;
+import com.vientamthuong.chronotrigger.mainModel.GameWorld;
 
 public class ChronoUpFloor implements Observer {
 
@@ -107,7 +108,7 @@ public class ChronoUpFloor implements Observer {
                 state = DI;
                 appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(144, 216))));
             }
-            if (x > 1102) {
+            if (x > 1092) {
                 x--;
             } else {
                 count++;
@@ -120,6 +121,7 @@ public class ChronoUpFloor implements Observer {
             if (System.currentTimeMillis() - lastTimeUpdate > 2000) {
                 count++;
                 // xong chrono , tạo crono chơi
+                gameWorldMyHome.setState(GameWorldMyHome.CREATE_CHRONO_PLAY);
             }
         }
     }

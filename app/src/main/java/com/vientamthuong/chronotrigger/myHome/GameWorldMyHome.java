@@ -1,17 +1,20 @@
 package com.vientamthuong.chronotrigger.myHome;
 
 import android.view.ViewGroup;
+import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 
 import com.vientamthuong.chronotrigger.data.SourceMain;
 import com.vientamthuong.chronotrigger.data.SourceSound;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
 import com.vientamthuong.chronotrigger.loadData.ConfigurationSound;
+import com.vientamthuong.chronotrigger.mainCharacter.Chrono;
+import com.vientamthuong.chronotrigger.mainModel.GameWorld;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameWorldMyHome {
+public class GameWorldMyHome implements GameWorld {
     // State
     private int state;
     public static final int START_INTRO = 0;
@@ -20,6 +23,8 @@ public class GameWorldMyHome {
     public static final int CHAT_THIRD = 3;
     public static final int CHAT_FOUR = 4;
     public static final int CHAT_FIVE = 5;
+    public static final int NONE = 6;
+    public static final int CREATE_CHRONO_PLAY = 7;
     // List các object
     private final List<Observer> listObject;
     private MyHomeActivity myHomeActivity;
@@ -45,6 +50,7 @@ public class GameWorldMyHome {
     private MotherCronoUpFloor motherCronoUpFloor;
     private CatUpFloor catUpFloor;
     private ChronoUpFloor chronoUpFloor;
+    private Chrono chrono;
 
     public GameWorldMyHome(MyHomeActivity myHomeActivity, GameThreadMyHome gameThreadMyHome, boolean isStartIntro) {
         this.myHomeActivity = myHomeActivity;
@@ -210,6 +216,17 @@ public class GameWorldMyHome {
                 break;
             case START_NO_INTRO:
                 break;
+            case NONE:
+                break;
+            case CREATE_CHRONO_PLAY:
+                ImageView imageViewChronoUpfloor = new ImageView(myHomeActivity);
+                imageViewChronoUpfloor.setScaleType(ImageView.ScaleType.MATRIX);
+                imageViewChronoUpfloor.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_CHRONO_DIR_TOP, ConfigurationMyHome.HEIGHT_CHRONO_DIR_TOP));
+                myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewChronoUpfloor, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
+                chrono = new Chrono(imageViewChronoUpfloor, 1092, 548, 999, myHomeActivity, GameWorldMyHome.this, Chrono.BOTTOM, Chrono.DUNG_IM);
+                listObject.add(chrono);
+                state = NONE;
+                break;
         }
 
         // Update dành cho show text my home
@@ -296,5 +313,21 @@ public class GameWorldMyHome {
 
     public ChronoUpFloor getChronoUpFloor() {
         return chronoUpFloor;
+    }
+
+
+    @Override
+    public int getXCamera() {
+        return cameraMyHome.getX();
+    }
+
+    @Override
+    public int getYCamera() {
+        return cameraMyHome.getY();
+    }
+
+    @Override
+    public AbsoluteLayout getAbsoluteLayout() {
+        return myHomeActivity.getAbsoluteLayout();
     }
 }
