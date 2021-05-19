@@ -8,6 +8,7 @@ import com.vientamthuong.chronotrigger.data.SourceAnimation;
 import com.vientamthuong.chronotrigger.gameEffect.Animation;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
 import com.vientamthuong.chronotrigger.mainModel.GameWorld;
+import com.vientamthuong.chronotrigger.mainModel.Joystick;
 import com.vientamthuong.chronotrigger.myHome.GameWorldMyHome;
 
 public class Chrono implements Observer {
@@ -60,6 +61,8 @@ public class Chrono implements Observer {
         imageView.setY(yDraw);
         // Cập nhật lại tạo độ của z
         imageView.setTranslationZ(z);
+        // Tạo bộ điều kiển
+        gameWorld.setJoystick(new Joystick(1000, gameWorld));
     }
 
     @Override

@@ -119,9 +119,9 @@ public class ChronoUpFloor implements Observer {
             }
         } else if (count == 5) {
             if (System.currentTimeMillis() - lastTimeUpdate > 2000) {
-                count++;
                 // xong chrono , tạo crono chơi
                 gameWorldMyHome.setState(GameWorldMyHome.CREATE_CHRONO_PLAY);
+                count++;
             }
         }
     }

@@ -1,45 +1,73 @@
 package com.vientamthuong.chronotrigger.mainModel;
 
-import android.media.Image;
+import android.view.ViewGroup;
+import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
+
+import com.vientamthuong.chronotrigger.R;
 
 public class Joystick {
 
-    private int duongKinhVongTronLon;
-    private int duongKinhVongtronNho;
+    private int banKinhVongTronLon;
     private int x_vongTronLon;
     private int y_vongTronLonY;
     private int x_vongTronNho;
     private int y_vongTronNho;
-    private ImageView imageViewVongTronLon;
-    private ImageView imageViewVongTronNho;
+    private int z;
 
-    public Joystick(int duongKinhVongTronLon, int duongKinhVongtronNho, int x_vongTronLon, int y_vongTronLonY, int x_vongTronNho, int y_vongTronNho, ImageView imageViewVongTronLon, ImageView imageViewVongTronNho) {
-        this.duongKinhVongTronLon = duongKinhVongTronLon;
-        this.duongKinhVongtronNho = duongKinhVongtronNho;
-        this.x_vongTronLon = x_vongTronLon;
-        this.y_vongTronLonY = y_vongTronLonY;
-        this.x_vongTronNho = x_vongTronNho;
-        this.y_vongTronNho = y_vongTronNho;
-        this.imageViewVongTronLon = imageViewVongTronLon;
-        this.imageViewVongTronNho = imageViewVongTronNho;
+    private ImageView imageViewOuter;
+    private ImageView imageViewInner;
+
+    private GameWorld gameWorld;
+
+    public Joystick(int z, GameWorld gameWorld) {
+        this.x_vongTronLon = 0;
+        this.y_vongTronLonY = 0;
+        this.x_vongTronNho = 0;
+        this.y_vongTronNho = 0;
+        this.banKinhVongTronLon = 140;
+        this.gameWorld = gameWorld;
+        this.z = z;
+        // Tạo joystick
+        create();
     }
 
+    public void update(){
 
-    public int getDuongKinhVongTronLon() {
-        return duongKinhVongTronLon;
     }
 
-    public void setDuongKinhVongTronLon(int duongKinhVongTronLon) {
-        this.duongKinhVongTronLon = duongKinhVongTronLon;
+    public void draw(){
+
     }
 
-    public int getDuongKinhVongtronNho() {
-        return duongKinhVongtronNho;
+    private void create() {
+        imageViewOuter = new ImageView(gameWorld.getAppCompatActivity());
+        imageViewOuter.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(280, 280)));
+        imageViewOuter.setX(122);
+        imageViewOuter.setY(690);
+        imageViewOuter.setTranslationZ(z);
+        imageViewOuter.setImageResource(R.drawable.circle_joystick);
+        gameWorld.getAppCompatActivity().runOnUiThread(() -> {
+            gameWorld.getAbsoluteLayout().addView(imageViewOuter);
+        });
+
+        imageViewInner = new ImageView(gameWorld.getAbsoluteLayout().getContext());
+        imageViewInner.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(220, 220)));
+        imageViewInner.setX(152);
+        imageViewInner.setY(720);
+        imageViewInner.setTranslationZ(z);
+        imageViewInner.setImageResource(R.drawable.circle_joystick_inner);
+        gameWorld.getAppCompatActivity().runOnUiThread(() -> {
+            gameWorld.getAbsoluteLayout().addView(imageViewInner);
+        });
     }
 
-    public void setDuongKinhVongtronNho(int duongKinhVongtronNho) {
-        this.duongKinhVongtronNho = duongKinhVongtronNho;
+    public int getBanKinhVongTronLon() {
+        return banKinhVongTronLon;
+    }
+
+    public void setBanKinhVongTronLon(int banKinhVongTronLon) {
+        this.banKinhVongTronLon = banKinhVongTronLon;
     }
 
     public int getX_vongTronLon() {
@@ -74,19 +102,35 @@ public class Joystick {
         this.y_vongTronNho = y_vongTronNho;
     }
 
-    public ImageView getImageViewVongTronLon() {
-        return imageViewVongTronLon;
+    public int getZ() {
+        return z;
     }
 
-    public void setImageViewVongTronLon(ImageView imageViewVongTronLon) {
-        this.imageViewVongTronLon = imageViewVongTronLon;
+    public void setZ(int z) {
+        this.z = z;
     }
 
-    public ImageView getImageViewVongTronNho() {
-        return imageViewVongTronNho;
+    public ImageView getImageViewOuter() {
+        return imageViewOuter;
     }
 
-    public void setImageViewVongTronNho(ImageView imageViewVongTronNho) {
-        this.imageViewVongTronNho = imageViewVongTronNho;
+    public void setImageViewOuter(ImageView imageViewOuter) {
+        this.imageViewOuter = imageViewOuter;
+    }
+
+    public ImageView getImageViewInner() {
+        return imageViewInner;
+    }
+
+    public void setImageViewInner(ImageView imageViewInner) {
+        this.imageViewInner = imageViewInner;
+    }
+
+    public GameWorld getGameWorld() {
+        return gameWorld;
+    }
+
+    public void setGameWorld(GameWorld gameWorld) {
+        this.gameWorld = gameWorld;
     }
 }

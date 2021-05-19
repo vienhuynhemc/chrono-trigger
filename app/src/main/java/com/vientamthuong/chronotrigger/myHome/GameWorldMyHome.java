@@ -4,12 +4,15 @@ import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.vientamthuong.chronotrigger.data.SourceMain;
 import com.vientamthuong.chronotrigger.data.SourceSound;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
 import com.vientamthuong.chronotrigger.loadData.ConfigurationSound;
 import com.vientamthuong.chronotrigger.mainCharacter.Chrono;
 import com.vientamthuong.chronotrigger.mainModel.GameWorld;
+import com.vientamthuong.chronotrigger.mainModel.Joystick;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +54,7 @@ public class GameWorldMyHome implements GameWorld {
     private CatUpFloor catUpFloor;
     private ChronoUpFloor chronoUpFloor;
     private Chrono chrono;
+    private Joystick joystick;
 
     public GameWorldMyHome(MyHomeActivity myHomeActivity, GameThreadMyHome gameThreadMyHome, boolean isStartIntro) {
         this.myHomeActivity = myHomeActivity;
@@ -91,6 +95,11 @@ public class GameWorldMyHome implements GameWorld {
         myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewBlanketFrontEnd, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
         FrontEndBlanketMyHome frontEndBlanketMyHome = new FrontEndBlanketMyHome(imageViewBlanketFrontEnd, 912 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 630, 12, myHomeActivity, GameWorldMyHome.this);
         listObject.add(frontEndBlanketMyHome);
+        // aciton
+        myHomeActivity.getAbsoluteLayout().setOnTouchListener((v, event) -> {
+            System.out.println(event.getX() + " " + event.getY() + " - " + event.getRawX() + " " + event.getRawY());
+            return true;
+        });
     }
 
     public void update() {
@@ -329,5 +338,20 @@ public class GameWorldMyHome implements GameWorld {
     @Override
     public AbsoluteLayout getAbsoluteLayout() {
         return myHomeActivity.getAbsoluteLayout();
+    }
+
+    @Override
+    public AppCompatActivity getAppCompatActivity() {
+        return myHomeActivity;
+    }
+
+    @Override
+    public Joystick getJoystick() {
+        return joystick;
+    }
+
+    @Override
+    public void setJoystick(Joystick joystick) {
+        this.joystick = joystick;
     }
 }
