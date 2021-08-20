@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
             // Chuyển qua activity new game
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, NewGameActivity.class);
+            intent.putExtra("name","crono");
+            intent.putExtra("isStartIntro",true);
             startActivity(intent);
             SourceSound.getInstance().stopBackgroundSound();
         });

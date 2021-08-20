@@ -2,6 +2,7 @@ package com.vientamthuong.chronotrigger.myHome;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
@@ -37,29 +38,31 @@ public class MyHomeGroundActivity extends AppCompatActivity {
 
         run();
     }
+
     //Ánh xạ các view
-    public void getView(){
+    public void getView() {
         ivFullScreenGround = findViewById(R.id.activity_my_home_ground_imageView_fullScreen);
         ivBackgroundMapGround = findViewById(R.id.activity_my_home_ground_backgroundMap);
         tvShowTextTren = findViewById(R.id.activity_my_home_ground_noi_dung_doan_chat_tren);
         tvShowTextDuoi = findViewById(R.id.activity_my_home_ground_noi_dung_doan_chat_duoi);
         absoluteLayout = findViewById(R.id.activity_my_home_ground_layout);
     }
+
     private void init() {
-//        // -----------------Đoạn này là đọan ráp vô code gốc -------------------
-//        // Lấy thuộc tính xem thử có chạy intro
-//        Intent intent = getIntent();
-//        Bundle bundle = intent.getBundleExtra("data");
-//        boolean isStartIntro = bundle.getBoolean("isStartIntro");
-//        gameThreadMyHome = new GameThreadMyHome(MyHomeActivity.this, isStartIntro);
-//        gameThreadMyHome.setRunning(true);
-//        //----------------------------------------------------------------------
-        // load Sound
-        SourceSound.getInstance().loadSound(MyHomeGroundActivity.this);
-        // Load animation
-        SourceAnimation.getInstance().loadAnimation(MyHomeGroundActivity.this);
-        gameThreadMyHomeGround = new GameThreadMyHomeGround(MyHomeGroundActivity.this, false);
+        // -----------------Đoạn này là đọan ráp vô code gốc -------------------
+        // Lấy thuộc tính xem thử có chạy intro
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("data");
+        boolean isStartIntro = bundle.getBoolean("isStartIntro");
+        gameThreadMyHomeGround = new GameThreadMyHomeGround(MyHomeGroundActivity.this, isStartIntro);
         gameThreadMyHomeGround.setRunning(true);
+        //----------------------------------------------------------------------
+//         load Sound
+//        SourceSound.getInstance().loadSound(MyHomeGroundActivity.this);
+        // Load animation
+//        SourceAnimation.getInstance().loadAnimation(MyHomeGroundActivity.this);
+//        gameThreadMyHomeGround = new GameThreadMyHomeGround(MyHomeGroundActivity.this, false);
+//        gameThreadMyHomeGround.setRunning(true);
     }
 
     private void run() {

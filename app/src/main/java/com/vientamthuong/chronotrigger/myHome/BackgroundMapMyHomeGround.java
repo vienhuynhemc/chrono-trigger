@@ -34,12 +34,9 @@ public class BackgroundMapMyHomeGround implements Observer {
     }
 
     private void init() {
-        // Animation của backgroundmap
-        Animation animationMyHomeGround = SourceAnimation.getInstance().getAnimation("my_home_background_ground");
-        // animation ground không cho lập lại
-        animationMyHomeGround.setRepeat(false);
         // Mặc định là tối
-        currentAnimation = animationMyHomeGround;
+        currentAnimation = SourceAnimation.getInstance().getAnimation("my_home_background_ground");
+        currentAnimation.setRepeat(false);
     }
 
 
@@ -67,6 +64,22 @@ public class BackgroundMapMyHomeGround implements Observer {
     @Override
     public boolean isOutCamera() {
         return false;
+    }
+
+    public double getX() {
+        return imageView.getX();
+    }
+
+    public double getY() {
+        return imageView.getY();
+    }
+
+    public int getWidth() {
+        return imageView.getWidth();
+    }
+
+    public int getHeight() {
+        return imageView.getHeight();
     }
 
 }

@@ -1,20 +1,29 @@
 package com.vientamthuong.chronotrigger.myHome;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
+import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.vientamthuong.chronotrigger.data.SourceMain;
 import com.vientamthuong.chronotrigger.data.SourceSound;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
+import com.vientamthuong.chronotrigger.loadData.ConfigurationSound;
+import com.vientamthuong.chronotrigger.mainCharacter.Chrono;
+import com.vientamthuong.chronotrigger.mainModel.GameWorld;
+import com.vientamthuong.chronotrigger.mainModel.Joystick;
 import com.vientamthuong.chronotrigger.newGame.NewGameActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameWorldMyHomeGround {
+public class GameWorldMyHomeGround implements GameWorld {
     // State
     private int state;
     public static final int START_INTRO = 0;
@@ -24,6 +33,8 @@ public class GameWorldMyHomeGround {
     public static final int CHAT_SECOND = 4;
     public static final int CHAT_THREE = 5;
     public static final int CHAT_FOUR = 6;
+    public static final int CREATE_CHRONO_PLAY = 7;
+    public static final int NONE = 8;
     // List các object
     private final List<Observer> listObject;
     private MyHomeGroundActivity myHomeGroundActivity;
@@ -49,6 +60,9 @@ public class GameWorldMyHomeGround {
     private MotherCronoGround motherCronoGround;
     private CatInGround catInGround;
     private CronoMyHomeGround cronoMyHomeGround;
+    private Chrono chrono;
+    private Joystick joystick;
+    private GateToUp gateToUp;
 
     public GameWorldMyHomeGround(MyHomeGroundActivity myHomeGroundActivity, GameThreadMyHomeGround gameThreadMyHomeGround, boolean isStartIntro) {
         this.myHomeGroundActivity = myHomeGroundActivity;
@@ -59,6 +73,7 @@ public class GameWorldMyHomeGround {
         init();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void init() {
         showTextMyHome = new ShowTextMyHome(myHomeGroundActivity.getTvShowTextTren(), myHomeGroundActivity);
         // xét xem có chạy intro hay không
@@ -75,6 +90,40 @@ public class GameWorldMyHomeGround {
         // Back ground map
         backgroundMapMyHomeGround = new BackgroundMapMyHomeGround(myHomeGroundActivity.getIvBackgroundMapGround(), myHomeGroundActivity, GameWorldMyHomeGround.this);
         listObject.add(backgroundMapMyHomeGround);
+        // gate
+        gateToUp = new GateToUp(852 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 288, 204, 192, GameWorldMyHomeGround.this);
+        // aciton di chuyển bằng joustick
+        myHomeGroundActivity.getAbsoluteLayout().setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (joystick != null) {
+                        if (joystick.isPressed(event.getX(), event.getY())) {
+                            joystick.setPressed(true);
+                            if (chrono != null) {
+                                chrono.setState(Chrono.DI);
+                            }
+                        }
+                    }
+                    return true;
+                case MotionEvent.ACTION_MOVE:
+                    if (joystick != null) {
+                        if (joystick.isPressed()) {
+                            joystick.setActuator(event.getX(), event.getY());
+                        }
+                    }
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    if (joystick != null) {
+                        joystick.setPressed(false);
+                        joystick.resetActuator();
+                    }
+                    if (chrono != null) {
+                        chrono.setState(Chrono.DUNG_IM);
+                    }
+                    return true;
+            }
+            return true;
+        });
     }
 
     public void update() {
@@ -104,12 +153,11 @@ public class GameWorldMyHomeGround {
                 myHomeGroundActivity.runOnUiThread(() -> myHomeGroundActivity.getAbsoluteLayout().addView(imageViewMother, myHomeGroundActivity.getAbsoluteLayout().getChildCount() - 2));
                 // 2.2 Tạo mẹ
                 motherCronoGround = new MotherCronoGround(imageViewMother, 1200 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 600, 12, myHomeGroundActivity, GameWorldMyHomeGround.this);
-
                 listObject.add(motherCronoGround);
                 //tạo image view crono
                 ImageView imageViewCrono = new ImageView(myHomeGroundActivity);
                 imageViewCrono.setScaleType(ImageView.ScaleType.MATRIX);
-                imageViewCrono.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_CRONO, ConfigurationMyHome.HEIGHT_CRONO));
+                imageViewCrono.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(144, 216)));
                 myHomeGroundActivity.runOnUiThread(() -> myHomeGroundActivity.getAbsoluteLayout().addView(imageViewCrono, myHomeGroundActivity.getAbsoluteLayout().getChildCount() - 2));
 
                 cronoMyHomeGround = new CronoMyHomeGround(imageViewCrono, 800 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 40, 11, myHomeGroundActivity, GameWorldMyHomeGround.this);
@@ -153,6 +201,51 @@ public class GameWorldMyHomeGround {
                     state = STATE_SLEEP;
                 }
                 break;
+            case CREATE_CHRONO_PLAY:
+                ImageView imageViewChronoUpfloor = new ImageView(myHomeGroundActivity);
+                imageViewChronoUpfloor.setScaleType(ImageView.ScaleType.MATRIX);
+                imageViewChronoUpfloor.setLayoutParams(new ViewGroup.LayoutParams(120, ConfigurationMyHome.HEIGHT_CHRONO_DIR_TOP));
+                myHomeGroundActivity.runOnUiThread(() -> myHomeGroundActivity.getAbsoluteLayout().addView(imageViewChronoUpfloor, myHomeGroundActivity.getAbsoluteLayout().getChildCount() - 2));
+                chrono = new Chrono(imageViewChronoUpfloor, 1500, 418, 999, myHomeGroundActivity, GameWorldMyHomeGround.this, Chrono.BOTTOM, Chrono.DUNG_IM);
+                listObject.add(chrono);
+                state = NONE;
+                break;
+            case NONE:
+                break;
+            case START_NO_INTRO:
+                // Ẩn full screen
+                objectFullScreenMyHomeGround.hiddenView();
+                objectFullScreenMyHomeGround.setHidden(true);
+                // 1.Mèo
+                // 1.1 Tạo image view cho con mèo
+                imageViewCat = new ImageView(myHomeGroundActivity);
+                imageViewCat.setScaleType(ImageView.ScaleType.MATRIX);
+                imageViewCat.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_CAT, ConfigurationMyHome.HEIGHT_CAT));
+                myHomeGroundActivity.runOnUiThread(() -> myHomeGroundActivity.getAbsoluteLayout().addView(imageViewCat, myHomeGroundActivity.getAbsoluteLayout().getChildCount() - 2));
+                // 1.2 Tạo mèo
+                catInGround = new CatInGround(imageViewCat, 700 + ConfigurationMyHome.X_BACKGROUNMAP_UP,
+                        1000, 10,
+                        myHomeGroundActivity, GameWorldMyHomeGround.this);
+                catInGround.setStartMove1(true);
+                listObject.add(catInGround);
+                // 2.Mẹ
+                // 2.1 Taoj image view cho mẹ
+                imageViewMother = new ImageView(myHomeGroundActivity);
+                imageViewMother.setScaleType(ImageView.ScaleType.MATRIX);
+                imageViewMother.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_MOTHER, ConfigurationMyHome.HEIGHT_MOTHER));
+                myHomeGroundActivity.runOnUiThread(() -> myHomeGroundActivity.getAbsoluteLayout().addView(imageViewMother, myHomeGroundActivity.getAbsoluteLayout().getChildCount() - 2));
+                // 2.2 Tạo mẹ
+                motherCronoGround = new MotherCronoGround(imageViewMother, 900, 400, 12, myHomeGroundActivity, GameWorldMyHomeGround.this);
+                listObject.add(motherCronoGround);
+                // Tạo nhân vật
+                imageViewChronoUpfloor = new ImageView(myHomeGroundActivity);
+                imageViewChronoUpfloor.setScaleType(ImageView.ScaleType.MATRIX);
+                imageViewChronoUpfloor.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_CHRONO_DIR_TOP, ConfigurationMyHome.HEIGHT_CHRONO_DIR_TOP));
+                myHomeGroundActivity.runOnUiThread(() -> myHomeGroundActivity.getAbsoluteLayout().addView(imageViewChronoUpfloor, myHomeGroundActivity.getAbsoluteLayout().getChildCount() - 2));
+                chrono = new Chrono(imageViewChronoUpfloor, 1500, 418, 999, myHomeGroundActivity, GameWorldMyHomeGround.this, Chrono.BOTTOM, Chrono.DUNG_IM);
+                listObject.add(chrono);
+                state = NONE;
+                break;
         }
 
 
@@ -177,6 +270,20 @@ public class GameWorldMyHomeGround {
                 count++;
             }
         }
+
+        // update joystick
+        if (this.joystick != null) {
+            this.joystick.update();
+        }
+
+        // update camera
+        for (int i = 0; i < 4; i++) {
+            cameraMyHomeGround.update();
+        }
+
+        // update gate
+        gateToUp.update();
+
     }
 
     public void draw() {
@@ -185,6 +292,12 @@ public class GameWorldMyHomeGround {
         while (count < listObject.size()) {
             listObject.get(count).draw();
             count++;
+        }
+
+        // vẽ joystick
+        // Không vẽ joystick khi đang chạy intro
+        if (this.getState() == NONE && joystick != null) {
+            joystick.draw();
         }
     }
 
@@ -227,5 +340,51 @@ public class GameWorldMyHomeGround {
 
     public BackgroundMapMyHomeGround getBackgroundMapMyHomeGround() {
         return backgroundMapMyHomeGround;
+    }
+
+    @Override
+    public int getXCamera() {
+        return cameraMyHomeGround.getX();
+    }
+
+    @Override
+    public int getYCamera() {
+        return cameraMyHomeGround.getY();
+    }
+
+    @Override
+    public AbsoluteLayout getAbsoluteLayout() {
+        return myHomeGroundActivity.getAbsoluteLayout();
+    }
+
+    @Override
+    public AppCompatActivity getAppCompatActivity() {
+        return myHomeGroundActivity;
+    }
+
+    @Override
+    public Joystick getJoystick() {
+        return joystick;
+    }
+
+    @Override
+    public void setJoystick(Joystick joystick) {
+        this.joystick = joystick;
+    }
+
+    public CronoMyHomeGround getCronoMyHomeGround() {
+        return cronoMyHomeGround;
+    }
+
+    public MyHomeGroundActivity getMyHomeGroundActivity() {
+        return myHomeGroundActivity;
+    }
+
+    public Chrono getChrono() {
+        return chrono;
+    }
+
+    public GameThreadMyHomeGround getGameThreadMyHomeGround() {
+        return gameThreadMyHomeGround;
     }
 }

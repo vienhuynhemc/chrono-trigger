@@ -1,5 +1,6 @@
 package com.vientamthuong.chronotrigger.myHome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsoluteLayout;
@@ -46,18 +47,18 @@ public class MyHomeActivity extends AppCompatActivity {
     private void init() {
 //        // -----------------Đoạn này là đọan ráp vô code gốc -------------------
 //        // Lấy thuộc tính xem thử có chạy intro
-//        Intent intent = getIntent();
-//        Bundle bundle = intent.getBundleExtra("data");
-//        boolean isStartIntro = bundle.getBoolean("isStartIntro");
-//        gameThreadMyHome = new GameThreadMyHome(MyHomeActivity.this, isStartIntro);
-//        gameThreadMyHome.setRunning(true);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("data");
+        boolean isStartIntro = bundle.getBoolean("isStartIntro");
+        gameThreadMyHome = new GameThreadMyHome(MyHomeActivity.this, isStartIntro);
+        gameThreadMyHome.setRunning(true);
 //        //----------------------------------------------------------------------
         // load Sound
-        SourceSound.getInstance().loadSound(MyHomeActivity.this);
-        // Load animation
-        SourceAnimation.getInstance().loadAnimation(MyHomeActivity.this);
-        gameThreadMyHome = new GameThreadMyHome(MyHomeActivity.this, false);
-        gameThreadMyHome.setRunning(true);
+//        SourceSound.getInstance().loadSound(MyHomeActivity.this);
+//        // Load animation
+//        SourceAnimation.getInstance().loadAnimation(MyHomeActivity.this);
+//        gameThreadMyHome = new GameThreadMyHome(MyHomeActivity.this, false);
+//        gameThreadMyHome.setRunning(true);
     }
 
     private void run() {

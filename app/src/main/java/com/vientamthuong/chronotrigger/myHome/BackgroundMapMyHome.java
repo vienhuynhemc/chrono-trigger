@@ -44,7 +44,7 @@ public class BackgroundMapMyHome implements Observer {
         // animation light không cho lập lại
         animationLight.setRepeat(false);
         // Mặc định là tối
-        currentAnimation = animationDark;
+        currentAnimation = SourceMain.getInstance().isOpenWindown()?animationLight:animationDark;
     }
 
     public void changeToLight() {
