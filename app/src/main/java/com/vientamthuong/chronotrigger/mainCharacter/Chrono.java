@@ -1,5 +1,7 @@
 package com.vientamthuong.chronotrigger.mainCharacter;
 
+import android.view.ViewGroup;
+import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -89,6 +91,8 @@ public class Chrono implements Observer {
         if (state == DI) {
             x += gameWorld.getJoystick().getActuatorX() * MAX_SPEED;
             y += gameWorld.getJoystick().getActuatorY() * MAX_SPEED;
+            // Cập nhật lại hướng của crono
+            updateDir();
         }
         // Set lại tọa độ theo camera
         xDraw = x - gameWorld.getXCamera();
@@ -104,6 +108,40 @@ public class Chrono implements Observer {
         }
     }
 
+    private void updateDir() {
+        if (this.gameWorld.getJoystick() != null) {
+            if (gameWorld.getJoystick().getActuatorY() <= 0) {
+                double x =  Math.abs(gameWorld.getJoystick().getActuatorX());
+                double y =  Math.abs(gameWorld.getJoystick().getActuatorY());
+                if (y >= x) {
+                    appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(120, 222))));
+                    dir = TOP;
+                } else {
+                    appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(144, 216))));
+                    if (gameWorld.getJoystick().getActuatorX() >= 0) {
+                        dir = RIGHT;
+                    } else {
+                        dir = LEFT;
+                    }
+                }
+            } else {
+                double x =  Math.abs(gameWorld.getJoystick().getActuatorX());
+                double y =  Math.abs(gameWorld.getJoystick().getActuatorY());
+                if (y >= x) {
+                    appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(120, 222))));
+                    dir = BOTTOM;
+                } else {
+                    appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(144, 216))));
+                    if (gameWorld.getJoystick().getActuatorX() >= 0) {
+                        dir = RIGHT;
+                    } else {
+                        dir = LEFT;
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public void draw() {
         // update and draw animation
@@ -112,12 +150,30 @@ public class Chrono implements Observer {
                 if (dir == BOTTOM) {
                     hanhDongDungImXuong.update();
                     hanhDongDungImXuong.draw(imageView, appCompatActivity);
+                } else if (dir == TOP) {
+                    hanhDongDungImLen.update();
+                    hanhDongDungImLen.draw(imageView, appCompatActivity);
+                } else if (dir == LEFT) {
+                    hanhDongDungImTrai.update();
+                    hanhDongDungImTrai.draw(imageView, appCompatActivity);
+                } else if (dir == RIGHT) {
+                    hanhDongDungImPhai.update();
+                    hanhDongDungImPhai.draw(imageView, appCompatActivity);
                 }
                 break;
             case DI:
                 if (dir == BOTTOM) {
                     hanhDongDiXuong.update();
                     hanhDongDiXuong.draw(imageView, appCompatActivity);
+                } else if (dir == TOP) {
+                    hanhDongDiLen.update();
+                    hanhDongDiLen.draw(imageView, appCompatActivity);
+                } else if (dir == LEFT) {
+                    hanhDongDiTrai.update();
+                    hanhDongDiTrai.draw(imageView, appCompatActivity);
+                } else if (dir == RIGHT) {
+                    hanhDongDiPhai.update();
+                    hanhDongDiPhai.draw(imageView, appCompatActivity);
                 }
                 break;
         }
