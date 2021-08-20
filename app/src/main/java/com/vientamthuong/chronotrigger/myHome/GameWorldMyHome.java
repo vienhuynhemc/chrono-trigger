@@ -100,24 +100,24 @@ public class GameWorldMyHome implements GameWorld {
         listObject.add(frontEndBlanketMyHome);
         // aciton di chuyển bằng joustick
         myHomeActivity.getAbsoluteLayout().setOnTouchListener((v, event) -> {
-            switch (event.getAction()){
+            switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    if(joystick.isPressed(event.getX(),event.getY())){
+                    if (joystick.isPressed(event.getX(), event.getY())) {
                         joystick.setPressed(true);
-                        if(chrono != null){
+                        if (chrono != null) {
                             chrono.setState(Chrono.DI);
                         }
                     }
                     return true;
                 case MotionEvent.ACTION_MOVE:
-                    if(joystick.isPressed()){
-                        joystick.setActuator(event.getX(),event.getY());
+                    if (joystick.isPressed()) {
+                        joystick.setActuator(event.getX(), event.getY());
                     }
                     return true;
                 case MotionEvent.ACTION_UP:
                     joystick.setPressed(false);
                     joystick.resetActuator();
-                    if(chrono != null){
+                    if (chrono != null) {
                         chrono.setState(Chrono.DUNG_IM);
                     }
                     return true;
@@ -252,7 +252,7 @@ public class GameWorldMyHome implements GameWorld {
                 objectFullScreenMyHome.hiddenView();
                 objectFullScreenMyHome.setHidden(true);
                 // Mở cửa sổ
-                if(SourceMain.getInstance().isOpenWindown()){
+                if (SourceMain.getInstance().isOpenWindown()) {
                     this.getBackgroundMapMyHome().changeToLight();
                 }
                 // Tạo nhân vật
@@ -294,8 +294,13 @@ public class GameWorldMyHome implements GameWorld {
         }
 
         // update joystick
-        if(this.joystick!= null){
+        if (this.joystick != null) {
             this.joystick.update();
+        }
+
+        // update camera
+        for (int i = 0; i < 4; i++) {
+            cameraMyHome.update();
         }
     }
 
@@ -308,7 +313,7 @@ public class GameWorldMyHome implements GameWorld {
         }
         // vẽ joystick
         // Không vẽ joystick khi đang chạy intro
-        if(this.getState() == NONE && joystick!=null){
+        if (this.getState() == NONE && joystick != null) {
             joystick.draw();
         }
     }
@@ -396,5 +401,9 @@ public class GameWorldMyHome implements GameWorld {
     @Override
     public void setJoystick(Joystick joystick) {
         this.joystick = joystick;
+    }
+
+    public Chrono getChrono() {
+        return chrono;
     }
 }

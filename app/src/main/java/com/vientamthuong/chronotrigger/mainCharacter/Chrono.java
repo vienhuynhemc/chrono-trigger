@@ -239,4 +239,20 @@ public class Chrono implements Observer {
     public void setState(int state) {
         this.state = state;
     }
+
+    public int getWidth(){
+        return imageView.getWidth();
+    }
+
+    public int getHeight(){
+        return imageView.getHeight();
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

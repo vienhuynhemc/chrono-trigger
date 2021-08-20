@@ -75,4 +75,20 @@ public class BackgroundMapMyHome implements Observer {
         return false;
     }
 
+    public double getX() {
+        return imageView.getX();
+    }
+
+    public double getY() {
+        return imageView.getY();
+    }
+
+    public int getWidth() {
+        return imageView.getWidth();
+    }
+
+    public int getHeight() {
+        return imageView.getHeight();
+    }
+
 }
