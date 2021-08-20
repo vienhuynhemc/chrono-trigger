@@ -13,6 +13,8 @@ import com.vientamthuong.chronotrigger.myHome.GameWorldMyHome;
 
 public class Chrono implements Observer {
 
+    public static final int MAX_SPEED = 4;
+
     // Trạng thái
     private int state;
     public static final int DI = 0;
@@ -33,6 +35,14 @@ public class Chrono implements Observer {
     private int xDraw;
     private int yDraw;
     private Animation hanhDongDungImXuong;
+    private Animation hanhDongDungImLen;
+    private Animation hanhDongDungImPhai;
+    private Animation hanhDongDungImTrai;
+    private Animation hanhDongDiTrai;
+    private Animation hanhDongDiPhai;
+    private Animation hanhDongDiLen;
+    private Animation hanhDongDiXuong;
+
     private final AppCompatActivity appCompatActivity;
     private final GameWorld gameWorld;
     // Thời gian update
@@ -52,7 +62,16 @@ public class Chrono implements Observer {
 
     private void init() {
         // create animation
+        hanhDongDungImLen = SourceAnimation.getInstance().getAnimation("crono_dung_im_len");
         hanhDongDungImXuong = SourceAnimation.getInstance().getAnimation("crono_dung_im_xuong");
+        hanhDongDungImPhai = SourceAnimation.getInstance().getAnimation("crono_dung_im_phai");
+        hanhDongDungImTrai = SourceAnimation.getInstance().getAnimation("crono_dung_im_phai");
+        hanhDongDungImTrai.flip();
+        hanhDongDiTrai = SourceAnimation.getInstance().getAnimation("crono_di_phai");
+        hanhDongDiTrai.flip();
+        hanhDongDiPhai = SourceAnimation.getInstance().getAnimation("crono_di_phai");
+        hanhDongDiLen = SourceAnimation.getInstance().getAnimation("crono_di_len");
+        hanhDongDiXuong = SourceAnimation.getInstance().getAnimation("crono_di_xuong");
         // Set lại tọa độ theo camera
         xDraw = x - gameWorld.getXCamera();
         yDraw = y - gameWorld.getYCamera();
@@ -67,6 +86,10 @@ public class Chrono implements Observer {
 
     @Override
     public void update() {
+        if (state == DI) {
+            x += gameWorld.getJoystick().getActuatorX() * MAX_SPEED;
+            y += gameWorld.getJoystick().getActuatorY() * MAX_SPEED;
+        }
         // Set lại tọa độ theo camera
         xDraw = x - gameWorld.getXCamera();
         yDraw = y - gameWorld.getYCamera();
@@ -92,6 +115,10 @@ public class Chrono implements Observer {
                 }
                 break;
             case DI:
+                if (dir == BOTTOM) {
+                    hanhDongDiXuong.update();
+                    hanhDongDiXuong.draw(imageView, appCompatActivity);
+                }
                 break;
         }
     }
@@ -104,5 +131,13 @@ public class Chrono implements Observer {
     @Override
     public void outToLayout() {
         appCompatActivity.runOnUiThread(() -> gameWorld.getAbsoluteLayout().removeView(imageView));
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 }

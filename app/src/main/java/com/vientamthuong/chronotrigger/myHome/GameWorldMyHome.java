@@ -104,6 +104,9 @@ public class GameWorldMyHome implements GameWorld {
                 case MotionEvent.ACTION_DOWN:
                     if(joystick.isPressed(event.getX(),event.getY())){
                         joystick.setPressed(true);
+                        if(chrono != null){
+                            chrono.setState(Chrono.DI);
+                        }
                     }
                     return true;
                 case MotionEvent.ACTION_MOVE:
@@ -114,6 +117,9 @@ public class GameWorldMyHome implements GameWorld {
                 case MotionEvent.ACTION_UP:
                     joystick.setPressed(false);
                     joystick.resetActuator();
+                    if(chrono != null){
+                        chrono.setState(Chrono.DUNG_IM);
+                    }
                     return true;
             }
             return true;
