@@ -22,6 +22,9 @@ public class Chrono implements Observer {
     public static final int DI = 0;
     public static final int DUNG_IM = 1;
 
+    // Chạy nhanh
+    private boolean isChayNhanh;
+
     // Hướng
     private int dir;
     public static final int LEFT = 0;
@@ -44,6 +47,10 @@ public class Chrono implements Observer {
     private Animation hanhDongDiPhai;
     private Animation hanhDongDiLen;
     private Animation hanhDongDiXuong;
+    private Animation hanhDongChayTrai;
+    private Animation hanhDongChayPhai;
+    private Animation hanhDongChayLen;
+    private Animation hanhDongChayXuong;
 
     private final AppCompatActivity appCompatActivity;
     private final GameWorld gameWorld;
@@ -74,6 +81,11 @@ public class Chrono implements Observer {
         hanhDongDiPhai = SourceAnimation.getInstance().getAnimation("crono_di_phai");
         hanhDongDiLen = SourceAnimation.getInstance().getAnimation("crono_di_len");
         hanhDongDiXuong = SourceAnimation.getInstance().getAnimation("crono_di_xuong");
+        hanhDongChayTrai = SourceAnimation.getInstance().getAnimation("crono_chay_phai");
+        hanhDongChayTrai.flip();
+        hanhDongChayPhai = SourceAnimation.getInstance().getAnimation("crono_chay_phai");
+        hanhDongChayLen = SourceAnimation.getInstance().getAnimation("crono_chay_len");
+        hanhDongChayXuong = SourceAnimation.getInstance().getAnimation("crono_chay_xuong");
         // Set lại tọa độ theo camera
         xDraw = x - gameWorld.getXCamera();
         yDraw = y - gameWorld.getYCamera();
@@ -89,8 +101,11 @@ public class Chrono implements Observer {
     @Override
     public void update() {
         if (state == DI) {
-            x += gameWorld.getJoystick().getActuatorX() * MAX_SPEED;
-            y += gameWorld.getJoystick().getActuatorY() * MAX_SPEED;
+            int spaceX = (int) (gameWorld.getJoystick().getActuatorX() * MAX_SPEED);
+            int spaceY = (int) (gameWorld.getJoystick().getActuatorY() * MAX_SPEED);
+            x += spaceX;
+            y += spaceY;
+            isChayNhanh = spaceX == 3 || spaceY == 3 || spaceX == -3 || spaceY == -3;
             // Cập nhật lại hướng của crono
             updateDir();
         }
@@ -111,13 +126,17 @@ public class Chrono implements Observer {
     private void updateDir() {
         if (this.gameWorld.getJoystick() != null) {
             if (gameWorld.getJoystick().getActuatorY() <= 0) {
-                double x =  Math.abs(gameWorld.getJoystick().getActuatorX());
-                double y =  Math.abs(gameWorld.getJoystick().getActuatorY());
+                double x = Math.abs(gameWorld.getJoystick().getActuatorX());
+                double y = Math.abs(gameWorld.getJoystick().getActuatorY());
                 if (y >= x) {
                     appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(120, 222))));
                     dir = TOP;
                 } else {
-                    appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(144, 216))));
+                    if (isChayNhanh) {
+                        appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(168, 216))));
+                    } else {
+                        appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(144, 216))));
+                    }
                     if (gameWorld.getJoystick().getActuatorX() >= 0) {
                         dir = RIGHT;
                     } else {
@@ -125,13 +144,17 @@ public class Chrono implements Observer {
                     }
                 }
             } else {
-                double x =  Math.abs(gameWorld.getJoystick().getActuatorX());
-                double y =  Math.abs(gameWorld.getJoystick().getActuatorY());
+                double x = Math.abs(gameWorld.getJoystick().getActuatorX());
+                double y = Math.abs(gameWorld.getJoystick().getActuatorY());
                 if (y >= x) {
                     appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(120, 222))));
                     dir = BOTTOM;
                 } else {
-                    appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(144, 216))));
+                    if (isChayNhanh) {
+                        appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(168, 216))));
+                    } else {
+                        appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(144, 216))));
+                    }
                     if (gameWorld.getJoystick().getActuatorX() >= 0) {
                         dir = RIGHT;
                     } else {
@@ -163,17 +186,37 @@ public class Chrono implements Observer {
                 break;
             case DI:
                 if (dir == BOTTOM) {
-                    hanhDongDiXuong.update();
-                    hanhDongDiXuong.draw(imageView, appCompatActivity);
+                    if (isChayNhanh) {
+                        hanhDongChayXuong.update();
+                        hanhDongChayXuong.draw(imageView, appCompatActivity);
+                    } else {
+                        hanhDongDiXuong.update();
+                        hanhDongDiXuong.draw(imageView, appCompatActivity);
+                    }
                 } else if (dir == TOP) {
-                    hanhDongDiLen.update();
-                    hanhDongDiLen.draw(imageView, appCompatActivity);
+                    if (isChayNhanh) {
+                        hanhDongChayLen.update();
+                        hanhDongChayLen.draw(imageView, appCompatActivity);
+                    } else {
+                        hanhDongDiLen.update();
+                        hanhDongDiLen.draw(imageView, appCompatActivity);
+                    }
                 } else if (dir == LEFT) {
-                    hanhDongDiTrai.update();
-                    hanhDongDiTrai.draw(imageView, appCompatActivity);
+                    if (isChayNhanh) {
+                        hanhDongChayTrai.update();
+                        hanhDongChayTrai.draw(imageView, appCompatActivity);
+                    } else {
+                        hanhDongDiTrai.update();
+                        hanhDongDiTrai.draw(imageView, appCompatActivity);
+                    }
                 } else if (dir == RIGHT) {
-                    hanhDongDiPhai.update();
-                    hanhDongDiPhai.draw(imageView, appCompatActivity);
+                    if (isChayNhanh) {
+                        hanhDongChayPhai.update();
+                        hanhDongChayPhai.draw(imageView, appCompatActivity);
+                    } else {
+                        hanhDongDiPhai.update();
+                        hanhDongDiPhai.draw(imageView, appCompatActivity);
+                    }
                 }
                 break;
         }
