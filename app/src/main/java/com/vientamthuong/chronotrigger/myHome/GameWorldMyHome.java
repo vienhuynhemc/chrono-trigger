@@ -57,6 +57,7 @@ public class GameWorldMyHome implements GameWorld {
     private ChronoUpFloor chronoUpFloor;
     private Chrono chrono;
     private Joystick joystick;
+    private WindowMyHome windowMyHome;
 
     public GameWorldMyHome(MyHomeActivity myHomeActivity, GameThreadMyHome gameThreadMyHome, boolean isStartIntro) {
         this.myHomeActivity = myHomeActivity;
@@ -98,6 +99,8 @@ public class GameWorldMyHome implements GameWorld {
         myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewBlanketFrontEnd, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
         FrontEndBlanketMyHome frontEndBlanketMyHome = new FrontEndBlanketMyHome(imageViewBlanketFrontEnd, 912 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 630, 12, myHomeActivity, GameWorldMyHome.this);
         listObject.add(frontEndBlanketMyHome);
+        // window my home
+        windowMyHome = new WindowMyHome(690+ConfigurationMyHome.X_BACKGROUNMAP_UP,186,258,258,GameWorldMyHome.this);
         // aciton di chuyển bằng joustick
         myHomeActivity.getAbsoluteLayout().setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
@@ -107,6 +110,11 @@ public class GameWorldMyHome implements GameWorld {
                         if (chrono != null) {
                             chrono.setState(Chrono.DI);
                         }
+                    }
+                    if(windowMyHome.isIntercert(event.getX(),event.getY())){
+                        SourceMain.getInstance().setOpenWindown(!SourceMain.getInstance().isOpenWindown());
+                        backgroundMapMyHome.openCloseWindow();
+                        SourceSound.getInstance().play("flap_once", ConfigurationSound.NOREPEAT);
                     }
                     return true;
                 case MotionEvent.ACTION_MOVE:

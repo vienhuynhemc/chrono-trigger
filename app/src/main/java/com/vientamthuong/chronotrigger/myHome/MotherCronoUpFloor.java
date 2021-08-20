@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vientamthuong.chronotrigger.data.SourceAnimation;
+import com.vientamthuong.chronotrigger.data.SourceMain;
 import com.vientamthuong.chronotrigger.data.SourceSound;
 import com.vientamthuong.chronotrigger.gameEffect.Animation;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
@@ -123,6 +124,7 @@ public class MotherCronoUpFloor implements Observer {
                     if (System.currentTimeMillis() - lastTimeUpdate > 500) {
                         state = DUNG_IM;
                         gameWorldMyHome.setState(GameWorldMyHome.CHAT_THIRD);
+                        SourceMain.getInstance().setOpenWindown(true);
                         gameWorldMyHome.getBackgroundMapMyHome().changeToLight();
                         List<String> contentChats = new ArrayList<>();
                         contentChats.add("Mẹ: Gửi em!\nTôi đã quên tiếng chuông của Leene hay như thế nào! ~ ( Tiếng hát )");

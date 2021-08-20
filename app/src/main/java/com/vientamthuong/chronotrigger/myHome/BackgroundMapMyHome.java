@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vientamthuong.chronotrigger.data.SourceAnimation;
+import com.vientamthuong.chronotrigger.data.SourceMain;
 import com.vientamthuong.chronotrigger.gameEffect.Animation;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
 
@@ -15,6 +16,7 @@ public class BackgroundMapMyHome implements Observer {
     // Image view tương ứng
     private final ImageView imageView;
     private Animation animationLight;
+    private Animation animationDark;
     private Animation currentAnimation;
     // Appcompat activit để lấy resource
     private final AppCompatActivity appCompatActivity;
@@ -37,7 +39,7 @@ public class BackgroundMapMyHome implements Observer {
 
     private void init() {
         // Animation của backgroundmap
-        Animation animationDark = SourceAnimation.getInstance().getAnimation("my_home_background_dark");
+        animationDark = SourceAnimation.getInstance().getAnimation("my_home_background_dark");
         animationLight = SourceAnimation.getInstance().getAnimation("my_home_background_light");
         // animation light không cho lập lại
         animationLight.setRepeat(false);
@@ -47,6 +49,14 @@ public class BackgroundMapMyHome implements Observer {
 
     public void changeToLight() {
         currentAnimation = animationLight;
+    }
+
+    public void openCloseWindow() {
+        if (SourceMain.getInstance().isOpenWindown()) {
+            currentAnimation = animationLight;
+        } else {
+            currentAnimation = animationDark;
+        }
     }
 
     @Override

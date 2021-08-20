@@ -37,7 +37,6 @@ public class CameraMyHome extends Camera {
                     setY(getY() + 1);
                 }
             }
-            System.out.println(gameWorldMyHome.getBackgroundMapMyHome().getY() + " " + (gameWorldMyHome.getBackgroundMapMyHome().getY() + gameWorldMyHome.getBackgroundMapMyHome().getHeight()));
         }
     }
 

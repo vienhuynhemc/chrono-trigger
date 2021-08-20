@@ -8,13 +8,17 @@ public class SourceMain {
     private String nameLucca;
     // Cửa sổ mở hay tắt ở map my home
     private boolean isOpenWindown;
+    private boolean isStartIntroMyHomeUp;
+    private boolean isStartIntroMyHomeDown;
 
     private SourceMain() {
         // Mặc định là chrono để làm các activity khác
         nameCrono = "Crono";
         nameLucca = "Lucca";
         // Mặc định là cửa sổ mở để làm activity khác
-        isOpenWindown =true;
+        isOpenWindown = false;
+        isStartIntroMyHomeUp = true;
+        isStartIntroMyHomeDown = true;
     }
 
     public static SourceMain getInstance() {
@@ -47,5 +51,21 @@ public class SourceMain {
 
     public void setOpenWindown(boolean openWindown) {
         isOpenWindown = openWindown;
+    }
+
+    public boolean isStartIntroMyHomeUp() {
+        return isStartIntroMyHomeUp;
+    }
+
+    public void setStartIntroMyHomeUp(boolean startIntroMyHomeUp) {
+        isStartIntroMyHomeUp = startIntroMyHomeUp;
+    }
+
+    public boolean isStartIntroMyHomeDown() {
+        return isStartIntroMyHomeDown;
+    }
+
+    public void setStartIntroMyHomeDown(boolean startIntroMyHomeDown) {
+        isStartIntroMyHomeDown = startIntroMyHomeDown;
     }
 }
