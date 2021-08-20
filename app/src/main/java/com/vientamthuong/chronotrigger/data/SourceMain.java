@@ -6,11 +6,15 @@ public class SourceMain {
     // Tên nhân vật
     private String nameCrono;
     private String nameLucca;
+    // Cửa sổ mở hay tắt ở map my home
+    private boolean isOpenWindown;
 
     private SourceMain() {
         // Mặc định là chrono để làm các activity khác
         nameCrono = "Crono";
         nameLucca = "Lucca";
+        // Mặc định là cửa sổ mở để làm activity khác
+        isOpenWindown =true;
     }
 
     public static SourceMain getInstance() {
@@ -35,5 +39,13 @@ public class SourceMain {
 
     public void setNameLucca(String nameLucca) {
         this.nameLucca = nameLucca;
+    }
+
+    public boolean isOpenWindown() {
+        return isOpenWindown;
+    }
+
+    public void setOpenWindown(boolean openWindown) {
+        isOpenWindown = openWindown;
     }
 }

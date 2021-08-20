@@ -58,7 +58,7 @@ public class MyHomeGroundActivity extends AppCompatActivity {
         SourceSound.getInstance().loadSound(MyHomeGroundActivity.this);
         // Load animation
         SourceAnimation.getInstance().loadAnimation(MyHomeGroundActivity.this);
-        gameThreadMyHomeGround = new GameThreadMyHomeGround(MyHomeGroundActivity.this, true);
+        gameThreadMyHomeGround = new GameThreadMyHomeGround(MyHomeGroundActivity.this, false);
         gameThreadMyHomeGround.setRunning(true);
     }
 

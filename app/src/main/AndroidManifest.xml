@@ -4,7 +4,7 @@
     package="com.vientamthuong.chronotrigger">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,7 +22,9 @@
         <activity
             android:name=".presonMap.PresonMapActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".myHome.MyHomeActivity">
+        <activity
+            android:name=".myHome.MyHomeActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +33,13 @@
         </activity>
         <activity
             android:name=".myHome.MyHomeGroundActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape" >
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
     </application>
 
 </manifest>

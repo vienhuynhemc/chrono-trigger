@@ -128,16 +128,16 @@ public class GameWorldMyHomeGround {
                 state = CHAT_SECOND;
                 break;
             case CHAT_SECOND:
-                if(showTextMyHome.isComplete()) {
+                if (showTextMyHome.isComplete()) {
                     Intent intent = new Intent(myHomeGroundActivity, NewGameActivity.class);
-                    intent.putExtra("name","lucca");
-                    intent.putExtra("isStartIntro",false);
+                    intent.putExtra("name", "lucca");
+                    intent.putExtra("isStartIntro", false);
                     myHomeGroundActivity.startActivity(intent);
                     state = CHAT_THREE;
                 }
                 break;
             case CHAT_THREE:
-                if(showTextMyHome.isComplete() && NewGameActivity.isFinish()) {
+                if (showTextMyHome.isComplete() && NewGameActivity.isFinish()) {
                     List<String> threeChat = createThreeChat();
                     // Làm mới show text my home
                     showTextMyHome.setComplete(false);
@@ -148,7 +148,7 @@ public class GameWorldMyHomeGround {
                 }
                 break;
             case CHAT_FOUR:
-                if(showTextMyHome.isComplete()&& NewGameActivity.isFinish()){
+                if (showTextMyHome.isComplete() && NewGameActivity.isFinish()) {
                     motherCronoGround.setStartMove1(true);
                     state = STATE_SLEEP;
                 }
@@ -203,10 +203,11 @@ public class GameWorldMyHomeGround {
         contentChats.add("Mẹ: Ôi trời! Mẹ lại quên mất\nCô ấy tên gì nhỉ?\nCô bạn nhà phát minh của con?");
         return contentChats;
     }
+
     public List<String> createThreeChat() {
         List<String> contentChats = new ArrayList<>();
         String name = SourceMain.getInstance().getNameLucca();
-        contentChats.add("Mẹ: Đúng rồi! "+name+"\nCon định đến xem phát minh mới của cô ấy ở hội chợ phải không?");
+        contentChats.add("Mẹ: Đúng rồi! " + name + "\nCon định đến xem phát minh mới của cô ấy ở hội chợ phải không?");
         contentChats.add("Mẹ: Tốt thôi! Con cứ đi đi\nNhớ về nhà trước bữa ăn tối đấy!");
         return contentChats;
     }

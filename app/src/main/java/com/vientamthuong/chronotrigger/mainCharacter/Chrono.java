@@ -67,7 +67,7 @@ public class Chrono implements Observer {
 
     @Override
     public void update() {
-// Set lại tọa độ theo camera
+        // Set lại tọa độ theo camera
         xDraw = x - gameWorld.getXCamera();
         yDraw = y - gameWorld.getYCamera();
         // Cập nhật lại tọa độ của background theo camera

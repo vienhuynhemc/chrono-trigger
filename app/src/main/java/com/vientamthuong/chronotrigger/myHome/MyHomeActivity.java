@@ -56,7 +56,7 @@ public class MyHomeActivity extends AppCompatActivity {
         SourceSound.getInstance().loadSound(MyHomeActivity.this);
         // Load animation
         SourceAnimation.getInstance().loadAnimation(MyHomeActivity.this);
-        gameThreadMyHome = new GameThreadMyHome(MyHomeActivity.this, true);
+        gameThreadMyHome = new GameThreadMyHome(MyHomeActivity.this, false);
         gameThreadMyHome.setRunning(true);
     }
 

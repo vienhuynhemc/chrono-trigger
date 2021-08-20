@@ -1,5 +1,7 @@
 package com.vientamthuong.chronotrigger.myHome;
 
+import android.annotation.SuppressLint;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
@@ -65,6 +67,7 @@ public class GameWorldMyHome implements GameWorld {
         init();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void init() {
         showTextMyHome = new ShowTextMyHome(myHomeActivity.getTvShowTextTren(), myHomeActivity);
         // xét xem có chạy intro hay không
@@ -95,9 +98,24 @@ public class GameWorldMyHome implements GameWorld {
         myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewBlanketFrontEnd, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
         FrontEndBlanketMyHome frontEndBlanketMyHome = new FrontEndBlanketMyHome(imageViewBlanketFrontEnd, 912 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 630, 12, myHomeActivity, GameWorldMyHome.this);
         listObject.add(frontEndBlanketMyHome);
-        // aciton
+        // aciton di chuyển bằng joustick
         myHomeActivity.getAbsoluteLayout().setOnTouchListener((v, event) -> {
-            System.out.println(event.getX() + " " + event.getY() + " - " + event.getRawX() + " " + event.getRawY());
+            switch (event.getAction()){
+                case MotionEvent.ACTION_DOWN:
+                    if(joystick.isPressed(event.getX(),event.getY())){
+                        joystick.setPressed(true);
+                    }
+                    return true;
+                case MotionEvent.ACTION_MOVE:
+                    if(joystick.isPressed()){
+                        joystick.setActuator(event.getX(),event.getY());
+                    }
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    joystick.setPressed(false);
+                    joystick.resetActuator();
+                    return true;
+            }
             return true;
         });
     }
@@ -224,6 +242,15 @@ public class GameWorldMyHome implements GameWorld {
                 }
                 break;
             case START_NO_INTRO:
+                // Ẩn full screen
+                objectFullScreenMyHome.hiddenView();
+                objectFullScreenMyHome.setHidden(true);
+                // Mở cửa sổ
+                if(SourceMain.getInstance().isOpenWindown()){
+                    this.getBackgroundMapMyHome().changeToLight();
+                }
+                // Tạo nhân vật
+                state = CREATE_CHRONO_PLAY;
                 break;
             case NONE:
                 break;
@@ -259,6 +286,11 @@ public class GameWorldMyHome implements GameWorld {
                 count++;
             }
         }
+
+        // update joystick
+        if(this.joystick!= null){
+            this.joystick.update();
+        }
     }
 
     public void draw() {
@@ -267,6 +299,11 @@ public class GameWorldMyHome implements GameWorld {
         while (count < listObject.size()) {
             listObject.get(count).draw();
             count++;
+        }
+        // vẽ joystick
+        // Không vẽ joystick khi đang chạy intro
+        if(this.getState() == NONE && joystick!=null){
+            joystick.draw();
         }
     }
 
