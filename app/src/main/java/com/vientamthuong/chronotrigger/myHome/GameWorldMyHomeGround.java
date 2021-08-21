@@ -21,6 +21,7 @@ import com.vientamthuong.chronotrigger.mainModel.Joystick;
 import com.vientamthuong.chronotrigger.newGame.NewGameActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GameWorldMyHomeGround implements GameWorld {
@@ -35,6 +36,7 @@ public class GameWorldMyHomeGround implements GameWorld {
     public static final int CHAT_FOUR = 6;
     public static final int CREATE_CHRONO_PLAY = 7;
     public static final int NONE = 8;
+    public static final int LOAD = 9;
     // List các object
     private final List<Observer> listObject;
     private MyHomeGroundActivity myHomeGroundActivity;
@@ -63,12 +65,14 @@ public class GameWorldMyHomeGround implements GameWorld {
     private Chrono chrono;
     private Joystick joystick;
     private GateToUp gateToUp;
+    private boolean isLoad;
 
-    public GameWorldMyHomeGround(MyHomeGroundActivity myHomeGroundActivity, GameThreadMyHomeGround gameThreadMyHomeGround, boolean isStartIntro) {
+    public GameWorldMyHomeGround(MyHomeGroundActivity myHomeGroundActivity, GameThreadMyHomeGround gameThreadMyHomeGround, boolean isStartIntro, boolean isLoad) {
         this.myHomeGroundActivity = myHomeGroundActivity;
         this.gameThreadMyHomeGround = gameThreadMyHomeGround;
         listObject = new ArrayList<>();
         this.isStartIntro = isStartIntro;
+        this.isLoad = isLoad;
         //khởi tạo
         init();
     }
@@ -81,7 +85,11 @@ public class GameWorldMyHomeGround implements GameWorld {
             lastTimeWaitIntro = System.currentTimeMillis();
             state = START_INTRO;
         } else {
-            state = START_NO_INTRO;
+            if (isLoad) {
+                state = LOAD;
+            } else {
+                state = START_NO_INTRO;
+            }
         }
         // Camera
         cameraMyHomeGround = new CameraMyHomeGround(0, 105, GameWorldMyHomeGround.this);
@@ -246,6 +254,8 @@ public class GameWorldMyHomeGround implements GameWorld {
                 listObject.add(chrono);
                 state = NONE;
                 break;
+            case LOAD:
+                break;
         }
 
 
@@ -386,5 +396,13 @@ public class GameWorldMyHomeGround implements GameWorld {
 
     public GameThreadMyHomeGround getGameThreadMyHomeGround() {
         return gameThreadMyHomeGround;
+    }
+
+    public void saveData() {
+        SourceMain.getInstance().setX(chrono.getX());
+        SourceMain.getInstance().setY(chrono.getY());
+        SourceMain.getInstance().setDir(chrono.getDir());
+        SourceMain.getInstance().setNgaySave(new Date().getTime());
+        SourceMain.getInstance().setNameMap("down");
     }
 }

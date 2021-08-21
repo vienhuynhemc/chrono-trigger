@@ -29,6 +29,7 @@ public class GateToGround {
                 intent.setClass(gameWorldMyHome.getAppCompatActivity(), MyHomeGroundActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isStartIntro", SourceMain.getInstance().isStartIntroMyHomeDown());
+                bundle.putBoolean("isLoad",false);
                 intent.putExtra("data", bundle);
                 gameWorldMyHome.getAppCompatActivity().startActivity(intent);
                 gameWorldMyHome.getGameThreadMyHome().setRunning(false);

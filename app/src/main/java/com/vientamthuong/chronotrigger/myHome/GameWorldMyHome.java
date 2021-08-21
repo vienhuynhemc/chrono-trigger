@@ -17,6 +17,7 @@ import com.vientamthuong.chronotrigger.mainModel.GameWorld;
 import com.vientamthuong.chronotrigger.mainModel.Joystick;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GameWorldMyHome implements GameWorld {
@@ -30,6 +31,7 @@ public class GameWorldMyHome implements GameWorld {
     public static final int CHAT_FIVE = 5;
     public static final int NONE = 6;
     public static final int CREATE_CHRONO_PLAY = 7;
+    public static final int LOAD = 8;
     // List các object
     private final List<Observer> listObject;
     private MyHomeActivity myHomeActivity;
@@ -59,12 +61,14 @@ public class GameWorldMyHome implements GameWorld {
     private Joystick joystick;
     private WindowMyHome windowMyHome;
     private GateToGround gateToGround;
+    private boolean isLoad;
 
-    public GameWorldMyHome(MyHomeActivity myHomeActivity, GameThreadMyHome gameThreadMyHome, boolean isStartIntro) {
+    public GameWorldMyHome(MyHomeActivity myHomeActivity, GameThreadMyHome gameThreadMyHome, boolean isStartIntro, boolean isLoad) {
         this.myHomeActivity = myHomeActivity;
         this.gameThreadMyHome = gameThreadMyHome;
         listObject = new ArrayList<>();
         this.isStartIntro = isStartIntro;
+        this.isLoad = isLoad;
         // Khởi tạo
         init();
     }
@@ -77,7 +81,11 @@ public class GameWorldMyHome implements GameWorld {
             lastTimeWaitIntro = System.currentTimeMillis();
             state = START_INTRO;
         } else {
-            state = START_NO_INTRO;
+            if (isLoad) {
+                state = LOAD;
+            } else {
+                state = START_NO_INTRO;
+            }
         }
         // Camera
         cameraMyHome = new CameraMyHome(0, 105, GameWorldMyHome.this);
@@ -277,7 +285,7 @@ public class GameWorldMyHome implements GameWorld {
                 imageViewChronoUpfloor.setScaleType(ImageView.ScaleType.MATRIX);
                 imageViewChronoUpfloor.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_CHRONO_DIR_TOP, ConfigurationMyHome.HEIGHT_CHRONO_DIR_TOP));
                 myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewChronoUpfloor, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
-                chrono = new Chrono(imageViewChronoUpfloor, 330+ConfigurationMyHome.X_BACKGROUNMAP_UP, 882, 999, myHomeActivity, GameWorldMyHome.this, Chrono.TOP, Chrono.DUNG_IM);
+                chrono = new Chrono(imageViewChronoUpfloor, 330 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 882, 999, myHomeActivity, GameWorldMyHome.this, Chrono.TOP, Chrono.DUNG_IM);
                 listObject.add(chrono);
                 state = NONE;
                 break;
@@ -291,6 +299,8 @@ public class GameWorldMyHome implements GameWorld {
                 chrono = new Chrono(imageViewChronoUpfloor, 1092, 548, 999, myHomeActivity, GameWorldMyHome.this, Chrono.BOTTOM, Chrono.DUNG_IM);
                 listObject.add(chrono);
                 state = NONE;
+                break;
+            case LOAD:
                 break;
         }
 
@@ -438,5 +448,13 @@ public class GameWorldMyHome implements GameWorld {
 
     public Chrono getChrono() {
         return chrono;
+    }
+
+    public void saveData() {
+        SourceMain.getInstance().setX(chrono.getX());
+        SourceMain.getInstance().setY(chrono.getY());
+        SourceMain.getInstance().setDir(chrono.getDir());
+        SourceMain.getInstance().setNgaySave(new Date().getTime());
+        SourceMain.getInstance().setNameMap("up");
     }
 }

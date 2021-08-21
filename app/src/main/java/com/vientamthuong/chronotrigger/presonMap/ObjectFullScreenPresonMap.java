@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vientamthuong.chronotrigger.R;
+import com.vientamthuong.chronotrigger.data.SourceMain;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
 import com.vientamthuong.chronotrigger.myHome.MyHomeActivity;
 
@@ -78,7 +79,8 @@ public class ObjectFullScreenPresonMap implements Observer {
                 Intent intent = new Intent();
                 intent.setClass(appCompatActivity, MyHomeActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putBoolean("isStartIntro", true);
+                bundle.putBoolean("isStartIntro", SourceMain.getInstance().isStartIntroMyHomeUp());
+                bundle.putBoolean("isLoad",false);
                 intent.putExtra("data", bundle);
                 appCompatActivity.startActivity(intent);
                 gameWorldPresonMap.getGameThreadPresonMap().setRunning(false);

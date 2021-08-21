@@ -255,4 +255,9 @@ public class Chrono implements Observer {
     public int getY() {
         return y;
     }
+
+    public int getDir(){
+        return this.dir;
+    }
+
 }

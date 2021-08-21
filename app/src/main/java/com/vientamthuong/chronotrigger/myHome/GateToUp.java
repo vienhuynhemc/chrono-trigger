@@ -29,6 +29,7 @@ public class GateToUp{
                 intent.setClass(gameWorldMyHomeGround.getAppCompatActivity(), MyHomeActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isStartIntro", SourceMain.getInstance().isStartIntroMyHomeUp());
+                bundle.putBoolean("isLoad",false);
                 intent.putExtra("data", bundle);
                 gameWorldMyHomeGround.getAppCompatActivity().startActivity(intent);
                 gameWorldMyHomeGround.getGameThreadMyHomeGround().setRunning(false);

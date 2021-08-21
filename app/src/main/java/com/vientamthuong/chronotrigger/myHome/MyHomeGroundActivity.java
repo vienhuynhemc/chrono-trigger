@@ -54,7 +54,8 @@ public class MyHomeGroundActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("data");
         boolean isStartIntro = bundle.getBoolean("isStartIntro");
-        gameThreadMyHomeGround = new GameThreadMyHomeGround(MyHomeGroundActivity.this, isStartIntro);
+        boolean isLoad = bundle.getBoolean("isLoad");
+        gameThreadMyHomeGround = new GameThreadMyHomeGround(MyHomeGroundActivity.this, isStartIntro, isLoad);
         gameThreadMyHomeGround.setRunning(true);
         //----------------------------------------------------------------------
 //         load Sound
@@ -75,6 +76,7 @@ public class MyHomeGroundActivity extends AppCompatActivity {
             lastTimeTouchBack = System.currentTimeMillis();
             Toast.makeText(MyHomeGroundActivity.this, "Nhấn một lần nữa để thoát", Toast.LENGTH_SHORT).show();
         } else {
+            gameThreadMyHomeGround.getGameWorldMyHomeGround().saveData();
             finish();
             android.os.Process.killProcess(android.os.Process.myPid());
         }

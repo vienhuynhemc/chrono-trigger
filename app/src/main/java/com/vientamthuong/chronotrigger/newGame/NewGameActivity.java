@@ -56,6 +56,8 @@ public class NewGameActivity extends AppCompatActivity {
                         SourceMain.getInstance().setNameLucca(name);
                 }
                 if (isStartIntro) {
+                    // Mới chơi thì cho cửa sổ là false , chạy intro là true hết
+                    SourceMain.getInstance().actionNewGame();
                     Intent intent = new Intent(NewGameActivity.this, PresonMapActivity.class);
                     startActivity(intent);
                     // Kết thúc luôn activity của cha mẹ

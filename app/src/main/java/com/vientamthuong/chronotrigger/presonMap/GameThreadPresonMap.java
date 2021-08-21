@@ -6,7 +6,7 @@ public class GameThreadPresonMap extends Thread {
     private boolean isRunning;
 
     public GameThreadPresonMap(PresonMapActivity presonMapActivity) {
-        gameWorldPresonMap = new GameWorldPresonMap(presonMapActivity,GameThreadPresonMap.this);
+        gameWorldPresonMap = new GameWorldPresonMap(presonMapActivity, GameThreadPresonMap.this);
     }
 
     @Override

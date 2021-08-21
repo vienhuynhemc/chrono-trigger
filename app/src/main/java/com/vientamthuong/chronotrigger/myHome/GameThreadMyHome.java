@@ -5,8 +5,8 @@ public class GameThreadMyHome extends Thread {
     private final GameWorldMyHome gameWorldMyHome;
     private boolean isRunning;
 
-    public GameThreadMyHome(MyHomeActivity myHomeActivity, boolean isStartIntro) {
-        gameWorldMyHome = new GameWorldMyHome(myHomeActivity, GameThreadMyHome.this, isStartIntro);
+    public GameThreadMyHome(MyHomeActivity myHomeActivity, boolean isStartIntro, boolean isLoad) {
+        gameWorldMyHome = new GameWorldMyHome(myHomeActivity, GameThreadMyHome.this, isStartIntro, isLoad);
     }
 
     @Override
@@ -28,6 +28,10 @@ public class GameThreadMyHome extends Thread {
             }
             beginTime = System.nanoTime();
         }
+    }
+
+    public GameWorldMyHome getGameWorldMyHome() {
+        return this.gameWorldMyHome;
     }
 
     // Getter and setter

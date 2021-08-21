@@ -1,11 +1,13 @@
 package com.vientamthuong.chronotrigger.myHome;
 
+import com.vientamthuong.chronotrigger.presonMap.GameWorldPresonMap;
+
 public class GameThreadMyHomeGround extends  Thread{
     private final GameWorldMyHomeGround gameWorldMyHomeGround;
     private boolean isRunning;
 
-    public GameThreadMyHomeGround(MyHomeGroundActivity myHomeGroundActivity, boolean isStartIntro) {
-        gameWorldMyHomeGround = new GameWorldMyHomeGround(myHomeGroundActivity, GameThreadMyHomeGround.this, isStartIntro);
+    public GameThreadMyHomeGround(MyHomeGroundActivity myHomeGroundActivity, boolean isStartIntro,boolean isLoad) {
+        gameWorldMyHomeGround = new GameWorldMyHomeGround(myHomeGroundActivity, GameThreadMyHomeGround.this, isStartIntro,isLoad);
     }
 
     @Override
@@ -29,6 +31,9 @@ public class GameThreadMyHomeGround extends  Thread{
         }
     }
 
+    public GameWorldMyHomeGround getGameWorldMyHomeGround(){
+        return this.gameWorldMyHomeGround;
+    }
     // Getter and setter
     public void setRunning(boolean running) {
         isRunning = running;
