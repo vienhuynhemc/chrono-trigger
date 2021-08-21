@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vientamthuong.chronotrigger.data.SourceAnimation;
+import com.vientamthuong.chronotrigger.data.SourceMain;
 import com.vientamthuong.chronotrigger.gameEffect.Animation;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
 import com.vientamthuong.chronotrigger.mainCharacter.Chrono;
@@ -122,6 +123,8 @@ public class ChronoUpFloor implements Observer {
                 // xong chrono , tạo crono chơi
                 gameWorldMyHome.setState(GameWorldMyHome.CREATE_CHRONO_PLAY);
                 count++;
+                // set state
+                SourceMain.getInstance().setStartIntroMyHomeUp(false);
             }
         }
     }

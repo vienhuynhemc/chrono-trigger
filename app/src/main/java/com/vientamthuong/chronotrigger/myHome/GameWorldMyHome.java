@@ -1,5 +1,7 @@
 package com.vientamthuong.chronotrigger.myHome;
 
+import android.annotation.SuppressLint;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
@@ -55,6 +57,8 @@ public class GameWorldMyHome implements GameWorld {
     private ChronoUpFloor chronoUpFloor;
     private Chrono chrono;
     private Joystick joystick;
+    private WindowMyHome windowMyHome;
+    private GateToGround gateToGround;
 
     public GameWorldMyHome(MyHomeActivity myHomeActivity, GameThreadMyHome gameThreadMyHome, boolean isStartIntro) {
         this.myHomeActivity = myHomeActivity;
@@ -65,6 +69,7 @@ public class GameWorldMyHome implements GameWorld {
         init();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void init() {
         showTextMyHome = new ShowTextMyHome(myHomeActivity.getTvShowTextTren(), myHomeActivity);
         // xét xem có chạy intro hay không
@@ -95,9 +100,45 @@ public class GameWorldMyHome implements GameWorld {
         myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewBlanketFrontEnd, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
         FrontEndBlanketMyHome frontEndBlanketMyHome = new FrontEndBlanketMyHome(imageViewBlanketFrontEnd, 912 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 630, 12, myHomeActivity, GameWorldMyHome.this);
         listObject.add(frontEndBlanketMyHome);
-        // aciton
+        // window my home
+        windowMyHome = new WindowMyHome(690 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 186, 258, 258, GameWorldMyHome.this);
+        // gate to ground
+        gateToGround = new GateToGround(480 + ConfigurationMyHome.X_BACKGROUNMAP_UP, 948, 246, 174, GameWorldMyHome.this);
+        // aciton di chuyển bằng joustick
         myHomeActivity.getAbsoluteLayout().setOnTouchListener((v, event) -> {
-            System.out.println(event.getX() + " " + event.getY() + " - " + event.getRawX() + " " + event.getRawY());
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    if (joystick != null) {
+                        if (joystick.isPressed(event.getX(), event.getY())) {
+                            joystick.setPressed(true);
+                            if (chrono != null) {
+                                chrono.setState(Chrono.DI);
+                            }
+                        }
+                    }
+                    if (windowMyHome.isIntercert(event.getX(), event.getY())) {
+                        SourceMain.getInstance().setOpenWindown(!SourceMain.getInstance().isOpenWindown());
+                        backgroundMapMyHome.openCloseWindow();
+                        SourceSound.getInstance().play("flap_once", ConfigurationSound.NOREPEAT);
+                    }
+                    return true;
+                case MotionEvent.ACTION_MOVE:
+                    if (joystick != null) {
+                        if (joystick.isPressed()) {
+                            joystick.setActuator(event.getX(), event.getY());
+                        }
+                    }
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    if (joystick != null) {
+                        joystick.setPressed(false);
+                        joystick.resetActuator();
+                    }
+                    if (chrono != null) {
+                        chrono.setState(Chrono.DUNG_IM);
+                    }
+                    return true;
+            }
             return true;
         });
     }
@@ -224,11 +265,26 @@ public class GameWorldMyHome implements GameWorld {
                 }
                 break;
             case START_NO_INTRO:
+                // Ẩn full screen
+                objectFullScreenMyHome.hiddenView();
+                objectFullScreenMyHome.setHidden(true);
+                // Mở cửa sổ
+                if (SourceMain.getInstance().isOpenWindown()) {
+                    this.getBackgroundMapMyHome().changeToLight();
+                }
+                // Tạo nhân vật
+                ImageView imageViewChronoUpfloor = new ImageView(myHomeActivity);
+                imageViewChronoUpfloor.setScaleType(ImageView.ScaleType.MATRIX);
+                imageViewChronoUpfloor.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_CHRONO_DIR_TOP, ConfigurationMyHome.HEIGHT_CHRONO_DIR_TOP));
+                myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewChronoUpfloor, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
+                chrono = new Chrono(imageViewChronoUpfloor, 330+ConfigurationMyHome.X_BACKGROUNMAP_UP, 882, 999, myHomeActivity, GameWorldMyHome.this, Chrono.TOP, Chrono.DUNG_IM);
+                listObject.add(chrono);
+                state = NONE;
                 break;
             case NONE:
                 break;
             case CREATE_CHRONO_PLAY:
-                ImageView imageViewChronoUpfloor = new ImageView(myHomeActivity);
+                imageViewChronoUpfloor = new ImageView(myHomeActivity);
                 imageViewChronoUpfloor.setScaleType(ImageView.ScaleType.MATRIX);
                 imageViewChronoUpfloor.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_CHRONO_DIR_TOP, ConfigurationMyHome.HEIGHT_CHRONO_DIR_TOP));
                 myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewChronoUpfloor, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
@@ -259,6 +315,19 @@ public class GameWorldMyHome implements GameWorld {
                 count++;
             }
         }
+
+        // update joystick
+        if (this.joystick != null) {
+            this.joystick.update();
+        }
+
+        // update camera
+        for (int i = 0; i < 4; i++) {
+            cameraMyHome.update();
+        }
+
+        // update gate
+        gateToGround.update();
     }
 
     public void draw() {
@@ -267,6 +336,11 @@ public class GameWorldMyHome implements GameWorld {
         while (count < listObject.size()) {
             listObject.get(count).draw();
             count++;
+        }
+        // vẽ joystick
+        // Không vẽ joystick khi đang chạy intro
+        if (this.getState() == NONE && joystick != null) {
+            joystick.draw();
         }
     }
 
@@ -324,6 +398,13 @@ public class GameWorldMyHome implements GameWorld {
         return chronoUpFloor;
     }
 
+    public GameThreadMyHome getGameThreadMyHome() {
+        return gameThreadMyHome;
+    }
+
+    public void setGameThreadMyHome(GameThreadMyHome gameThreadMyHome) {
+        this.gameThreadMyHome = gameThreadMyHome;
+    }
 
     @Override
     public int getXCamera() {
@@ -353,5 +434,9 @@ public class GameWorldMyHome implements GameWorld {
     @Override
     public void setJoystick(Joystick joystick) {
         this.joystick = joystick;
+    }
+
+    public Chrono getChrono() {
+        return chrono;
     }
 }

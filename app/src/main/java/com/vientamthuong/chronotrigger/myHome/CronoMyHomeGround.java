@@ -1,6 +1,8 @@
 package com.vientamthuong.chronotrigger.myHome;
 
 import android.util.Log;
+import android.view.ViewGroup;
+import android.widget.AbsoluteLayout;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +42,9 @@ public class CronoMyHomeGround implements Observer {
     private long lastTimeUpdate;
     // Boolean các khung thời gian
     private boolean isStartMove1;
+
+    // out camera
+    private boolean out;
 
     public CronoMyHomeGround(ImageView imageView, int x, int y, int z, AppCompatActivity appCompatActivity, GameWorldMyHomeGround gameWorldMyHomeGround) {
         this.imageView = imageView;
@@ -95,8 +100,9 @@ public class CronoMyHomeGround implements Observer {
             } else {
                 state = DUNG_IM;
                 dir = BOTTOM;
+                appCompatActivity.runOnUiThread(() -> imageView.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(120, 222))));
                 gameWorldMyHomeGround.setState(GameWorldMyHomeGround.CHAT_FIRST);
-                isStartMove1=false;
+                isStartMove1 = false;
             }
         }
     }
@@ -120,12 +126,12 @@ public class CronoMyHomeGround implements Observer {
 
     @Override
     public boolean isOutCamera() {
-        return false;
+        return out;
     }
 
     @Override
     public void outToLayout() {
-
+        appCompatActivity.runOnUiThread(() -> gameWorldMyHomeGround.getMyHomeGroundActivity().getAbsoluteLayout().removeView(imageView));
     }
 
     //getter setter
@@ -138,4 +144,11 @@ public class CronoMyHomeGround implements Observer {
         isStartMove1 = startMove1;
     }
 
+    public boolean isOut() {
+        return out;
+    }
+
+    public void setOut(boolean out) {
+        this.out = out;
+    }
 }

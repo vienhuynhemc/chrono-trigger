@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vientamthuong.chronotrigger.data.SourceAnimation;
+import com.vientamthuong.chronotrigger.data.SourceMain;
 import com.vientamthuong.chronotrigger.gameEffect.Animation;
 import com.vientamthuong.chronotrigger.interfaceGameThread.Observer;
 
@@ -39,6 +40,8 @@ public class MotherCronoGround implements Observer {
     // Boolean các khung thời gian
     private boolean isStartMove1;
     private boolean isStartMove2;
+    // end
+    private boolean end;
 
     public MotherCronoGround(ImageView imageView, int x, int y, int z, AppCompatActivity appCompatActivity, GameWorldMyHomeGround gameWorldMyHomeGround) {
         this.imageView = imageView;
@@ -99,7 +102,7 @@ public class MotherCronoGround implements Observer {
                 x--;
                 state = DI;
                 dir = LEFT;
-            }else{
+            } else {
                 isStartMove1 = false;
                 isStartMove2 = true;
             }
@@ -109,10 +112,16 @@ public class MotherCronoGround implements Observer {
                 y--;
                 state = DI;
                 dir = TOP;
-            }
-            else{
+            } else {
                 state = DUNG_IM;
-                isStartMove2=false;
+                isStartMove2 = false;
+                if (!end) {
+                    end = true;
+                    // end
+                    gameWorldMyHomeGround.setState(GameWorldMyHomeGround.CREATE_CHRONO_PLAY);
+                    SourceMain.getInstance().setStartIntroMyHomeDown(false);
+                    gameWorldMyHomeGround.getCronoMyHomeGround().setOut(true);
+                }
             }
         }
     }
