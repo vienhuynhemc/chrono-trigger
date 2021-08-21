@@ -4,7 +4,7 @@
     package="com.vientamthuong.chronotrigger">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChronoTrigger"
         tools:ignore="AllowBackup">
+        <activity android:name=".loadGame.LoadGameActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="landscape" />

@@ -17,6 +17,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.vientamthuong.chronotrigger.data.SourceAnimation;
 import com.vientamthuong.chronotrigger.data.SourceSound;
 import com.vientamthuong.chronotrigger.loadData.ConfigurationSound;
+import com.vientamthuong.chronotrigger.loadGame.LoadGameActivity;
 import com.vientamthuong.chronotrigger.newGame.NewGameActivity;
 import com.vientamthuong.chronotrigger.presonMap.PresonMapActivity;
 
@@ -70,6 +71,17 @@ public class MainActivity extends AppCompatActivity {
             // Chuyển qua activity new game
             Intent intent = new Intent();
             intent.setClass(MainActivity.this, NewGameActivity.class);
+            intent.putExtra("name","crono");
+            intent.putExtra("isStartIntro",true);
+            startActivity(intent);
+            SourceSound.getInstance().stopBackgroundSound();
+        });
+        btnLoadGame.setOnClickListener(v -> {
+            // âm thành cursor
+            SourceSound.getInstance().play("cursor", ConfigurationSound.NOREPEAT);
+            // Chuyển qua activity new game
+            Intent intent = new Intent();
+            intent.setClass(MainActivity.this, LoadGameActivity.class);
             startActivity(intent);
             SourceSound.getInstance().stopBackgroundSound();
         });
