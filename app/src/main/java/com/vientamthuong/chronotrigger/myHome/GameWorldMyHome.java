@@ -60,7 +60,7 @@ public class GameWorldMyHome implements GameWorld {
     private Chrono chrono;
     private Joystick joystick;
     private WindowMyHome windowMyHome;
-    private GateToGround gateToGround;
+    private Gate gateToGround;
     private boolean isLoad;
 
     public GameWorldMyHome(MyHomeActivity myHomeActivity, GameThreadMyHome gameThreadMyHome, boolean isStartIntro, boolean isLoad) {

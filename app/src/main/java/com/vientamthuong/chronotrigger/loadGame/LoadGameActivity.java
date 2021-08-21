@@ -61,16 +61,17 @@ public class LoadGameActivity extends AppCompatActivity {
         if (SourceMain.getInstance().getNgaySave() != 0) {
             String pattern = "HH:mm MM/dd/yyyy";
             @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat(pattern);
-            String pattern2 = "HH:mm";
-            long space =SourceMain.getInstance().getNgaySave()-SourceMain.getInstance().getNgayBatDau();
-            @SuppressLint("SimpleDateFormat") DateFormat df2 = new SimpleDateFormat(pattern2);
+            long space = SourceMain.getInstance().getNgaySave() - SourceMain.getInstance().getNgayBatDau();
+            space=space/1000;
+            int minute = (int) space / 60;
+            space -= minute * 60;
             String nameMap = SourceMain.getInstance().getNameMap().equals("up") ? "My Home Up Floor" : "My Home Ground";
             listLoadGameInfo.add(new LoadGameInfo(
                     nameMap,
                     df.format(new Date(SourceMain.getInstance().getNgaySave())),
                     2000,
                     "Lv 1",
-                    df2.format(new Date(space)),
+                    (minute<10?"0"+minute:minute) + ":" + (space<10?"0"+space:space),
                     true
             ));
         }

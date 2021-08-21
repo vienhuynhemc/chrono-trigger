@@ -6,19 +6,12 @@ import android.os.Bundle;
 
 import com.vientamthuong.chronotrigger.data.SourceMain;
 
-public class GateToUp{
+public class GateToUp extends  Gate{
 
-    private int x;
-    private int y;
-    private int w;
-    private int h;
     private GameWorldMyHomeGround gameWorldMyHomeGround;
 
     public GateToUp(int x, int y, int w, int h, GameWorldMyHomeGround gameWorldMyHomeGround) {
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
+        super(x, y, w, h);
         this.gameWorldMyHomeGround = gameWorldMyHomeGround;
     }
 
@@ -41,43 +34,10 @@ public class GateToUp{
     public boolean intersect() {
         Rect r1 = new Rect();
         Rect r2 = new Rect();
-        r1.set(this.x, this.y, this.w + this.x, this.y + this.h);
+        r1.set(this.getX(), this.getY(), this.getW() + this.getX(), this.getY() + this.getH());
         r2.set(gameWorldMyHomeGround.getChrono().getX(), gameWorldMyHomeGround.getChrono().getY(),
                 gameWorldMyHomeGround.getChrono().getX() + gameWorldMyHomeGround.getChrono().getWidth(),
                 gameWorldMyHomeGround.getChrono().getY() + gameWorldMyHomeGround.getChrono().getHeight());
         return Rect.intersects(r1, r2);
     }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getW() {
-        return w;
-    }
-
-    public void setW(int w) {
-        this.w = w;
-    }
-
-    public int getH() {
-        return h;
-    }
-
-    public void setH(int h) {
-        this.h = h;
-    }
-
 }

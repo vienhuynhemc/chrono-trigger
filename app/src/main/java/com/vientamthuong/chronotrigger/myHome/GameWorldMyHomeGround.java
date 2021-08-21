@@ -64,7 +64,7 @@ public class GameWorldMyHomeGround implements GameWorld {
     private CronoMyHomeGround cronoMyHomeGround;
     private Chrono chrono;
     private Joystick joystick;
-    private GateToUp gateToUp;
+    private Gate gateToUp;
     private boolean isLoad;
 
     public GameWorldMyHomeGround(MyHomeGroundActivity myHomeGroundActivity, GameThreadMyHomeGround gameThreadMyHomeGround, boolean isStartIntro, boolean isLoad) {
