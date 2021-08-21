@@ -1,18 +1,26 @@
 package com.vientamthuong.chronotrigger.loadGame;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.DialogInterface;
-import android.os.Bundle;
-
 import com.vientamthuong.chronotrigger.R;
+import com.vientamthuong.chronotrigger.data.SourceMain;
 import com.vientamthuong.chronotrigger.data.SourceSound;
 import com.vientamthuong.chronotrigger.loadData.ConfigurationSound;
+import com.vientamthuong.chronotrigger.myHome.MyHomeActivity;
+import com.vientamthuong.chronotrigger.myHome.MyHomeGroundActivity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class LoadGameActivity extends AppCompatActivity {
     RecyclerView recyclerViewLoadGame;
@@ -36,9 +44,9 @@ public class LoadGameActivity extends AppCompatActivity {
     public void init() {
         listLoadGameInfo = new ArrayList<>();
         addList();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerViewLoadGame.setLayoutManager(linearLayoutManager);
-        LoadGameAdapter loadGameAdapter = new LoadGameAdapter(listLoadGameInfo,this);
+        LoadGameAdapter loadGameAdapter = new LoadGameAdapter(listLoadGameInfo, this);
         recyclerViewLoadGame.setAdapter(loadGameAdapter);
         loadGameAdapter.setOnItemClickListener(new LoadGameAdapter.OnItemClickListener() {
             @Override
@@ -48,19 +56,27 @@ public class LoadGameActivity extends AppCompatActivity {
             }
         });
     }
-    public void addList(){
-        listLoadGameInfo.add(new LoadGameInfo("My house","20:00 20/08/2021",
-                10000,"Lv.1","5:00",true));
-        listLoadGameInfo.add(new LoadGameInfo("My house","21:00 20/08/2021",
-                10000,"Lv.2","5:00",false));
-        listLoadGameInfo.add(new LoadGameInfo("My house","22:00 20/08/2021",
-                10000,"Lv.3","5:00",false));
-        listLoadGameInfo.add(new LoadGameInfo("My house","23:00 20/08/2021",
-                10000,"Lv.4","5:00",false));
-        listLoadGameInfo.add(new LoadGameInfo("My house","24:00 20/08/2021",
-                10000,"Lv.5","5:00",false));
+
+    public void addList() {
+        if (SourceMain.getInstance().getNgaySave() != 0) {
+            String pattern = "HH:mm MM/dd/yyyy";
+            @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat(pattern);
+            String pattern2 = "HH:mm";
+            long space =SourceMain.getInstance().getNgaySave()-SourceMain.getInstance().getNgayBatDau();
+            @SuppressLint("SimpleDateFormat") DateFormat df2 = new SimpleDateFormat(pattern2);
+            String nameMap = SourceMain.getInstance().getNameMap().equals("up") ? "My Home Up Floor" : "My Home Ground";
+            listLoadGameInfo.add(new LoadGameInfo(
+                    nameMap,
+                    df.format(new Date(SourceMain.getInstance().getNgaySave())),
+                    2000,
+                    "Lv 1",
+                    df2.format(new Date(space)),
+                    true
+            ));
+        }
     }
-    public void showDialog(){
+
+    public void showDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle("Thông báo");
         dialog.setMessage("Bạn có chắc là muốn chơi tiếp từ mục lưu game này không ?");
@@ -73,7 +89,25 @@ public class LoadGameActivity extends AppCompatActivity {
         dialog.setPositiveButton("Có", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                if (SourceMain.getInstance().getNameMap().equals("up")) {
+                    Intent intent = new Intent();
+                    intent.setClass(LoadGameActivity.this, MyHomeActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isStartIntro", SourceMain.getInstance().isStartIntroMyHomeUp());
+                    bundle.putBoolean("isLoad", true);
+                    intent.putExtra("data", bundle);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent();
+                    intent.setClass(LoadGameActivity.this, MyHomeGroundActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isStartIntro", SourceMain.getInstance().isStartIntroMyHomeDown());
+                    bundle.putBoolean("isLoad", true);
+                    intent.putExtra("data", bundle);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
         dialog.show();

@@ -255,6 +255,42 @@ public class GameWorldMyHomeGround implements GameWorld {
                 state = NONE;
                 break;
             case LOAD:
+                // Ẩn full screen
+                objectFullScreenMyHomeGround.hiddenView();
+                objectFullScreenMyHomeGround.setHidden(true);
+                // 1.Mèo
+                // 1.1 Tạo image view cho con mèo
+                imageViewCat = new ImageView(myHomeGroundActivity);
+                imageViewCat.setScaleType(ImageView.ScaleType.MATRIX);
+                imageViewCat.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_CAT, ConfigurationMyHome.HEIGHT_CAT));
+                myHomeGroundActivity.runOnUiThread(() -> myHomeGroundActivity.getAbsoluteLayout().addView(imageViewCat, myHomeGroundActivity.getAbsoluteLayout().getChildCount() - 2));
+                // 1.2 Tạo mèo
+                catInGround = new CatInGround(imageViewCat, 700 + ConfigurationMyHome.X_BACKGROUNMAP_UP,
+                        1000, 10,
+                        myHomeGroundActivity, GameWorldMyHomeGround.this);
+                catInGround.setStartMove1(true);
+                listObject.add(catInGround);
+                // 2.Mẹ
+                // 2.1 Taoj image view cho mẹ
+                imageViewMother = new ImageView(myHomeGroundActivity);
+                imageViewMother.setScaleType(ImageView.ScaleType.MATRIX);
+                imageViewMother.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_MOTHER, ConfigurationMyHome.HEIGHT_MOTHER));
+                myHomeGroundActivity.runOnUiThread(() -> myHomeGroundActivity.getAbsoluteLayout().addView(imageViewMother, myHomeGroundActivity.getAbsoluteLayout().getChildCount() - 2));
+                // 2.2 Tạo mẹ
+                motherCronoGround = new MotherCronoGround(imageViewMother, 900, 400, 12, myHomeGroundActivity, GameWorldMyHomeGround.this);
+                listObject.add(motherCronoGround);
+                // Tạo nhân vật
+                imageViewChronoUpfloor = new ImageView(myHomeGroundActivity);
+                imageViewChronoUpfloor.setScaleType(ImageView.ScaleType.MATRIX);
+                if (SourceMain.getInstance().getDir() == Chrono.TOP || SourceMain.getInstance().getDir() == Chrono.BOTTOM) {
+                    imageViewChronoUpfloor.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_CHRONO_DIR_TOP, ConfigurationMyHome.HEIGHT_CHRONO_DIR_TOP));
+                } else {
+                    imageViewChronoUpfloor.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(144, 216)));
+                }
+                myHomeGroundActivity.runOnUiThread(() -> myHomeGroundActivity.getAbsoluteLayout().addView(imageViewChronoUpfloor, myHomeGroundActivity.getAbsoluteLayout().getChildCount() - 2));
+                chrono = new Chrono(imageViewChronoUpfloor, SourceMain.getInstance().getX(), SourceMain.getInstance().getY(), 999, myHomeGroundActivity, GameWorldMyHomeGround.this, SourceMain.getInstance().getDir(), Chrono.DUNG_IM);
+                listObject.add(chrono);
+                state = NONE;
                 break;
         }
 
@@ -399,10 +435,12 @@ public class GameWorldMyHomeGround implements GameWorld {
     }
 
     public void saveData() {
-        SourceMain.getInstance().setX(chrono.getX());
-        SourceMain.getInstance().setY(chrono.getY());
-        SourceMain.getInstance().setDir(chrono.getDir());
-        SourceMain.getInstance().setNgaySave(new Date().getTime());
-        SourceMain.getInstance().setNameMap("down");
+        if (state == NONE) {
+            SourceMain.getInstance().setX(chrono.getX());
+            SourceMain.getInstance().setY(chrono.getY());
+            SourceMain.getInstance().setDir(chrono.getDir());
+            SourceMain.getInstance().setNgaySave(new Date().getTime());
+            SourceMain.getInstance().setNameMap("down");
+        }
     }
 }

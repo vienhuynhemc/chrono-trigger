@@ -78,13 +78,15 @@ public class MainActivity extends AppCompatActivity {
             SourceSound.getInstance().stopBackgroundSound();
         });
         btnLoadGame.setOnClickListener(v -> {
-            // âm thành cursor
-            SourceSound.getInstance().play("cursor", ConfigurationSound.NOREPEAT);
-            // Chuyển qua activity new game
-            Intent intent = new Intent();
-            intent.setClass(MainActivity.this, LoadGameActivity.class);
-            startActivity(intent);
-            SourceSound.getInstance().stopBackgroundSound();
+            if (SourceMain.getInstance().getNgaySave() != 0) {
+                // âm thành cursor
+                SourceSound.getInstance().play("cursor", ConfigurationSound.NOREPEAT);
+                // Chuyển qua activity new game
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, LoadGameActivity.class);
+                startActivity(intent);
+                SourceSound.getInstance().stopBackgroundSound();
+            }
         });
     }
 

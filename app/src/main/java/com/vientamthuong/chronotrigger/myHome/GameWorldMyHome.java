@@ -301,6 +301,25 @@ public class GameWorldMyHome implements GameWorld {
                 state = NONE;
                 break;
             case LOAD:
+                // Ẩn full screen
+                objectFullScreenMyHome.hiddenView();
+                objectFullScreenMyHome.setHidden(true);
+                // Mở cửa sổ
+                if (SourceMain.getInstance().isOpenWindown()) {
+                    this.getBackgroundMapMyHome().changeToLight();
+                }
+                // Tạo nhân vật
+                imageViewChronoUpfloor = new ImageView(myHomeActivity);
+                imageViewChronoUpfloor.setScaleType(ImageView.ScaleType.MATRIX);
+                if (SourceMain.getInstance().getDir() == Chrono.TOP || SourceMain.getInstance().getDir() == Chrono.BOTTOM) {
+                    imageViewChronoUpfloor.setLayoutParams(new ViewGroup.LayoutParams(ConfigurationMyHome.WIDTH_CHRONO_DIR_TOP, ConfigurationMyHome.HEIGHT_CHRONO_DIR_TOP));
+                } else {
+                    imageViewChronoUpfloor.setLayoutParams(new AbsoluteLayout.LayoutParams(new ViewGroup.LayoutParams(144, 216)));
+                }
+                myHomeActivity.runOnUiThread(() -> myHomeActivity.getAbsoluteLayout().addView(imageViewChronoUpfloor, myHomeActivity.getAbsoluteLayout().getChildCount() - 2));
+                chrono = new Chrono(imageViewChronoUpfloor, SourceMain.getInstance().getX(), SourceMain.getInstance().getY(), 999, myHomeActivity, GameWorldMyHome.this, SourceMain.getInstance().getDir(), Chrono.DUNG_IM);
+                listObject.add(chrono);
+                state = NONE;
                 break;
         }
 
@@ -451,10 +470,12 @@ public class GameWorldMyHome implements GameWorld {
     }
 
     public void saveData() {
-        SourceMain.getInstance().setX(chrono.getX());
-        SourceMain.getInstance().setY(chrono.getY());
-        SourceMain.getInstance().setDir(chrono.getDir());
-        SourceMain.getInstance().setNgaySave(new Date().getTime());
-        SourceMain.getInstance().setNameMap("up");
+        if (state == NONE) {
+            SourceMain.getInstance().setX(chrono.getX());
+            SourceMain.getInstance().setY(chrono.getY());
+            SourceMain.getInstance().setDir(chrono.getDir());
+            SourceMain.getInstance().setNgaySave(new Date().getTime());
+            SourceMain.getInstance().setNameMap("up");
+        }
     }
 }

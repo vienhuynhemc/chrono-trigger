@@ -49,7 +49,7 @@ public class SourceMain {
     }
 
     public void createDAO(AppCompatActivity appCompatActivity) {
-        dao = new DAO(appCompatActivity, "database.db", null, 1);
+        dao = new DAO(appCompatActivity, "database.sqlite", null, 1);
         loadData();
     }
 
@@ -85,10 +85,10 @@ public class SourceMain {
                     dir = Integer.parseInt(gia_tri);
                     break;
                 case "ngay_bat_dau":
-                    ngayBatDau = Integer.parseInt(gia_tri);
+                    ngayBatDau = Long.parseLong(gia_tri);
                     break;
                 case "ngay_luu":
-                    ngaySave = Integer.parseInt(gia_tri);
+                    ngaySave = Long.parseLong(gia_tri);
                     break;
                 case "ten_map":
                     nameMap = gia_tri;
@@ -109,6 +109,7 @@ public class SourceMain {
             dao.updateData("INSERT INTO thong_tin VALUES('ngay_bat_dau','0')");
             dao.updateData("INSERT INTO thong_tin VALUES('ngay_luu','0')");
             dao.updateData("INSERT INTO thong_tin VALUES('ten_map','')");
+            this.loadData();
         }
     }
 
@@ -128,7 +129,7 @@ public class SourceMain {
 
     public void setNameCrono(String nameCrono) {
         this.nameCrono = nameCrono;
-        dao.updateData("UPDATE cong_viec SET gia_tri = '" + nameCrono + "' WHERE ten LIKE 'crono' ");
+        dao.updateData("UPDATE thong_tin SET gia_tri = '" + nameCrono + "' WHERE ten = 'crono' ");
     }
 
     public String getNameLucca() {
@@ -137,7 +138,7 @@ public class SourceMain {
 
     public void setNameLucca(String nameLucca) {
         this.nameLucca = nameLucca;
-        dao.updateData("UPDATE cong_viec SET gia_tri = '" + nameLucca + "' WHERE ten LIKE 'lucca' ");
+        dao.updateData("UPDATE thong_tin SET gia_tri = '" + nameLucca + "' WHERE ten = 'lucca' ");
     }
 
     public boolean isOpenWindown() {
@@ -147,7 +148,7 @@ public class SourceMain {
     public void setOpenWindown(boolean openWindown) {
         isOpenWindown = openWindown;
         String result = openWindown ? "true" : "false";
-        dao.updateData("UPDATE cong_viec SET gia_tri = '" + result + "' WHERE ten LIKE 'window' ");
+        dao.updateData("UPDATE thong_tin SET gia_tri = '" + result + "' WHERE ten = 'window' ");
     }
 
     public boolean isStartIntroMyHomeUp() {
@@ -157,7 +158,7 @@ public class SourceMain {
     public void setStartIntroMyHomeUp(boolean startIntroMyHomeUp) {
         isStartIntroMyHomeUp = startIntroMyHomeUp;
         String result = startIntroMyHomeUp ? "true" : "false";
-        dao.updateData("UPDATE cong_viec SET gia_tri = '" + result + "' WHERE ten LIKE 'intro_up' ");
+        dao.updateData("UPDATE thong_tin SET gia_tri = '" + result + "' WHERE ten = 'intro_up' ");
     }
 
     public boolean isStartIntroMyHomeDown() {
@@ -167,7 +168,7 @@ public class SourceMain {
     public void setStartIntroMyHomeDown(boolean startIntroMyHomeDown) {
         isStartIntroMyHomeDown = startIntroMyHomeDown;
         String result = startIntroMyHomeDown ? "true" : "false";
-        dao.updateData("UPDATE cong_viec SET gia_tri = '" + result + "' WHERE ten LIKE 'intro_down' ");
+        dao.updateData("UPDATE thong_tin SET gia_tri = '" + result + "' WHERE ten = 'intro_down' ");
     }
 
     public int getX() {
@@ -177,7 +178,7 @@ public class SourceMain {
     public void setX(int x) {
         this.x = x;
         String result = x + "";
-        dao.updateData("UPDATE cong_viec SET gia_tri = '" + result + "' WHERE ten LIKE 'x' ");
+        dao.updateData("UPDATE thong_tin SET gia_tri = '" + result + "' WHERE ten = 'x' ");
     }
 
     public int getY() {
@@ -187,7 +188,7 @@ public class SourceMain {
     public void setY(int y) {
         this.y = y;
         String result = y + "";
-        dao.updateData("UPDATE cong_viec SET gia_tri = '" + result + "' WHERE ten LIKE 'y' ");
+        dao.updateData("UPDATE thong_tin SET gia_tri = '" + result + "' WHERE ten = 'y' ");
     }
 
     public int getDir() {
@@ -197,7 +198,7 @@ public class SourceMain {
     public void setDir(int dir) {
         this.dir = dir;
         String result = dir + "";
-        dao.updateData("UPDATE cong_viec SET gia_tri = '" + result + "' WHERE ten LIKE 'dir' ");
+        dao.updateData("UPDATE thong_tin SET gia_tri = '" + result + "' WHERE ten = 'dir' ");
     }
 
     public String getNameMap() {
@@ -207,7 +208,7 @@ public class SourceMain {
     public void setNameMap(String nameMap) {
         this.nameMap = nameMap;
         String result = nameMap + "";
-        dao.updateData("UPDATE cong_viec SET gia_tri = '" + result + "' WHERE ten LIKE 'ten_map' ");
+        dao.updateData("UPDATE thong_tin SET gia_tri = '" + result + "' WHERE ten = 'ten_map' ");
     }
 
     public long getNgayBatDau() {
@@ -217,7 +218,7 @@ public class SourceMain {
     public void setNgayBatDau(long ngayBatDau) {
         this.ngayBatDau = ngayBatDau;
         String result = ngayBatDau + "";
-        dao.updateData("UPDATE cong_viec SET gia_tri = '" + result + "' WHERE ten LIKE 'ngay_bat_dau' ");
+        dao.updateData("UPDATE thong_tin SET gia_tri = '" + result + "' WHERE ten = 'ngay_bat_dau' ");
     }
 
     public long getNgaySave() {
@@ -227,6 +228,6 @@ public class SourceMain {
     public void setNgaySave(long ngaySave) {
         this.ngaySave = ngaySave;
         String result = ngaySave + "";
-        dao.updateData("UPDATE cong_viec SET gia_tri = '" + result + "' WHERE ten LIKE 'ngay_luu' ");
+        dao.updateData("UPDATE thong_tin SET gia_tri = '" + result + "' WHERE ten = 'ngay_luu' ");
     }
 }

@@ -77,8 +77,7 @@ public class MyHomeGroundActivity extends AppCompatActivity {
             Toast.makeText(MyHomeGroundActivity.this, "Nhấn một lần nữa để thoát", Toast.LENGTH_SHORT).show();
         } else {
             gameThreadMyHomeGround.getGameWorldMyHomeGround().saveData();
-            finish();
-            android.os.Process.killProcess(android.os.Process.myPid());
+            finishAffinity();
         }
     }
     //getter
